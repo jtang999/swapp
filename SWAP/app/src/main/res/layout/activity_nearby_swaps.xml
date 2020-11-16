@@ -53,9 +53,10 @@
     <TextView
         android:id="@+id/toggleOutline"
         android:layout_width="351dp"
-        android:layout_height="29dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/searchbar"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,52 +64,54 @@
 
     <Button
         android:id="@+id/freeServicesToggle"
-        android:layout_width="106dp"
-        android:layout_height="28dp"
+        android:layout_width="123.5dp"
+        android:layout_height="30dp"
         android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="Free Services"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
         app:layout_constraintStart_toStartOf="@+id/toggleOutline"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/swapToggle"
-        android:layout_width="118dp"
+        android:layout_width="84dp"
         android:layout_height="30dp"
         android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="Swaps"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
         app:layout_constraintStart_toEndOf="@+id/freeServicesToggle"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
 
     <Button
         android:id="@+id/needsFreeToggle"
-        android:layout_width="122dp"
-        android:layout_height="28dp"
+        android:layout_width="143.5dp"
+        android:layout_height="30dp"
         android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:text="Needs Free Service"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
         app:layout_constraintEnd_toEndOf="@+id/toggleOutline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/swapToggle"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

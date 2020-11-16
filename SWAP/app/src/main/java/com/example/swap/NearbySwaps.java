@@ -1,5 +1,6 @@
 package com.example.swap;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -32,19 +33,21 @@ public class NearbySwaps extends AppCompatActivity {
             }
         });
         Button swap = findViewById(R.id.swapToggle); //Option 1
-        freeServices.setOnClickListener(new View.OnClickListener() {
+        swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setToggle(1);
             }
         });
         Button needsFree = findViewById(R.id.needsFreeToggle); //Option 2
-        freeServices.setOnClickListener(new View.OnClickListener() {
+        needsFree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setToggle(2);
             }
         });
+
+        setToggle(1);
     }
 
     public void setToggle(int newToggle){
@@ -53,17 +56,27 @@ public class NearbySwaps extends AppCompatActivity {
         Button swap = findViewById(R.id.swapToggle); //Option 1
         Button needsFree = findViewById(R.id.needsFreeToggle); //Option 2
         if(NearbySwaps.toggle == 0){
-            freeServices.setBackground(Drawable.createFromPath("@drawable/createbutton"));
-            swap.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
-            needsFree.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
+            setToggleSelected(freeServices);
+            setToggleDeselected(swap);
+            setToggleDeselected(needsFree);
         }else if (NearbySwaps.toggle == 1){
-            freeServices.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
-            swap.setBackground(Drawable.createFromPath("@drawable/createbutton"));
-            needsFree.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
+            setToggleDeselected(freeServices);
+            setToggleSelected(swap);
+            setToggleDeselected(needsFree);
         }else{
-            freeServices.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
-            swap.setBackground(Drawable.createFromPath("@drawable/modetoggle"));
-            needsFree.setBackground(Drawable.createFromPath("@drawable/createbutton"));
+            setToggleDeselected(freeServices);
+            setToggleDeselected(swap);
+            setToggleSelected(needsFree);
         }
+    }
+
+    public void setToggleSelected(Button button){
+        button.setBackground(getResources().getDrawable(R.drawable.toggledmode));
+        button.setTextColor( Color.parseColor("#F4F7F9") );
+    }
+
+    public void setToggleDeselected(Button button){
+        button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+        button.setTextColor( Color.parseColor("#535353") );
     }
 }
