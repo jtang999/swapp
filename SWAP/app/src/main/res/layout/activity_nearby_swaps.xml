@@ -39,12 +39,76 @@
         app:layout_constraintVertical_bias="0.484" />
 
     <SearchView
+        android:id="@+id/searchView"
         android:layout_width="359dp"
         android:layout_height="43dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/searchbar"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
+
+    <TextView
+        android:id="@+id/toggleOutline"
+        android:layout_width="351dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/searchbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <Button
+        android:id="@+id/freeServicesToggle"
+        android:layout_width="106dp"
+        android:layout_height="28dp"
+        android:background="@drawable/modetoggle"
+        android:gravity="center"
+        android:text="Free Services"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
+        app:layout_constraintStart_toStartOf="@+id/toggleOutline"
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
+
+    <Button
+        android:id="@+id/swapToggle"
+        android:layout_width="118dp"
+        android:layout_height="30dp"
+        android:background="@drawable/modetoggle"
+        android:gravity="center"
+        android:text="Swaps"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
+        app:layout_constraintStart_toEndOf="@+id/freeServicesToggle"
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/needsFreeToggle"
+        android:layout_width="122dp"
+        android:layout_height="28dp"
+        android:background="@drawable/modetoggle"
+        android:gravity="center"
+        android:text="Needs Free Service"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
+        app:layout_constraintEnd_toEndOf="@+id/toggleOutline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/swapToggle"
+        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
+        app:layout_constraintVertical_bias="1.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
