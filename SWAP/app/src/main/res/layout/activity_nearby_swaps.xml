@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".NearbySwaps">
+
+    <TextView
+        android:id="@+id/TitleBar"
+        android:layout_width="412dp"
+        android:layout_height="86dp"
+        android:background="#63C5DA"
+        android:gravity="center"
+        android:text="SWAPS NEAR YOU"
+        android:textAlignment="center"
+        android:textColor="#F4F7F9"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/createPost"
+        android:layout_width="51dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/createbutton"
+        android:text="+"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/TitleBar"
+        app:layout_constraintEnd_toEndOf="@+id/TitleBar"
+        app:layout_constraintTop_toTopOf="@+id/TitleBar"
+        app:layout_constraintVertical_bias="0.484" />
+
+    <SearchView
+        android:layout_width="359dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/searchbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
