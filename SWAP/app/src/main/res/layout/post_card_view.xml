@@ -13,28 +13,31 @@
 
                 <ImageView
                     android:id="@+id/ProfileImage"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="75dp"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/default_profile" />
+                    android:src="@mipmap/default_profile_alt" />
 
                 <LinearLayout
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="230dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/Wanted"
+                        android:textSize="15sp"
                         android:layout_width="230dp"
                         android:layout_height="50dp"
                         android:textColor="#000000"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
                         android:text="Looking for: Auto repair - help me change the oil in my car" />
 
                     <TextView
                         android:id="@+id/Needed"
+                        android:textSize="15sp"
                         android:layout_width="230dp"
                         android:layout_height="50dp"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
                         android:textColor="#000000"
                         android:text="In exchange for: Any skill found on my profile page"
                         />

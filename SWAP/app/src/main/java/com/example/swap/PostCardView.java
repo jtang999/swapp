@@ -1,6 +1,7 @@
 package com.example.swap;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -23,8 +24,8 @@ public class PostCardView extends CardView {
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.post_card_view, this);
-        this.wanted="Looking for: Auto repair - help me change the oil in my car";
-        this.needed="In exchange for: Any skill found on my profile page";
+        this.wanted="DEFAULT";
+        this.needed="DEFAULT";
         updateInfo();
     }
 
@@ -34,8 +35,8 @@ public class PostCardView extends CardView {
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.post_card_view, this);
-        this.wanted="Looking for: Auto repair - help me change the oil in my car";
-        this.needed="In exchange for: Any skill found on my profile page";
+        this.wanted="Auto repair - help me change the oil in my car";
+        this.needed="Any skill found on my profile page";
         updateInfo();
     }
 
@@ -68,11 +69,13 @@ public class PostCardView extends CardView {
     private void updateInfo(){
         if (this.wanted != null){
             TextView want = findViewById(R.id.Wanted);
-            want.setText(this.wanted);
+            String wantString = "<b>" + "Looking For:" + "</b> " + this.wanted;
+            want.setText(Html.fromHtml(wantString));
         }
         if (this.needed != null){
             TextView need = findViewById(R.id.Needed);
-            need.setText(this.needed);
+            String needString = "<b>" + "In Exchange For:" + "</b> " + this.needed;
+            need.setText(Html.fromHtml(needString));
         }
         if(this.profileImageURL != null){
             //nothing here yet because there are no images to download

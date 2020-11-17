@@ -126,44 +126,15 @@
         app:layout_constraintVertical_bias="0.151">
 
         <LinearLayout
+            android:id="@+id/PostLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.example.swap.PostCardView
                 android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
+                android:layout_height="110dp"></com.example.swap.PostCardView>
 
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
-
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
-
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
-
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
-
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
-
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp">
-            </com.example.swap.PostCardView>
 
         </LinearLayout>
     </ScrollView>

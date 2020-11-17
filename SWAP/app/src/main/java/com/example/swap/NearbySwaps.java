@@ -12,19 +12,52 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.Random;
+
+import com.example.swap.PostCardView;
 
 public class NearbySwaps extends AppCompatActivity {
-    public static int toggle = 0;
+    private static int toggle = 0;
+    private static final String[] wanted = new String[]{"Auto repair - help me change the oil in my car",
+            "Transportation to drive me to work in the mornings","--", "Help me fix my leaking sink"};
+    private static final String[] needed = new String[]{"Any skill on my profile", "Leftover food from my restaurant job",
+            "Giving out free haircuts!", "Any skill on my profile"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_swaps);
+
         initializeToggles();
 
+        for (int i = 0; i < 12; i ++) {
+            JSONObject test = new JSONObject();
+            Random rand = new Random();
+            try {
+                test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
+                test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
+                test.put("profileImageURL", "TEST");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            addPost(test);
+        }
 
     }
 
-    public void initializeToggles(){
+    public void addPost(JSONObject jsonObject){
+        LinearLayout posts = findViewById(R.id.PostLinearLayout);
+        PostCardView newPost = new PostCardView(getApplicationContext(), jsonObject);
+        posts.addView(newPost, 1);
+    }
+
+    private void initializeToggles(){
         Button freeServices = findViewById(R.id.freeServicesToggle); //Option 0
         freeServices.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +83,7 @@ public class NearbySwaps extends AppCompatActivity {
         setToggle(1);
     }
 
-    public void setToggle(int newToggle){
+    private void setToggle(int newToggle){
         NearbySwaps.toggle = newToggle;
         Button freeServices = findViewById(R.id.freeServicesToggle); //Option 0
         Button swap = findViewById(R.id.swapToggle); //Option 1
@@ -70,12 +103,12 @@ public class NearbySwaps extends AppCompatActivity {
         }
     }
 
-    public void setToggleSelected(Button button){
+    private void setToggleSelected(Button button){
         button.setBackground(getResources().getDrawable(R.drawable.toggledmode));
         button.setTextColor( Color.parseColor("#F4F7F9") );
     }
 
-    public void setToggleDeselected(Button button){
+    private void setToggleDeselected(Button button){
         button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
         button.setTextColor( Color.parseColor("#535353") );
     }
