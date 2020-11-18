@@ -68,12 +68,12 @@ public class PostCardView extends CardView {
 
     private void updateInfo(){
         if (this.wanted != null){
-            TextView want = findViewById(R.id.Wanted);
+            TextView want = findViewById(R.id.wanted);
             String wantString = "<b>" + "Looking For:" + "</b> " + this.wanted;
             want.setText(Html.fromHtml(wantString));
         }
         if (this.needed != null){
-            TextView need = findViewById(R.id.Needed);
+            TextView need = findViewById(R.id.needed);
             String needString = "<b>" + "In Exchange For:" + "</b> " + this.needed;
             need.setText(Html.fromHtml(needString));
         }

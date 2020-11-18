@@ -288,16 +288,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <ImageButton
+    <Button
         android:id="@+id/imageButton"
         android:layout_width="51dp"
         android:layout_height="52dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#00FFFFFF"
+        android:background="@mipmap/edit_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/createbutton" />
+        app:layout_constraintTop_toTopOf="parent">
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
