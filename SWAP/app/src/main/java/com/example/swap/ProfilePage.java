@@ -2,13 +2,23 @@ package com.example.swap;
 
 import android.os.Bundle;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -16,6 +26,72 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+        initializePage();
+    }
 
+    /**
+     * Loads the data into the page on activity start
+     *
+     * @return      nothing
+     */
+    private void initializePage(){
+        ProgressBar pBar = findViewById(R.id.progressBar);
+        LinearLayout posts = findViewById(R.id.PostLinearLayout);
+
+        //remove any existing views and load results
+        posts.removeAllViews();
+        posts.setVisibility(View.INVISIBLE);
+        pBar.setVisibility(View.VISIBLE);
+
+        //simulates the results loading from backend
+        for (int i = 0; i < 12; i ++) {
+            JSONObject test = new JSONObject();
+            Random rand = new Random();
+            try {
+                test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
+                test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
+                test.put("profileImageURL", "TEST");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            addPost(test);
+        }
+
+        //make posts visible once loaded
+        posts.setVisibility(View.VISIBLE);
+        pBar.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Takes in post information in JSON format. Creates a PostView and adds it to the activity
+     *
+     * @param  jsonObject a JSONObject with the post information
+     * @return      nothing
+     */
+    public void addPost(JSONObject jsonObject){
+        LinearLayout posts = findViewById(R.id.PostLinearLayout);
+        PostCardView newPost = new PostCardView(getApplicationContext(), jsonObject);
+        posts.addView(newPost);
+    }
+
+    /**
+     * Retrieves the current user's profile information from the database and returns it in json form
+     * (we might not need this function)
+     *
+     * @return      JSONObject with profile data
+     */
+    private JSONObject retrieveProfileData(){
+        return null;
+    }
+
+    /**
+     * Retrieves the current user's previous posts from the database and returns them in json form
+     * (we might not need this function)
+     *
+     * @return      JSONObject with user's posts
+     */
+    private JSONObject retrieveUserPosts(){
+        return null;
     }
 }
