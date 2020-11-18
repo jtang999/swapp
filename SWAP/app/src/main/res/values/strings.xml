@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">SWAP</string>
+    <!--  Strings for creating / editing posts  -->
+    <string name="create_post">Create post</string>
+    <string name="cancel_post">Cancel</string>
+    <string name="field_user_need">What you need:</string>
+    <string name="field_user_offer">What you can offer:</string>
+    <!--  Strings for viewing posts  -->
+    <string name="field_post_need">I need:</string>
+    <string name="field_post_offer">I can offer:</string>
+    <!--  Post fields (general)  -->
+    <string name="field_details">Details:</string>
+    <string name="field_location">Location:</string>
+    <string name="field_need_by">Needed by:</string>
+    <string name="field_contact_info">Contact Information:</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
