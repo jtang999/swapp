@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/TitleBar"
+        android:layout_width="412dp"
+        android:layout_height="86dp"
+        android:background="#63C5DA"
+        android:gravity="center"
+        android:text="INFORMATION"
+        android:textAlignment="center"
+        android:textColor="#F4F7F9"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/mark_resolved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorBorder"
+        android:enabled="false"
+        android:paddingLeft="24dp"
+        android:paddingTop="16dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp"
+        android:text="@string/delete_post"
+        android:textColor="@color/colorButtonText"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.695"
+        app:layout_constraintStart_toEndOf="@+id/resolve_post" />
+
+    <Button
+        android:id="@+id/resolve_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:enabled="false"
+        android:paddingLeft="24dp"
+        android:paddingTop="16dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp"
+        android:text="@string/resolve_post"
+        android:textColor="@color/colorButtonText"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/post_needs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="User needs this"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_userneed"
+        app:layout_constraintTop_toTopOf="@+id/text_userneed" />
+
+    <TextView
+        android:id="@+id/post_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="User request details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_details"
+        app:layout_constraintTop_toTopOf="@+id/text_details" />
+
+    <TextView
+        android:id="@+id/post_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="User location info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_location"
+        app:layout_constraintTop_toTopOf="@+id/text_location" />
+
+    <TextView
+        android:id="@+id/post_offers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="User offers that"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_useroffer"
+        app:layout_constraintTop_toTopOf="@+id/text_useroffer" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@insert_username_here"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/text_posted_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="POSTED ON:"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <TextView
+        android:id="@+id/text_expires_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="EXPIRES ON:"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/text_posted_on" />
+
+    <TextView
+        android:id="@+id/user_posted_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Aug 16, 2021"
+        app:layout_constraintStart_toEndOf="@+id/text_posted_on"
+        app:layout_constraintTop_toTopOf="@+id/text_posted_on" />
+
+    <TextView
+        android:id="@+id/user_expires_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Sept 16, 2021"
+        app:layout_constraintStart_toEndOf="@+id/text_expires_on"
+        app:layout_constraintTop_toTopOf="@+id/text_expires_on" />
+
+    <TextView
+        android:id="@+id/text_contact"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Contact By:"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_location" />
+
+    <TextView
+        android:id="@+id/text_userneed"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/field_post_need"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <TextView
+        android:id="@+id/text_useroffer"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/field_post_offer"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_needs" />
+
+    <TextView
+        android:id="@+id/text_details"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/field_details"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_offers" />
+
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/field_location"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_details" />
+
+    <TextView
+        android:id="@+id/post_contact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="contact user by"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_contact"
+        app:layout_constraintTop_toTopOf="@+id/text_contact" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="91dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/colorBodyLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="51dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/createbutton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

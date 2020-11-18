@@ -2,6 +2,8 @@
     <string name="app_name">SWAP</string>
     <!--  Strings for creating / editing posts  -->
     <string name="create_post">Create post</string>
+    <string name="resolve_post">Mark Resolved</string>
+    <string name="delete_post">Delete</string>
     <string name="cancel_post">Cancel</string>
     <string name="field_user_need">What you need:</string>
     <string name="field_user_offer">What you can offer:</string>
