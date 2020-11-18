@@ -1,59 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-        <androidx.cardview.widget.CardView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:name="com.example.swap.PostCardView"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.example.swap.PostCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/post">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/ProfileImage"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="75dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/default_profile_alt" />
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="75dp"
+            android:layout_height="0dp"
+            android:src="@mipmap/default_profile_alt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-                <LinearLayout
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="230dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/Wanted"
-                        android:textSize="15sp"
-                        android:layout_width="230dp"
-                        android:layout_height="50dp"
-                        android:textColor="#000000"
-                        android:gravity="left|center_vertical"
-                        android:text="Looking for: Auto repair - help me change the oil in my car" />
+        <TextView
+            android:id="@+id/wanted"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="left|center_vertical"
+            android:text="Looking for: Auto repair - help me change the oil in my car"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toEndOf="@+id/profileImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/Needed"
-                        android:textSize="15sp"
-                        android:layout_width="230dp"
-                        android:layout_height="50dp"
-                        android:gravity="left|center_vertical"
-                        android:textColor="#000000"
-                        android:text="In exchange for: Any skill found on my profile page"
-                        />
-                </LinearLayout>
+        <TextView
+            android:id="@+id/needed"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="left|center_vertical"
+            android:text="In exchange for: Any skill found on my profile page"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintStart_toEndOf="@+id/profileImage"
+            app:layout_constraintTop_toBottomOf="@+id/wanted" />
 
-                <Button
-                    android:layout_marginTop="20dp"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:background="@mipmap/next_post"
-                    android:stateListAnimator="@null"
-                    >
+        <Button
+            android:id="@+id/button"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:background="@mipmap/next_post"
+            android:stateListAnimator="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-                </Button>
+        </Button>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
 
-
-        </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

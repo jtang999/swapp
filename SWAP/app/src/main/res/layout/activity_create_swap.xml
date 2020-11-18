@@ -41,8 +41,8 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.229"
-        app:layout_constraintStart_toEndOf="@+id/create_post" />
+        app:layout_constraintHorizontal_bias="0.608"
+        app:layout_constraintStart_toEndOf="@+id/resolve_post" />
 
     <Button
         android:id="@+id/resolve_post"
