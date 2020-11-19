@@ -48,6 +48,17 @@ public class NearbySwaps extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        Button goToProfileButton = findViewById(R.id.profileButton);
+        //CHANGE THIS AS NEEDED. SHOULD LEAD TO THE USER'S OWN PROFILE PAGE
+        goToProfileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(NearbySwaps.this, ProfilePage.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
     }
 
     private void updatePostFeed(int toggle){
@@ -162,8 +173,6 @@ public class NearbySwaps extends AppCompatActivity {
 
     /**
      * Set's the toggles colors based on which toggle was pressed
-     *
-     * @return      nothing
      */
     private void setToggle(int newToggle){
         NearbySwaps.toggle = newToggle;

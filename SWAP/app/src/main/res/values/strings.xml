@@ -4,6 +4,7 @@
     <string name="nearby_title">SWAPS NEAR YOU</string>
     <!--  Strings for profile information  -->
     <string name="user_posts">User Posts</string>
+    <string name="user_name">@username</string>
     <!--  Strings for creating / editing posts  -->
     <string name="add">+</string>
     <string name="create_post">Create post</string>

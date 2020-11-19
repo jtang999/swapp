@@ -3,7 +3,6 @@ package com.example.swap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import androidx.appcompat.widget.SwitchCompat;
 
 public class CreateSwap extends AppCompatActivity {
     private static final String TAG = "CreateSwap";
@@ -38,7 +35,7 @@ public class CreateSwap extends AppCompatActivity {
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
 
-        Button resolvePostButton = findViewById(R.id.button2);
+        Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
