@@ -44,29 +44,29 @@
         app:layout_constraintHorizontal_bias="0.608"
         app:layout_constraintStart_toEndOf="@+id/resolve_post" />
 
-    <Button
-        android:id="@+id/resolve_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/colorPrimary"
-        android:enabled="false"
-        android:paddingLeft="24dp"
-        android:paddingTop="16dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:text="@string/create_post"
-        android:textColor="@color/colorButtonText"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.245"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/resolve_post"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:layout_marginBottom="24dp"-->
+<!--        android:background="@drawable/rounded_button"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:enabled="false"-->
+<!--        android:paddingLeft="24dp"-->
+<!--        android:paddingTop="16dp"-->
+<!--        android:paddingRight="24dp"-->
+<!--        android:paddingBottom="16dp"-->
+<!--        android:text="@string/create_post"-->
+<!--        android:textColor="@color/colorButtonText"-->
+<!--        android:textSize="18sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.245"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
     <EditText
-        android:id="@+id/login"
+        android:id="@+id/user_need"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
@@ -221,7 +221,7 @@
         android:text="I'm offering services for free"
         android:textColor="@color/colorBodyLight"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintTop_toBottomOf="@+id/user_need" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch2"
@@ -265,5 +265,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_contact" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="68dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
