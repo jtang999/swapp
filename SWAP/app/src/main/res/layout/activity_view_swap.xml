@@ -112,43 +112,41 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"
         android:fontFamily="sans-serif-medium"
         android:text="@insert_username_here"
         android:textAllCaps="false"
         android:textColor="@color/colorBodyLight"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="120dp" />
 
     <TextView
         android:id="@+id/text_posted_on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-medium"
         android:text="POSTED ON:"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        tools:layout_editor_absoluteX="135dp" />
 
     <TextView
-        android:id="@+id/text_expires_on"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_time_info"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
         android:text="EXPIRES ON:"
+        android:textAlignment="textEnd"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/text_posted_on" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_location" />
 
     <TextView
         android:id="@+id/user_posted_on"
@@ -160,13 +158,13 @@
         app:layout_constraintTop_toTopOf="@+id/text_posted_on" />
 
     <TextView
-        android:id="@+id/user_expires_on"
+        android:id="@+id/user_time_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:text="Sept 16, 2021"
-        app:layout_constraintStart_toEndOf="@+id/text_expires_on"
-        app:layout_constraintTop_toTopOf="@+id/text_expires_on" />
+        app:layout_constraintStart_toEndOf="@+id/text_time_info"
+        app:layout_constraintTop_toTopOf="@+id/text_time_info" />
 
     <TextView
         android:id="@+id/text_contact"
@@ -181,7 +179,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_location" />
+        app:layout_constraintTop_toBottomOf="@+id/user_time_info" />
 
     <TextView
         android:id="@+id/text_userneed"
@@ -254,42 +252,32 @@
         app:layout_constraintStart_toEndOf="@+id/text_contact"
         app:layout_constraintTop_toTopOf="@+id/text_contact" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="91dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:background="?android:attr/listDivider"
         android:backgroundTint="@color/colorBodyLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/user_profile_button"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <View
         android:id="@+id/divider2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_button" />
 
     <Button
-        android:id="@+id/imageButton"
+        android:id="@+id/edit_button"
         android:layout_width="51dp"
         android:layout_height="52dp"
         android:layout_marginTop="16dp"
@@ -298,5 +286,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </Button>
+
+    <ImageButton
+        android:id="@+id/user_profile_button"
+        android:layout_width="91dp"
+        android:layout_height="86dp"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="117dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
