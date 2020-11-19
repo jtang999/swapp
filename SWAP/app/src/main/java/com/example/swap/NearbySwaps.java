@@ -1,5 +1,6 @@
 package com.example.swap;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -37,6 +38,16 @@ public class NearbySwaps extends AppCompatActivity {
 
         initializeToggles();
         generateRandomPosts();
+
+        Button postButton = findViewById(R.id.createPost);
+        postButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(NearbySwaps.this, CreateSwap.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
     }
 
     private void updatePostFeed(int toggle){
@@ -193,4 +204,6 @@ public class NearbySwaps extends AppCompatActivity {
         button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
         button.setTextColor( Color.parseColor("#535353") );
     }
+
+
 }
