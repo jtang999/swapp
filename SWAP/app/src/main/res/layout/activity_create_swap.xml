@@ -22,29 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/mark_resolved"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/colorBorder"
-        android:enabled="false"
-        android:paddingLeft="24dp"
-        android:paddingTop="16dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="16dp"
-        android:text="@string/cancel_post"
-        android:textColor="@color/colorButtonText"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.608"
-        app:layout_constraintStart_toEndOf="@+id/resolve_post" />
-
-<!--    <Button-->
+    <!--    <Button-->
 <!--        android:id="@+id/resolve_post"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -65,215 +43,262 @@
 <!--        app:layout_constraintHorizontal_bias="0.245"-->
 <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-    <EditText
-        android:id="@+id/user_need"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:hint="I need..."
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.406"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_userneed" />
 
-    <EditText
-        android:id="@+id/user_offer"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:hint="I can offer..."
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_useroffer" />
-
-    <EditText
-        android:id="@+id/user_location"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:hint="We should meet at..."
-        android:inputType="text|textPostalAddress"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_location" />
-
-    <EditText
-        android:id="@+id/user_needed_by"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:hint="This swap offer expires on..."
-        android:inputType="datetime|text"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_time" />
-
-    <TextView
-        android:id="@+id/text_userneed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_user_need"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
-
-    <TextView
-        android:id="@+id/text_useroffer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_user_offer"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
-
-    <TextView
-        android:id="@+id/text_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_details"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch2" />
-
-    <TextView
-        android:id="@+id/text_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_contact_info"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_needed_by" />
-
-    <TextView
-        android:id="@+id/text_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_location"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_details" />
-
-    <TextView
-        android:id="@+id/text_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/field_need_by"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_location" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch1"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:text="I'm offering services for free"
-        android:textColor="@color/colorBodyLight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_need" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch2"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:text="I can't offer anything"
-        android:textColor="@color/colorBodyLight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_offer" />
-
-    <EditText
-        android:id="@+id/user_details"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="About this swap..."
-        android:inputType="textMultiLine"
-        android:lines="3"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_details" />
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar">
 
-    <EditText
-        android:id="@+id/user_contact"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/edit_text_background"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Interested parties can contact me by..."
-        android:inputType="textMultiLine"
-        android:lines="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_contact" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/profileButton"
+            <TextView
+                android:id="@+id/text_useroffer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_user_offer"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="153dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="595dp" />
+
+            <EditText
+                android:id="@+id/user_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="I can offer..."
+                android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="133dp"
+                tools:layout_editor_absoluteY="444dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I can't offer anything"
+                android:textColor="@color/colorBodyLight"
+                tools:layout_conversion_absoluteHeight="32dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="146dp" />
+
+            <TextView
+                android:id="@+id/text_userneed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_user_need"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="114dp" />
+
+            <EditText
+                android:id="@+id/user_need"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="I need..."
+                android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_userneed"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="0dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I'm offering services for free"
+                android:textColor="@color/colorBodyLight"
+                tools:layout_conversion_absoluteHeight="32dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="422dp" />
+
+            <TextView
+                android:id="@+id/text_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_details"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="59dp"
+                tools:layout_editor_absoluteX="134dp"
+                tools:layout_editor_absoluteY="40dp" />
+
+            <EditText
+                android:id="@+id/user_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="About this swap..."
+                android:inputType="textMultiLine"
+                android:lines="3"
+                tools:layout_conversion_absoluteHeight="390dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="134dp"
+                tools:layout_editor_absoluteY="59dp" />
+
+            <TextView
+                android:id="@+id/text_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_location"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="72dp"
+                tools:layout_editor_absoluteX="183dp"
+                tools:layout_editor_absoluteY="220dp" />
+
+            <EditText
+                android:id="@+id/user_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="We should meet at..."
+                android:inputType="text|textPostalAddress"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="65dp"
+                tools:layout_editor_absoluteY="508dp" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_need_by"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="77dp"
+                tools:layout_editor_absoluteX="155dp"
+                tools:layout_editor_absoluteY="299dp" />
+
+            <EditText
+                android:id="@+id/user_needed_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="This swap offer is only available until..."
+                android:inputType="datetime|text"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="58dp"
+                tools:layout_editor_absoluteY="165dp" />
+
+            <TextView
+                android:id="@+id/text_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/field_contact_info"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="166dp"
+                tools:layout_editor_absoluteX="130dp"
+                tools:layout_editor_absoluteY="266dp" />
+
+            <EditText
+                android:id="@+id/user_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Interested parties can contact me by..."
+                android:inputType="textMultiLine"
+                android:lines="2"
+                tools:layout_conversion_absoluteHeight="830dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="133dp"
+                tools:layout_editor_absoluteY="330dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Button"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="68dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/profileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/colorPrimary"
+            android:paddingLeft="24dp"
+            android:paddingEnd="24dp"
+            android:text="Create Post"
+            android:textColor="@color/colorButtonText"
+            android:textSize="18sp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/mark_resolved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/colorBorder"
+            android:enabled="false"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:text="@string/cancel_post"
+            android:textColor="@color/colorButtonText"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
