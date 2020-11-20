@@ -26,6 +26,9 @@ XML Files are located at src/main/res/layout
   * This should include the user's posts, username, and picture as a well as a logout button if they are viewing their own profile.
 - ViewSwapActivity.java <--> activity_view_swap.xml
   * This view displays the specific information for a posted swap.
-  * Contains a nested LinearLayout with the contact buttons (phone and email) so that if the user does not provide a phone number, the remaining email button will still be centered.
+  * The post information itself is contained in a ScrollView.
+  * Contains a nested LinearLayout with the contact buttons (phone and email) so that if the user does not provide a phone number, the remaining email button will still be centered. Same goes for the "mark as resolved" and "delete" buttons.
 - CreateSwap.java <--> activity_create_swap.xml
   * This view is the form that users fill out to create a swap post.
+  * The form itself is contained in a ScrollView for now. Users will have to scroll to fill out the form. The buttons are not contained in the scrollview.
+  * Create post / cancel buttons are in a LinearLayout at the bottom. 
