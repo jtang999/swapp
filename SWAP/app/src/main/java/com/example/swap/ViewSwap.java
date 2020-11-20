@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,8 +37,10 @@ public class ViewSwap extends AppCompatActivity {
     TextView post_date;
     TextView need_time;
 
+    ImageButton avatar_btn;
     ImageButton phone_call;
     ImageButton send_email;
+
 
     Button edit_btn;
     Button resolve_btn;
@@ -49,8 +52,8 @@ public class ViewSwap extends AppCompatActivity {
 
         initializePage();
 
-        Intent intent = getIntent();
-        String post_id = intent.getStringExtra(XTR_MESSAGE);
+        //Intent intent = getIntent();
+        String post_id ="TsG6Gv9mkyaea7MvBnTB"; // intent.getStringExtra(XTR_MESSAGE);
 
         //HashMap<String, Object> post_data = new HashMap<>();
         getPostDataFromDB(post_id);
@@ -74,27 +77,37 @@ public class ViewSwap extends AppCompatActivity {
                         process_display_RawInfo(post_data);
 
                     } else {
-                        //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
-                        displayError();
+                        //DONE: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
+                        displayError("POST NO LONGER AVAILABLE!");
                     }
 
                 } else {
                     //TODO: Fail with task: DocumentSnapshot
-                    details.setText(task.getException().toString());
+                    displayError(task.getException().toString());
                 }
             }
         });
     }
 
-    private void displayError() {
-        username.setText("ERROR: INVALID POST");
+    private void displayError(String err) {
+        Toast.makeText(ViewSwap.this,
+                err, Toast.LENGTH_SHORT).show();
+        /*username.setText("ERROR: INVALID POST");
         needs.setText("ERROR: INVALID POST");
         offers.setText("ERROR: INVALID POST");
         details.setText("ERROR: INVALID POST");
         //contact.setText("ERROR: INVALID POST");
         location.setText("ERROR: INVALID POST");
         post_date.setText("ERROR: INVALID POST");
-        need_time.setText("ERROR: INVALID POST");
+        need_time.setText("ERROR: INVALID POST");*/
+        username.setText("");
+        needs.setText("");
+        offers.setText("");
+        details.setText("");
+        //contact.setText("");
+        location.setText("");
+        post_date.setText("");
+        need_time.setText("");
     }
 
 
@@ -115,7 +128,7 @@ public class ViewSwap extends AppCompatActivity {
             offers.setText((String) data.get("offer"));
         }
 
-        //details.setText((String)data.get("detail_text"));
+        details.setText((String)data.get("detail_text"));
         location.setText((String)data.get("location"));
         need_time.setText((String)data.get("time"));
 
@@ -134,6 +147,8 @@ public class ViewSwap extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 makePhoneCall(phone);
+                Toast.makeText(ViewSwap.this,
+                        "Re-direct to phone call", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -141,6 +156,8 @@ public class ViewSwap extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendEmail(email);
+                Toast.makeText(ViewSwap.this,
+                        "Re-direct to email", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,16 +178,19 @@ public class ViewSwap extends AppCompatActivity {
                     if (document.exists()) {
                         HashMap<String, Object> user_data = new HashMap<>();
                         user_data = (HashMap<String, Object>) document.getData();
-                        String user_name = (String) user_data.get("user_name");
-                        username.setText(user_name);
+                        display_user_info(user_data);
                     } else {
                         //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
-                        username.setText("Error: INVALID USER");
+                        username.setText("");
+                        Toast.makeText(ViewSwap.this,
+                                "Error: INVALID USER", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     //TODO: Fail with task: DocumentSnapshot
-                    username.setText(task.getException().toString());
+                    username.setText("");
+                    Toast.makeText(ViewSwap.this,
+                            task.getException().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -191,9 +211,9 @@ public class ViewSwap extends AppCompatActivity {
         //contact = findViewById(R.id.post_contact);
         location = findViewById(R.id.post_location);
         post_date = findViewById(R.id.user_posted_on);
-        need_time = findViewById(R.id.text_time_info);
+        need_time = findViewById(R.id.user_time_info);
 
-
+        avatar_btn = findViewById(R.id.user_profile_button);
         phone_call = findViewById(R.id.user_call);
         send_email = findViewById(R.id.user_email);
 
@@ -209,6 +229,13 @@ public class ViewSwap extends AppCompatActivity {
 
     }
 
+    private void display_user_info(HashMap<String, Object> user_data) {
+        //TODO: PASS IN IMG LINK
+        String user_name = (String) user_data.get("user_name");
+        username.setText(user_name);
+        //avatar_btn.setImageDrawable(R.drawable.);
+    }
+
     private void makePhoneCall(String phoneNum) {
         if (phoneNum == null || phoneNum.equals("")) return;
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
@@ -216,6 +243,7 @@ public class ViewSwap extends AppCompatActivity {
         startActivity(callIntent);
         finish();
     }
+
 
 
     private void sendEmail(String email) {

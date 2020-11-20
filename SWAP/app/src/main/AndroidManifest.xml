@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewSwap"></activity>
+        <activity android:name=".ViewSwap"
+            android:exported="true"></activity>
         <activity android:name=".CreateSwap" />
         <activity
             android:name=".ProfilePage"
