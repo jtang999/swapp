@@ -1,6 +1,7 @@
 package com.example.swap;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,11 +22,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.Random;
 
 public class ViewSwap extends AppCompatActivity {
     //TODO: MOVE THE XTR_MESSAGE TO PREVIOUS INTENT
@@ -35,10 +32,12 @@ public class ViewSwap extends AppCompatActivity {
     TextView needs;
     TextView offers;
     TextView details;
-    TextView contact;
     TextView location;
     TextView post_date;
-    TextView expire_date;
+    TextView need_time;
+
+    ImageButton phone_call;
+    ImageButton send_email;
 
     Button edit_btn;
     Button resolve_btn;
@@ -73,6 +72,7 @@ public class ViewSwap extends AppCompatActivity {
                         HashMap<String, Object> post_data = new HashMap<>();
                         post_data = (HashMap<String, Object>) document.getData();
                         process_display_RawInfo(post_data);
+
                     } else {
                         //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
                         displayError();
@@ -91,9 +91,10 @@ public class ViewSwap extends AppCompatActivity {
         needs.setText("ERROR: INVALID POST");
         offers.setText("ERROR: INVALID POST");
         details.setText("ERROR: INVALID POST");
-        contact.setText("ERROR: INVALID POST");
+        //contact.setText("ERROR: INVALID POST");
         location.setText("ERROR: INVALID POST");
         post_date.setText("ERROR: INVALID POST");
+        need_time.setText("ERROR: INVALID POST");
     }
 
 
@@ -114,17 +115,34 @@ public class ViewSwap extends AppCompatActivity {
             offers.setText((String) data.get("offer"));
         }
 
-        details.setText((String)data.get("detail_text"));
+        //details.setText((String)data.get("detail_text"));
         location.setText((String)data.get("location"));
+        need_time.setText((String)data.get("time"));
 
-        String contact_info = "";
+        /*String contact_info = "";
         if (data.get("phone") != null && data.get("phone").equals("")) {
             contact_info = "Phone: " + (String)data.get("phone") + "\n";
         }
         if (data.get("email") != null && data.get("email").equals("")) {
             contact_info += "Email: " + (String)data.get("email");
         }
-        contact.setText(contact_info);
+        contact.setText(contact_info);*/
+        final String phone = (String)data.get("phone");
+        final String email = (String)data.get("email");
+
+        phone_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makePhoneCall(phone);
+            }
+        });
+
+        send_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEmail(email);
+            }
+        });
 
 
     }
@@ -147,7 +165,7 @@ public class ViewSwap extends AppCompatActivity {
                         username.setText(user_name);
                     } else {
                         //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
-                        username.setText("Error: finding the user");
+                        username.setText("Error: INVALID USER");
                     }
 
                 } else {
@@ -170,11 +188,14 @@ public class ViewSwap extends AppCompatActivity {
         needs = findViewById(R.id.post_needs);
         offers = findViewById(R.id.post_offers);
         details = findViewById(R.id.post_details);
-        contact = findViewById(R.id.post_contact);
+        //contact = findViewById(R.id.post_contact);
         location = findViewById(R.id.post_location);
         post_date = findViewById(R.id.user_posted_on);
-        expire_date = findViewById(R.id.text_time_info);
+        need_time = findViewById(R.id.text_time_info);
 
+
+        phone_call = findViewById(R.id.user_call);
+        send_email = findViewById(R.id.user_email);
 
         edit_btn = findViewById(R.id.edit_button);
         resolve_btn = findViewById(R.id.resolve_post);
@@ -186,7 +207,29 @@ public class ViewSwap extends AppCompatActivity {
         resolve_btn.setVisibility(View.INVISIBLE);
         delete_btn.setVisibility(View.INVISIBLE);
 
-        //TODO: add expire date later
-        expire_date.setVisibility(View.GONE);
+    }
+
+    private void makePhoneCall(String phoneNum) {
+        if (phoneNum == null || phoneNum.equals("")) return;
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:01-" + phoneNum));
+        startActivity(callIntent);
+        finish();
+    }
+
+
+    private void sendEmail(String email) {
+        if (email == null || email.equals("")) return;
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SWAP");
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "SWAP service");
+
+        startActivity(Intent.createChooser(emailIntent, "Send your email in:"));
+        finish();
     }
 }

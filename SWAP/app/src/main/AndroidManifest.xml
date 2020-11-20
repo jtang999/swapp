@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".CreateSwap"></activity>
+        <activity android:name=".ViewSwap"></activity>
         <activity
             android:name=".ProfilePage"
             android:exported="true"
