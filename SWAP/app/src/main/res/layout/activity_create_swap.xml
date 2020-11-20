@@ -44,17 +44,81 @@
 <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
+    <TextView
+        android:id="@+id/toggleOutline2"
+        android:layout_width="380dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/searchbar"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
+
+    <Button
+        android:id="@+id/freeServicesToggle2"
+        android:layout_width="148dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="1dp"
+        android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/free_services_toggle"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline2"
+        app:layout_constraintStart_toStartOf="@+id/toggleOutline2"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
+        app:layout_constraintVertical_bias="0.833" />
+
+    <Button
+        android:id="@+id/needsFreeToggle2"
+        android:layout_width="148dp"
+        android:layout_height="30dp"
+        android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/needs_free_service_toggle"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline2"
+        app:layout_constraintEnd_toEndOf="@+id/toggleOutline2"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
+        app:layout_constraintVertical_bias="0.833" />
+
+    <Button
+        android:id="@+id/swapToggle2"
+        android:layout_width="84dp"
+        android:layout_height="30dp"
+        android:background="@drawable/modetoggle"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/swap_toggle"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#535353"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline2"
+        app:layout_constraintEnd_toStartOf="@+id/needsFreeToggle2"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
+        app:layout_constraintVertical_bias="0.833" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleBar">
+        app:layout_constraintTop_toBottomOf="@+id/toggleOutline2">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -90,17 +154,6 @@
                 tools:layout_editor_absoluteX="133dp"
                 tools:layout_editor_absoluteY="444dp" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I can't offer anything"
-                android:textColor="@color/colorBodyLight"
-                tools:layout_conversion_absoluteHeight="32dp"
-                tools:layout_conversion_absoluteWidth="0dp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="146dp" />
-
             <TextView
                 android:id="@+id/text_userneed"
                 android:layout_width="wrap_content"
@@ -129,17 +182,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_userneed"
                 tools:layout_conversion_absoluteHeight="40dp"
                 tools:layout_conversion_absoluteWidth="0dp" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I'm offering services for free"
-                android:textColor="@color/colorBodyLight"
-                tools:layout_conversion_absoluteHeight="32dp"
-                tools:layout_conversion_absoluteWidth="0dp"
-                tools:layout_editor_absoluteX="103dp"
-                tools:layout_editor_absoluteY="422dp" />
 
             <TextView
                 android:id="@+id/text_details"

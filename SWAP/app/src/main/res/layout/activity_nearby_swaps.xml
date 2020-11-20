@@ -65,7 +65,7 @@
 
     <Button
         android:id="@+id/freeServicesToggle"
-        android:layout_width="138dp"
+        android:layout_width="148dp"
         android:layout_height="30dp"
         android:background="@drawable/modetoggle"
         android:fontFamily="sans-serif-medium"
@@ -98,7 +98,7 @@
 
     <Button
         android:id="@+id/needsFreeToggle"
-        android:layout_width="158dp"
+        android:layout_width="148dp"
         android:layout_height="30dp"
         android:background="@drawable/modetoggle"
         android:fontFamily="sans-serif-medium"

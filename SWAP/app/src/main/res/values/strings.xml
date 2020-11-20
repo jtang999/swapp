@@ -16,9 +16,9 @@
     <!--  Strings for viewing posts  -->
     <string name="field_post_need">I need:</string>
     <string name="field_post_offer">I can offer:</string>
-    <string name="swap_toggle">Swaps</string>
-    <string name="free_services_toggle">Free Services</string>
-    <string name="needs_free_service_toggle">Needs Free Service</string>
+    <string name="swap_toggle">Swap</string>
+    <string name="free_services_toggle">Free Service Offered</string>
+    <string name="needs_free_service_toggle">Free Service Needed</string>
     <!--  Post fields (general)  -->
     <string name="field_details">Details:</string>
     <string name="field_location">Location:</string>
