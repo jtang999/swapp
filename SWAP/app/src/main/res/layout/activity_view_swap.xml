@@ -112,13 +112,14 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:fontFamily="sans-serif-medium"
         android:text="@insert_username_here"
         android:textAllCaps="false"
         android:textColor="@color/colorBodyLight"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="120dp" />
+        app:layout_constraintStart_toEndOf="@+id/user_profile_button"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_button" />
 
     <TextView
         android:id="@+id/text_posted_on"
