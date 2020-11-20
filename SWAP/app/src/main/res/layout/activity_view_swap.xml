@@ -140,7 +140,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:fontFamily="sans-serif-medium"
-        android:text="EXPIRES ON:"
+        android:text="NEEDED BY:"
         android:textAlignment="textEnd"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimaryDark"
@@ -165,21 +165,6 @@
         android:text="Sept 16, 2021"
         app:layout_constraintStart_toEndOf="@+id/text_time_info"
         app:layout_constraintTop_toTopOf="@+id/text_time_info" />
-
-    <TextView
-        android:id="@+id/text_contact"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Contact By:"
-        android:textAlignment="textEnd"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_time_info" />
 
     <TextView
         android:id="@+id/text_userneed"
@@ -241,17 +226,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_details" />
 
-    <TextView
-        android:id="@+id/post_contact"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="contact user by"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_contact"
-        app:layout_constraintTop_toTopOf="@+id/text_contact" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
@@ -291,8 +265,44 @@
         android:id="@+id/user_profile_button"
         android:layout_width="91dp"
         android:layout_height="86dp"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="117dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="User Profile Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_time_info">
+
+        <ImageButton
+            android:id="@+id/user_call"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_imgbutton"
+            android:backgroundTint="@color/colorPrimary"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            app:srcCompat="@mipmap/ic_call_foreground" />
+
+
+        <ImageButton
+            android:id="@+id/user_email"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_imgbutton"
+            android:backgroundTint="@color/colorPrimary"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            app:srcCompat="@mipmap/ic_email_icon" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
