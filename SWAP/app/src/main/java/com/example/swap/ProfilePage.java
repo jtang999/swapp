@@ -1,5 +1,6 @@
 package com.example.swap;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.Random;
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -27,6 +29,14 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         initializePage();
+
+        Button logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener(){
+                                            @Override
+                                            public void onClick(View view){
+                //FILL OUT WITH FUNCTION TO LOG USER OUT THEN DIRECT THEM TO THE LOGIN PAGE
+            }
+        });
     }
 
     /**

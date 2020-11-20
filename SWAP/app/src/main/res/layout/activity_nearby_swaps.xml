@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/TitleBar"
-        android:layout_width="423dp"
+        android:layout_width="match_parent"
         android:layout_height="86dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
@@ -25,11 +25,12 @@
 
     <Button
         android:id="@+id/createPost"
-        android:layout_width="51dp"
-        android:layout_height="53dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/createbutton"
         android:text="@string/add"
+        android:gravity="center"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -149,6 +150,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toggleOutline" />
+
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@mipmap/default_profile_alt_dark"
+        app:layout_constraintStart_toStartOf="@+id/TitleBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="69dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/user_name"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/TitleBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileButton"
+        tools:text="@string/user_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
