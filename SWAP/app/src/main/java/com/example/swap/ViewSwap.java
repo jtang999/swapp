@@ -237,7 +237,11 @@ public class ViewSwap extends AppCompatActivity {
     }
 
     private void makePhoneCall(String phoneNum) {
-        if (phoneNum == null || phoneNum.equals("")) return;
+        if (phoneNum == null || phoneNum.equals("")) {
+            Toast.makeText(ViewSwap.this,
+                    "Owner does not provide a phone contact.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:01-" + phoneNum));
         startActivity(callIntent);
@@ -247,7 +251,11 @@ public class ViewSwap extends AppCompatActivity {
 
 
     private void sendEmail(String email) {
-        if (email == null || email.equals("")) return;
+        if (email == null || email.equals("")) {
+            Toast.makeText(ViewSwap.this,
+                    "Owner does not provide an email.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
