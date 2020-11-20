@@ -130,21 +130,20 @@ public class BlankPage extends AppCompatActivity {
                                             }
                                         });
                             }
-                            Intent intent = new Intent(BlankPage.this, NearbySwaps.class);
-                            /**
-                             * User's info is passed to the browsing page
-                             */
-                            intent.putExtra("userEmail", userEmail);
-                            intent.putExtra("userName", userName);
-                            intent.putExtra("userPic", userPic);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
                         } else {
                             Log.e(userEmail, "get failed with ", task.getException());
                         }
                     }
                 });
                 // ...
+                Intent intent = new Intent(BlankPage.this, NearbySwaps.class);
+                /**
+                 * User's info is passed to the browsing page
+                 */
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userPic", userPic);
+                startActivity(intent);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
