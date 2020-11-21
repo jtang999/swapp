@@ -46,11 +46,24 @@ public class CreateSwap extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
+
                 //Create New Post
                 Map<String, Object> post = new HashMap<>();
-                post.put("need", need.getText().toString());
+                //If Toggle 0 (No need)
+                if(getToggle() == 1 || getToggle() == 2){
+                    post.put("need", need.getText().toString());
+                }
+                else{
+                    post.put("need", "null");
+                }
                 post.put("need_image", "");
-                post.put("offer", offer.getText().toString());
+                //If Toggle 2 (No offer)
+                if(getToggle() == 0 || getToggle() == 1) {
+                    post.put("offer", offer.getText().toString());
+                }
+                else{
+                    post.put("need", "null");
+                }
                 post.put("details", details.getText().toString());
                 post.put("location", location.getText().toString());
                 post.put("expiration", expiration.getText().toString());
@@ -72,7 +85,7 @@ public class CreateSwap extends AppCompatActivity {
                             }
                         });
 
-//                Intent i = new Intent(NearbySwaps.this, CreateSwap.class);
+//                Intent i = new Intent(CreateSwap.this, ViewSwap.class);
 //                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(i);
             }
@@ -152,6 +165,10 @@ public class CreateSwap extends AppCompatActivity {
             setToggleDeselected(swap);
             setToggleSelected(needsFree);
         }
+    }
+
+    public static int getToggle() {
+        return toggle;
     }
 
     /**
