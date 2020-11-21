@@ -18,8 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewSwap"
-            android:exported="true"></activity>
-        <activity android:name=".CreateSwap" />
+            android:exported="true" />
+        <activity android:name=".CreateSwap"
+            android:exported="true"/>
         <activity
             android:name=".ProfilePage"
             android:exported="true"
