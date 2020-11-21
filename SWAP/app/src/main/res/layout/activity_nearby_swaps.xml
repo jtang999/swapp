@@ -151,16 +151,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toggleOutline" />
 
-    <Button
-        android:id="@+id/profileButton"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@mipmap/default_profile_alt_dark"
-        app:layout_constraintStart_toStartOf="@+id/TitleBar"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/userName"
         android:layout_width="69dp"
@@ -176,6 +166,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileButton"
         tools:text="@string/user_name" />
+
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/default_profile_alt_dark" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

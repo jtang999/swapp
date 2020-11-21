@@ -8,8 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +26,10 @@ public class NearbySwaps extends AppCompatActivity {
             "Transportation to drive me to work in the mornings","--", "Help me fix my leaking sink"};
     public static final String[] needed = new String[]{"Any skill on my profile", "Leftover food from my restaurant job",
             "Giving out free haircuts!", "Any skill on my profile"};
+    public static final String[] images = new String[]{"https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg?crop=1xw:0.9997114829774957xh;center,top&resize=980:*",
+    "https://hips.hearstapps.com/ghk.h-cdn.co/assets/16/08/gettyimages-149263578.jpg?crop=0.4444444444444445xw:1xh;center,top&resize=980:*",
+    "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/2560x3839/dachshund.jpg?resize=980:*",
+    "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/1500912970-shiba-inu.jpg?crop=1.0xw:1xh;center,top&resize=980:*"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +37,9 @@ public class NearbySwaps extends AppCompatActivity {
         setContentView(R.layout.activity_nearby_swaps);
 
         initializeToggles();
+        updatePostFeed(1);
         generateRandomPosts();
+        setProfilePicture("https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg?crop=1xw:0.9997114829774957xh;center,top&resize=980:*");
 
         Button postButton = findViewById(R.id.createPost);
         postButton.setOnClickListener(new View.OnClickListener(){
@@ -41,7 +51,7 @@ public class NearbySwaps extends AppCompatActivity {
             }
         });
 
-        Button goToProfileButton = findViewById(R.id.profileButton);
+        ImageButton goToProfileButton = findViewById(R.id.profileButton);
         //CHANGE THIS AS NEEDED. SHOULD LEAD TO THE USER'S OWN PROFILE PAGE
         goToProfileButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -73,9 +83,22 @@ public class NearbySwaps extends AppCompatActivity {
         pBar.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Sets the user's profile picture to the image at the given url.
+     *
+     * @param url a String with the url of the user's profile picture
+     */
+    private void setProfilePicture(String url){
+        if (null == url){
+            return;
+        }
+        ImageView profileImage = findViewById(R.id.profileButton);
+        Picasso.get().load(url).fit().placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
+    }
+
 
     /**
-     * Generates random posts for demonstration purposses
+     * Generates random posts for demonstration purposes
      *
      */
     private void generateRandomPosts(){
@@ -85,7 +108,7 @@ public class NearbySwaps extends AppCompatActivity {
             try {
                 test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
                 test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
-                test.put("profileImageURL", "TEST");
+                test.put("profileImageURL", NearbySwaps.images[rand.nextInt(NearbySwaps.images.length)]);
 
             } catch (JSONException e) {
                 e.printStackTrace();

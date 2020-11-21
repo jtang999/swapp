@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,7 @@ import androidx.cardview.widget.CardView;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -29,6 +31,7 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         initializePage();
+        setProfilePicture("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=768:*");
 
         Button logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener(){
@@ -60,7 +63,7 @@ public class ProfilePage extends AppCompatActivity {
             try {
                 test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
                 test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
-                test.put("profileImageURL", "TEST");
+                test.put("profileImageURL", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=768:*");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -103,5 +106,17 @@ public class ProfilePage extends AppCompatActivity {
      */
     private JSONObject retrieveUserPosts(){
         return null;
+    }
+
+    /**
+     * Sets the user's profile picture to the image at the given url.
+     *
+     */
+    private void setProfilePicture(String url){
+        if (null == url){
+            return;
+        }
+        ImageView profileImage = findViewById(R.id.profilePicture);
+        Picasso.get().load(url).placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
     }
 }

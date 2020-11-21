@@ -18,10 +18,10 @@
 
         <ImageView
             android:id="@+id/profilePicture"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="150dp"
             android:layout_marginTop="35dp"
-            android:background="@mipmap/default_profile_alt_dark"
+            android:src="@mipmap/default_profile_alt_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

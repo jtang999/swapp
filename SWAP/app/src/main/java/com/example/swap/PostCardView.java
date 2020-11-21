@@ -4,10 +4,13 @@ import android.content.Context;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +43,11 @@ public class PostCardView extends CardView {
         updateInfo();
     }
 
+    /**
+     * Creates a postCardView. Takes in the app context and a JSONObject with the data for the post.
+     *
+     * @param jsonData A JSONObject containing ALL of the data for the post.
+     */
     public PostCardView(@NonNull Context context, JSONObject jsonData) {
         super(context);
 
@@ -49,9 +57,16 @@ public class PostCardView extends CardView {
 
         parseData(jsonData);
         updateInfo();
-
     }
 
+    /**
+     * Parses the data given to a post object and
+     * adds the name, swap, image-URL, and jsonObject
+     * as instance attributes.
+     * MAYBE NEED MODIFICATIONS DEPENDING ON STRUCTURE OF DATABASE RESPONSES
+     *
+     * @param jsonData A JSONObject containing ALL of the data for the post.
+     */
     private void parseData(JSONObject jsonData) {
         this.jsonData = jsonData;
         try {
@@ -78,6 +93,8 @@ public class PostCardView extends CardView {
             need.setText(Html.fromHtml(needString));
         }
         if(this.profileImageURL != null){
+            ImageView profileImage = findViewById(R.id.profileImage);
+            Picasso.get().load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
             //nothing here yet because there are no images to download
         }
     }
