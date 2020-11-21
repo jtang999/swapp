@@ -22,11 +22,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class ViewSwap extends AppCompatActivity {
-    //TODO: MOVE THE XTR_MESSAGE TO PREVIOUS INTENT
     public static final String XTR_MESSAGE = "com.example.SWAP.ViewSwap.MESSAGE";
 
     TextView username;
@@ -176,7 +176,7 @@ public class ViewSwap extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        HashMap<String, Object> user_data = new HashMap<>();
+                        HashMap<String, Object> user_data;
                         user_data = (HashMap<String, Object>) document.getData();
                         display_user_info(user_data);
                     } else {
@@ -229,11 +229,32 @@ public class ViewSwap extends AppCompatActivity {
 
     }
 
-    private void display_user_info(HashMap<String, Object> user_data) {
+    private void display_user_info(final HashMap<String, Object> user_data) {
         //TODO: PASS IN IMG LINK
         String user_name = (String) user_data.get("user_name");
         username.setText(user_name);
+        if (user_data.get("avatar")==null || user_data.get("avatar").equals("")) {
+            avatar_btn.setImageResource(R.drawable.avatar);
+        } else {
+            String url = (String) user_data.get("avatar");
+            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).into(avatar_btn);
+        }
+        avatar_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uid_msg = (String)user_data.get("email");
+                goProfileIntent(uid_msg);
+            }
+        });
         //avatar_btn.setImageDrawable(R.drawable.);
+    }
+
+    private void goProfileIntent(String uid_msg) {
+        Intent profile_intent = new Intent(this, ProfilePage.class);
+        profile_intent.putExtra(XTR_MESSAGE, uid_msg);
+        startActivity(profile_intent);
+        finish();
+
     }
 
     private void makePhoneCall(String phoneNum) {

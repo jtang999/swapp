@@ -95,14 +95,16 @@
 
     <ImageButton
         android:id="@+id/user_profile_button"
-        android:layout_width="91dp"
-        android:layout_height="86dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:background="#00FFFFFF"
         android:contentDescription="User Profile Image"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/avatar" />
 
     <ScrollView
         android:id="@+id/scrollView2"
