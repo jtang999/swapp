@@ -117,6 +117,6 @@ public class ProfilePage extends AppCompatActivity {
             return;
         }
         ImageView profileImage = findViewById(R.id.profilePicture);
-        Picasso.get().load(url).placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
+        Picasso.with(this).load(url).placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
     }
 }

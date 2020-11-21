@@ -21,6 +21,7 @@ public class PostCardView extends CardView {
     String needed;
     String profileImageURL;
     JSONObject jsonData;
+    Context context;
     public PostCardView(@NonNull Context context) {
         super(context);
 
@@ -50,7 +51,7 @@ public class PostCardView extends CardView {
      */
     public PostCardView(@NonNull Context context, JSONObject jsonData) {
         super(context);
-
+        this.context = context;
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.post_card_view, this);
@@ -94,7 +95,7 @@ public class PostCardView extends CardView {
         }
         if(this.profileImageURL != null){
             ImageView profileImage = findViewById(R.id.profileImage);
-            Picasso.get().load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
+            Picasso.with(this.context).load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
             //nothing here yet because there are no images to download
         }
     }
