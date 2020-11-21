@@ -6,4 +6,5 @@
     <color name="colorButtonText">#FFFFFF</color>
     <color name="colorBodyLight">#6E6E6E</color>
     <color name="colorBorder">#C4C4C4</color>
+    <color name="exitBackground">#139EB3</color>
 </resources>
