@@ -59,7 +59,7 @@ public class ViewSwap extends AppCompatActivity {
         String post_id ="TsG6Gv9mkyaea7MvBnTB"; // intent.getStringExtra(XTR_MESSAGE);
 
         //HashMap<String, Object> post_data = new HashMap<>();
-        getPostDataFromDB(post_id);
+        getPostDataFromDB(getIntent().getStringExtra("POST_ID"));
 
         close_btn.setOnClickListener(new View.OnClickListener() {
             @Override

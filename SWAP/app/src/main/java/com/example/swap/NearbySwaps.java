@@ -136,8 +136,14 @@ public class NearbySwaps extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 JSONObject currentPost = new JSONObject(document.getData());
-                                if (isPostType(NearbySwaps.toggle, currentPost)) {
-                                    addPost(currentPost);
+                                //only add it if we are able to get a post _ID
+                                try {
+                                    currentPost.put("post_ID", document.getId());
+                                    if (!document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost)) {
+                                        addPost(currentPost);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         } else {
@@ -160,7 +166,10 @@ public class NearbySwaps extends AppCompatActivity {
     public void addPost(JSONObject jsonObject){
         LinearLayout posts = findViewById(R.id.PostLinearLayout);
         PostCardView newPost = new PostCardView(getApplicationContext(), jsonObject);
-        posts.addView(newPost);
+        System.out.println(jsonObject);
+        if (newPost.setOnClickListener(NearbySwaps.this)) {
+            posts.addView(newPost);
+        }
     }
 
     private boolean isPostType(int toggle, JSONObject jsonObject){

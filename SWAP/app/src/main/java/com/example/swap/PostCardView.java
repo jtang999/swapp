@@ -1,21 +1,27 @@
 package com.example.swap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
 import com.squareup.picasso.Picasso;
+import com.example.swap.ViewSwap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PostCardView extends CardView {
+    public static final String XTR_MESSAGE = "com.example.SWAP.NearbySwaps.MESSAGE";
     String offered;
     String needed;
     String profileImageURL;
@@ -117,5 +123,28 @@ public class PostCardView extends CardView {
             Picasso.with(this.context).load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
             //nothing here yet because there are no images to download
         }
+    }
+
+    public boolean setOnClickListener(final Context packageContext) {
+        Button button = findViewById(R.id.button);
+
+        try {
+            final String postID = this.jsonData.getString("post_ID");
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ViewSwap.class);
+                    i.putExtra("POST_ID", postID);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }
