@@ -41,7 +41,8 @@ public class ViewSwap extends AppCompatActivity {
     ImageButton avatar_btn;
     ImageButton phone_call;
     ImageButton send_email;
-    AppCompatButton close_btn;
+    Button close_btn;
+
 
 
     Button edit_btn;
