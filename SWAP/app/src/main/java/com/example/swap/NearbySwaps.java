@@ -4,20 +4,29 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
 import java.util.Random;
 
 public class NearbySwaps extends AppCompatActivity {
@@ -37,10 +46,9 @@ public class NearbySwaps extends AppCompatActivity {
         setContentView(R.layout.activity_nearby_swaps);
 
         initializeToggles();
-        updatePostFeed(1);
-        generateRandomPosts();
+        retrievePosts(1);
+        //generateRandomPosts();
         setProfilePicture("https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg?crop=1xw:0.9997114829774957xh;center,top&resize=980:*");
-
         Button postButton = findViewById(R.id.createPost);
         postButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -61,26 +69,6 @@ public class NearbySwaps extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
-
-    private void updatePostFeed(int toggle){
-        //remove old posts and add new posts to feed
-        ProgressBar pBar = findViewById(R.id.postProgressBar);
-        LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
-        postsLayout.removeAllViews();
-        postsLayout.setVisibility(View.INVISIBLE);
-        pBar.setVisibility(View.VISIBLE);
-
-        //simulates making call to the backend
-
-        //JSONObject postsData = retrievePosts();
-        //for post in postsData
-        //  addPost(post);
-        generateRandomPosts();
-
-        //reveal updated posts once retrieved
-        postsLayout.setVisibility(View.VISIBLE);
-        pBar.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -106,9 +94,9 @@ public class NearbySwaps extends AppCompatActivity {
             JSONObject test = new JSONObject();
             Random rand = new Random();
             try {
-                test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
-                test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
-                test.put("profileImageURL", NearbySwaps.images[rand.nextInt(NearbySwaps.images.length)]);
+                test.put("need", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
+                test.put("offer", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
+                test.put("image_need", NearbySwaps.images[rand.nextInt(NearbySwaps.images.length)]);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -117,26 +105,50 @@ public class NearbySwaps extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * Retrieves posts from the database which meet the toggled
-     *
-     * @param toggle The mode toggle. 0 -> Free Services. 1 -> Swaps. 2 -> Needs Free Service
-     * @return      JSONObject with the posts meeting the requirements
-     */
-    private JSONObject retrievePosts(int toggle){
-        return null;
-    }
-
     /**
      * Retrieves posts from the database which meet the toggled and searchTerm requirements
      *
      * @param toggle The mode toggle. 0 -> Free Services. 1 -> Swaps. 2 -> Needs Free Service
-     * @param searchTerm The string the user has searched for. Can switch this to filter etc as needed OR can implement search term in front end only.
+     *
      * @return      JSONObject with the posts meeting the requirements
      */
-    private JSONObject retrievePosts(int toggle, String searchTerm){
-        return null;
+    private void retrievePosts(int toggle){
+        //remove old posts and add set the page to show loading bar
+        final ProgressBar pBar = findViewById(R.id.postProgressBar);
+        final LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
+        SearchView search = findViewById(R.id.searchView);
+        NearbySwaps.toggle = toggle;
+
+        postsLayout.removeAllViews();
+        postsLayout.setVisibility(View.INVISIBLE);
+        pBar.setVisibility(View.VISIBLE);
+
+        //make call to the backend
+        //and set the on response listener
+        //search.getQuery().toString()
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                JSONObject currentPost = new JSONObject(document.getData());
+                                if (isPostType(NearbySwaps.toggle, currentPost)) {
+                                    addPost(currentPost);
+                                }
+                            }
+                        } else {
+                            System.out.println("Error getting documents" + task.getException());
+                        }
+
+                        //reveal updated posts once retrieved
+                        postsLayout.setVisibility(View.VISIBLE);
+                        pBar.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 
     /**
@@ -151,6 +163,35 @@ public class NearbySwaps extends AppCompatActivity {
         posts.addView(newPost);
     }
 
+    private boolean isPostType(int toggle, JSONObject jsonObject){
+        String need;
+        String offer;
+
+        try {
+            need = jsonObject.getString("need");
+        } catch (JSONException e) {
+            need = "";
+        }
+
+        try {
+            offer = jsonObject.getString("offer");
+        } catch (JSONException e) {
+            offer = "";
+        }
+
+
+        if(toggle == 2){
+            //free service offered --> we should have the need field empty
+            return need.equals("") && !offer.equals("");
+        }else if(toggle == 1){
+            //swap --> both shouldn't be empty
+            return !need.equals("") && !offer.equals("");
+        }else{
+            //needs free service --> should be an empty offer field
+            return !need.equals("") && offer.equals("");
+        }
+    }
+
     /**
      * Initializes mode toggles with their OnClickListeners when the activity is created.
      * Modifications should be made here to add calls to backend when switch is toggled
@@ -163,7 +204,7 @@ public class NearbySwaps extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setToggle(0);
-                updatePostFeed(0);
+                retrievePosts(0);
             }
         });
         Button swap = findViewById(R.id.swapToggle); //Option 1
@@ -171,7 +212,7 @@ public class NearbySwaps extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setToggle(1);
-                updatePostFeed(1);
+                retrievePosts(1);
             }
         });
         Button needsFree = findViewById(R.id.needsFreeToggle); //Option 2
@@ -179,7 +220,7 @@ public class NearbySwaps extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setToggle(2);
-                updatePostFeed(2);
+                retrievePosts(2);
             }
         });
 
