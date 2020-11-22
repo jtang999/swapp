@@ -333,14 +333,14 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/close_button"
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_borderbutton"
-        android:backgroundTint="#139EB3"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@mipmap/ic_close_foreground" />
