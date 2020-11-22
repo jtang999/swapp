@@ -180,7 +180,7 @@ public class NearbySwaps extends AppCompatActivity {
         }
 
 
-        if(toggle == 0){
+        if(toggle == 2){
             //free service offered --> we should have the need field empty
             return need.equals("") && !offer.equals("");
         }else if(toggle == 1){
