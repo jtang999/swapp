@@ -71,15 +71,29 @@ public class PostCardView extends CardView {
     private void parseData(JSONObject jsonData) {
         this.jsonData = jsonData;
         try {
-            this.needed = jsonData.getString("looking for");
-            this.wanted = jsonData.getString("in exchange for");
-            this.profileImageURL = jsonData.getString("profileImageURL");
+            this.needed = jsonData.getString("need");
         } catch (JSONException e) {
             this.needed = "ERROR";
+            e.printStackTrace();
+        }
+
+        try {
+            this.wanted = jsonData.getString("offer");
+        }catch (JSONException e) {
             this.wanted = "ERROR";
+            e.printStackTrace();
+        }
+
+        try {
+            this.profileImageURL = jsonData.getString("image_url");
+            if (this.profileImageURL == null || this.profileImageURL.equals("")){
+                this.profileImageURL = "NONE";
+            }
+        } catch (JSONException e) {
             this.profileImageURL = "ERROR";
             e.printStackTrace();
         }
+
     }
 
     private void updateInfo(){
