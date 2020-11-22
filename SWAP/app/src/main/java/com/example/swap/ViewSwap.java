@@ -40,6 +40,7 @@ public class ViewSwap extends AppCompatActivity {
     ImageButton avatar_btn;
     ImageButton phone_call;
     ImageButton send_email;
+    ImageButton close_btn;
 
 
     Button edit_btn;
@@ -57,6 +58,13 @@ public class ViewSwap extends AppCompatActivity {
 
         //HashMap<String, Object> post_data = new HashMap<>();
         getPostDataFromDB(post_id);
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goNearybySwapsIntent();
+            }
+        });
 
 
     }
@@ -216,6 +224,7 @@ public class ViewSwap extends AppCompatActivity {
         avatar_btn = findViewById(R.id.user_profile_button);
         phone_call = findViewById(R.id.user_call);
         send_email = findViewById(R.id.user_email);
+        close_btn = findViewById(R.id.close_button);
 
         edit_btn = findViewById(R.id.edit_button);
         resolve_btn = findViewById(R.id.resolve_post);
@@ -255,6 +264,12 @@ public class ViewSwap extends AppCompatActivity {
         startActivity(profile_intent);
         finish();
 
+    }
+
+    private void goNearybySwapsIntent() {
+        Intent profile_intent = new Intent(this, NearbySwaps.class);
+        startActivity(profile_intent);
+        finish();
     }
 
     private void makePhoneCall(String phoneNum) {
