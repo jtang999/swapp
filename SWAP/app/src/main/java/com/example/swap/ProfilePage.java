@@ -61,9 +61,9 @@ public class ProfilePage extends AppCompatActivity {
             JSONObject test = new JSONObject();
             Random rand = new Random();
             try {
-                test.put("looking for", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
-                test.put("in exchange for", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
-                test.put("profileImageURL", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=768:*");
+                test.put("need", NearbySwaps.needed[rand.nextInt(NearbySwaps.needed.length)]);
+                test.put("offer", NearbySwaps.wanted[rand.nextInt(NearbySwaps.wanted.length)]);
+                test.put("need_image", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=768:*");
 
             } catch (JSONException e) {
                 e.printStackTrace();

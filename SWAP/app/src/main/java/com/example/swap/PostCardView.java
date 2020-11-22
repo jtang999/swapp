@@ -14,10 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Attr;
 
 public class PostCardView extends CardView {
-    String wanted;
+    String offered;
     String needed;
     String profileImageURL;
     JSONObject jsonData;
@@ -28,7 +27,7 @@ public class PostCardView extends CardView {
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.post_card_view, this);
-        this.wanted="DEFAULT";
+        this.offered="DEFAULT";
         this.needed="DEFAULT";
         updateInfo();
     }
@@ -39,7 +38,7 @@ public class PostCardView extends CardView {
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.post_card_view, this);
-        this.wanted="Auto repair - help me change the oil in my car";
+        this.offered="Auto repair - help me change the oil in my car";
         this.needed="Any skill found on my profile page";
         updateInfo();
     }
@@ -71,28 +70,48 @@ public class PostCardView extends CardView {
     private void parseData(JSONObject jsonData) {
         this.jsonData = jsonData;
         try {
-            this.needed = jsonData.getString("looking for");
-            this.wanted = jsonData.getString("in exchange for");
-            this.profileImageURL = jsonData.getString("profileImageURL");
+            this.needed = jsonData.getString("need");
         } catch (JSONException e) {
             this.needed = "ERROR";
-            this.wanted = "ERROR";
+            e.printStackTrace();
+        }
+
+        try {
+            this.offered = jsonData.getString("offer");
+        }catch (JSONException e) {
+            this.offered = "ERROR";
+            e.printStackTrace();
+        }
+
+        try {
+            this.profileImageURL = jsonData.getString("image_url");
+            if (this.profileImageURL == null || this.profileImageURL.equals("")){
+                this.profileImageURL = "NONE";
+            }
+        } catch (JSONException e) {
             this.profileImageURL = "ERROR";
             e.printStackTrace();
         }
+
     }
 
     private void updateInfo(){
-        if (this.wanted != null){
-            TextView want = findViewById(R.id.wanted);
-            String wantString = "<b>" + "Looking For:" + "</b> " + this.wanted;
-            want.setText(Html.fromHtml(wantString));
+        TextView offered = findViewById(R.id.offered);
+        if (this.offered != null && !this.offered.equals("")){
+            String wantString = "<b>" + "Offered:" + "</b> " + this.offered;
+            offered.setText(Html.fromHtml(wantString));
+        }else{
+            offered.setVisibility(GONE);
         }
-        if (this.needed != null){
-            TextView need = findViewById(R.id.needed);
-            String needString = "<b>" + "In Exchange For:" + "</b> " + this.needed;
+
+        TextView need = findViewById(R.id.needed);
+        if (this.needed != null && !this.needed.equals("")){
+            String needString = "<b>" + "Needed:" + "</b> " + this.needed;
             need.setText(Html.fromHtml(needString));
+        }else{
+            need.setVisibility(GONE);
         }
+
         if(this.profileImageURL != null){
             ImageView profileImage = findViewById(R.id.profileImage);
             Picasso.with(this.context).load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
