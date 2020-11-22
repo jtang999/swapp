@@ -54,7 +54,7 @@ public class CreateSwap extends AppCompatActivity {
                     post.put("need", need.getText().toString());
                 }
                 else{
-                    post.put("need", "null");
+                    post.put("need", "");
                 }
                 post.put("need_image", "");
                 //If Toggle 2 (No offer)
@@ -62,7 +62,7 @@ public class CreateSwap extends AppCompatActivity {
                     post.put("offer", offer.getText().toString());
                 }
                 else{
-                    post.put("need", "null");
+                    post.put("offer", "");
                 }
                 post.put("details", details.getText().toString());
                 post.put("location", location.getText().toString());
