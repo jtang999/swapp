@@ -15,9 +15,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -279,5 +284,42 @@ public class NearbySwaps extends AppCompatActivity {
         button.setTextColor( Color.parseColor("#535353") );
     }
 
+    /**
+     * Set's the current users profile picture and
+     * @param uid the userID for the post
+     *
+     * @return      nothing
+     */
+    private void display_UserInfo(String uid) {
+//        //TODO: get user avatar and display
+//        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+//
+//        CollectionReference cref = database.collection("users");
+//        DocumentReference dref = cref.document(uid);
+//        dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        HashMap<String, Object> user_data;
+//                        user_data = (HashMap<String, Object>) document.getData();
+//                        display_user_info(user_data);
+//                    } else {
+//                        //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
+//                        username.setText("");
+//                        Toast.makeText(ViewSwap.this,
+//                                "Error: INVALID USER", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } else {
+//                    //TODO: Fail with task: DocumentSnapshot
+//                    username.setText("");
+//                    Toast.makeText(ViewSwap.this,
+//                            task.getException().toString(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+    }
 
 }
