@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,11 +52,16 @@ public class NearbySwaps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_swaps);
-
         initializeToggles();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            retrieveUserInfo(currentUser.getEmail());
+        }
         retrievePosts(1);
-        //generateRandomPosts();
-        setProfilePicture("https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg?crop=1xw:0.9997114829774957xh;center,top&resize=980:*");
+
+
         Button postButton = findViewById(R.id.createPost);
         postButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -304,7 +311,12 @@ public class NearbySwaps extends AppCompatActivity {
                     if (document.exists()) {
                         HashMap<String, Object> user_data;
                         user_data = (HashMap<String, Object>) document.getData();
-                        //display_user_info(user_data);
+
+                        String userName = (String) user_data.get("user_name");
+                        TextView userNameView = findViewById(R.id.userName);
+                        userNameView.setText(userName);
+                        setProfilePicture((String) user_data.get("avatar"));
+
                     } else {
                         Toast.makeText(NearbySwaps.this,
                                 "Error: INVALID USER", Toast.LENGTH_SHORT).show();
@@ -317,17 +329,6 @@ public class NearbySwaps extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void displayUserInfo(final HashMap<String, Object> user_data) {
-        String userName = (String) user_data.get("user_name");
-        TextView userNameView = findViewById(R.id.userName);
-        userNameView.setText(userName);
-
-        if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
-            String url = (String) user_data.get("avatar");
-            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(55, 55).into((ImageView) findViewById(R.id.profileButton));
-        }
     }
 
 }
