@@ -9,22 +9,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import com.example.swap.ViewSwap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class PostCardView extends CardView {
     public static final String XTR_MESSAGE = "com.example.SWAP.NearbySwaps.MESSAGE";
     String offered;
     String needed;
-    String profileImageURL;
+    String userID;
     JSONObject jsonData;
     Context context;
     public PostCardView(@NonNull Context context) {
@@ -90,14 +99,22 @@ public class PostCardView extends CardView {
         }
 
         try {
-            this.profileImageURL = jsonData.getString("image_url");
-            if (this.profileImageURL == null || this.profileImageURL.equals("")){
-                this.profileImageURL = "NONE";
-            }
-        } catch (JSONException e) {
-            this.profileImageURL = "ERROR";
+            this.userID = jsonData.getString("user_id");
+        }catch (JSONException e) {
+            this.userID = "ERROR: NO USER_ID";
             e.printStackTrace();
         }
+
+
+//        try {
+//            this.profileImageURL = jsonData.getString("image_url");
+//            if (this.profileImageURL == null || this.profileImageURL.equals("")){
+//                this.profileImageURL = "NONE";
+//            }
+//        } catch (JSONException e) {
+//            this.profileImageURL = "ERROR";
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -118,9 +135,8 @@ public class PostCardView extends CardView {
             need.setVisibility(GONE);
         }
 
-        if(this.profileImageURL != null){
-            ImageView profileImage = findViewById(R.id.profileImage);
-            Picasso.with(this.context).load(this.profileImageURL).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
+        if(this.userID != null){
+            retrieveUserInfo(this.userID);
             //nothing here yet because there are no images to download
         }
     }
@@ -130,7 +146,6 @@ public class PostCardView extends CardView {
 
         try {
             final String postID = this.jsonData.getString("post_ID");
-
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -147,4 +162,49 @@ public class PostCardView extends CardView {
         }
 
     }
+
+    /**
+     * Set's the current users profile picture and
+     * @param uid the userID for the post
+     *
+     * @return      nothing
+     */
+    private void retrieveUserInfo(String uid) {
+        //TODO: get user avatar and display
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+        CollectionReference cref = database.collection("users");
+        DocumentReference dref = cref.document(uid);
+        System.out.println("SKKKKKKKKKKKKKKKKRRRRRRRRRRRRRR" + uid);
+        dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        HashMap<String, Object> user_data;
+                        user_data = (HashMap<String, Object>) document.getData();
+                        displayUserInfo(user_data);
+                    }else{
+                        System.out.println("ERROR: DOCUMENT DOES NOT EXIST");
+                    }
+                }else{
+                    System.out.println("ERROR: TASK NOT SUCCESSFUL");
+                }
+            }
+        });
+    }
+
+    private void displayUserInfo(final HashMap<String, Object> user_data) {
+        String userName = (String) user_data.get("user_name");
+        ImageView profileImage = findViewById(R.id.profileImage);
+
+        if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
+            String url = (String) user_data.get("avatar");
+            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
+        }else{
+            System.out.println(user_data);
+        }
+
+    }
+
 }

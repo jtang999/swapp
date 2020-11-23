@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -290,36 +291,43 @@ public class NearbySwaps extends AppCompatActivity {
      *
      * @return      nothing
      */
-    private void display_UserInfo(String uid) {
-//        //TODO: get user avatar and display
-//        final FirebaseFirestore database = FirebaseFirestore.getInstance();
-//
-//        CollectionReference cref = database.collection("users");
-//        DocumentReference dref = cref.document(uid);
-//        dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        HashMap<String, Object> user_data;
-//                        user_data = (HashMap<String, Object>) document.getData();
-//                        display_user_info(user_data);
-//                    } else {
-//                        //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
-//                        username.setText("");
-//                        Toast.makeText(ViewSwap.this,
-//                                "Error: INVALID USER", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                } else {
-//                    //TODO: Fail with task: DocumentSnapshot
-//                    username.setText("");
-//                    Toast.makeText(ViewSwap.this,
-//                            task.getException().toString(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+    private void retrieveUserInfo(String uid) {
+        //TODO: get user avatar and display
+        final FirebaseFirestore database = FirebaseFirestore.getInstance();
+        CollectionReference cref = database.collection("users");
+        DocumentReference dref = cref.document(uid);
+        dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        HashMap<String, Object> user_data;
+                        user_data = (HashMap<String, Object>) document.getData();
+                        //display_user_info(user_data);
+                    } else {
+                        Toast.makeText(NearbySwaps.this,
+                                "Error: INVALID USER", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    //TODO: Fail with task: DocumentSnapshot
+                    Toast.makeText(NearbySwaps.this,
+                            "Error: COULD NOT FETCH USER", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void displayUserInfo(final HashMap<String, Object> user_data) {
+        String userName = (String) user_data.get("user_name");
+        TextView userNameView = findViewById(R.id.userName);
+        userNameView.setText(userName);
+
+        if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
+            String url = (String) user_data.get("avatar");
+            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(55, 55).into((ImageView) findViewById(R.id.profileButton));
+        }
     }
 
 }
