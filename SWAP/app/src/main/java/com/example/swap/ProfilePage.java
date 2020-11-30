@@ -6,10 +6,14 @@ import android.os.Bundle;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -37,7 +41,17 @@ public class ProfilePage extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener(){
                                             @Override
                                             public void onClick(View view){
-                //FILL OUT WITH FUNCTION TO LOG USER OUT THEN DIRECT THEM TO THE LOGIN PAGE
+                // FILL OUT WITH FUNCTION TO LOG USER OUT THEN DIRECT THEM TO THE LOGIN PAGE/BlankPage
+                AuthUI.getInstance()
+                        .signOut(getApplicationContext())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                            }
+                        });
+                Intent blankPage = new Intent(ProfilePage.this, BlankPage.class);
+                startActivity(blankPage);
+                finish(); // close this activity because we just logged out
             }
         });
     }
