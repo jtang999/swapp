@@ -63,17 +63,18 @@ public class BlankPage extends AppCompatActivity {
     /**
      * When the app is forced to stop, the user will be signed out
      */
-    @Override
-    protected void onStop() {
-        super.onStop();
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
-    }
+//    This was placed here for testing purposes. No longer needed when Logout button was created
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        AuthUI.getInstance()
+//                .signOut(this)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        // ...
+//                    }
+//                });
+//    }
 
     /**
      * Sign in logic
