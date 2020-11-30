@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -316,7 +317,7 @@ public class NearbySwaps extends AppCompatActivity {
                         TextView userNameView = findViewById(R.id.userName);
                         userNameView.setText(userName);
                         setProfilePicture((String) user_data.get("avatar"));
-
+//                        display_user_info(user_data);
                     } else {
                         Toast.makeText(NearbySwaps.this,
                                 "Error: INVALID USER", Toast.LENGTH_SHORT).show();
