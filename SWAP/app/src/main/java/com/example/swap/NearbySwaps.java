@@ -56,7 +56,7 @@ public class NearbySwaps extends AppCompatActivity {
         initializeToggles();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             retrieveUserInfo(currentUser.getEmail());
         }
@@ -79,6 +79,7 @@ public class NearbySwaps extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent i = new Intent(NearbySwaps.this, ProfilePage.class);
+                i.putExtra( "UID", currentUser.getEmail());
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
