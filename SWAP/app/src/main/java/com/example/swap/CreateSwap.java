@@ -3,6 +3,7 @@ package com.example.swap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,14 @@ public class CreateSwap extends AppCompatActivity {
         final EditText location= (EditText)findViewById(R.id.user_location);
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
+
+        Button cancel_post_btn = findViewById(R.id.mark_resolved);
+        cancel_post_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goNearybySwapsIntent();
+            }
+        });
 
         Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
@@ -90,6 +99,14 @@ public class CreateSwap extends AppCompatActivity {
 //                startActivity(i);
             }
         });
+
+
+    }
+
+    private void goNearybySwapsIntent() {
+        Intent profile_intent = new Intent(this, NearbySwaps.class);
+        startActivity(profile_intent);
+        finish();
     }
 
     private void initializeToggles(){

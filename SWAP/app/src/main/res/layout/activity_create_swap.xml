@@ -335,7 +335,7 @@
             android:layout_gravity="start"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/colorBorder"
-            android:enabled="false"
+            android:enabled="true"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:text="@string/cancel_post"
