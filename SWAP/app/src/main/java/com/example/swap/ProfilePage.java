@@ -48,11 +48,18 @@ public class ProfilePage extends AppCompatActivity {
         setContentView(R.layout.activity_profile_page);
         initializePage();
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            retrieveUserInfo(currentUser.getEmail());
-            retrieveUserPosts(currentUser.getEmail());
+        Intent intent = getIntent();
+        String user_id  = intent.getStringExtra("UID");
+        if (user_id != null && !user_id.equals("")){
+            retrieveUserInfo(user_id);
+            retrieveUserPosts(user_id);
+        }else {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                retrieveUserInfo(currentUser.getEmail());
+                retrieveUserPosts(currentUser.getEmail());
+            }
         }
 
 
