@@ -63,6 +63,7 @@ public class ProfilePage extends AppCompatActivity {
         }
 
 
+
         Button logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener(){
                                             @Override
