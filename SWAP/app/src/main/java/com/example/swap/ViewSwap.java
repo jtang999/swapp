@@ -16,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
@@ -71,7 +74,7 @@ public class ViewSwap extends AppCompatActivity {
 
     }
 
-    private void getPostDataFromDB(String post_id) {
+    private void getPostDataFromDB(final String post_id) {
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         CollectionReference cref = database.collection("posts");
@@ -84,7 +87,7 @@ public class ViewSwap extends AppCompatActivity {
                     if (document.exists()) {
                         HashMap<String, Object> post_data = new HashMap<>();
                         post_data = (HashMap<String, Object>) document.getData();
-                        process_display_RawInfo(post_data);
+                        process_display_RawInfo(post_data, post_id);
 
                     } else {
                         //DONE: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
@@ -121,9 +124,9 @@ public class ViewSwap extends AppCompatActivity {
     }
 
 
-    private void process_display_RawInfo(HashMap<String, Object> data) {
-        String uid = (String)data.get("user_id");
-        process_display_UserInfo(uid);
+    private void process_display_RawInfo(HashMap<String, Object> data, String post_id) {
+        final String uid = (String)data.get("user_id");
+        process_display_UserInfo(uid, post_id);
         post_date.setText((String)data.get("post_date"));
 
         if (data.get("need") == null) {
@@ -138,9 +141,9 @@ public class ViewSwap extends AppCompatActivity {
             offers.setText((String) data.get("offer"));
         }
 
-        details.setText((String)data.get("detail_text"));
+        details.setText((String)data.get("details"));
         location.setText((String)data.get("location"));
-        need_time.setText((String)data.get("time"));
+        need_time.setText((String)data.get("expiration"));
 
         /*String contact_info = "";
         if (data.get("phone") != null && data.get("phone").equals("")) {
@@ -153,28 +156,30 @@ public class ViewSwap extends AppCompatActivity {
         final String phone = (String)data.get("phone");
         final String email = (String)data.get("email");
 
+
         phone_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 makePhoneCall(phone);
-                Toast.makeText(ViewSwap.this,
-                        "Re-direct to phone call", Toast.LENGTH_SHORT).show();
+
             }
         });
 
         send_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendEmail(email);
-                Toast.makeText(ViewSwap.this,
-                        "Re-direct to email", Toast.LENGTH_SHORT).show();
+                if (email == null || email.isEmpty() || !email.contains("@")) {
+                    sendEmail(uid);
+                } else {
+                    sendEmail(email);
+                }
             }
         });
 
 
     }
 
-    private void process_display_UserInfo(String uid) {
+    private void process_display_UserInfo(String uid, final String post_id) {
         //TODO: get user avatar and display
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -188,7 +193,7 @@ public class ViewSwap extends AppCompatActivity {
                     if (document.exists()) {
                         HashMap<String, Object> user_data;
                         user_data = (HashMap<String, Object>) document.getData();
-                        display_user_info(user_data);
+                        display_user_info(user_data, post_id);
                     } else {
                         //TODO: CANNOT FIND SUCH DOCUMENT: POST DOES NOT EXIST ANY MORE
                         username.setText("");
@@ -240,9 +245,11 @@ public class ViewSwap extends AppCompatActivity {
 
     }
 
-    private void display_user_info(final HashMap<String, Object> user_data) {
+    private void display_user_info(final HashMap<String, Object> user_data, String post_id) {
         //TODO: PASS IN IMG LINK
         String user_name = (String) user_data.get("user_name");
+        final String user_id = (String)user_data.get("email");
+        String cur_user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         username.setText(user_name);
         if (user_data.get("avatar")==null || user_data.get("avatar").equals("")) {
             avatar_btn.setImageResource(R.drawable.avatar);
@@ -250,10 +257,13 @@ public class ViewSwap extends AppCompatActivity {
             String url = (String) user_data.get("avatar");
             Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).into(avatar_btn);
         }
+        displayOwnerView(cur_user, user_id, post_id);
         avatar_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String uid_msg = (String)user_data.get("email");
+                String uid_msg = user_id;
+                //Toast.makeText(ViewSwap.this, "user_id: "+user_id + "\ncur_user: "+cur_user, Toast.LENGTH_SHORT).show();
+
                 goProfileIntent(uid_msg);
             }
         });
@@ -280,6 +290,8 @@ public class ViewSwap extends AppCompatActivity {
                     "Owner does not provide a phone contact.", Toast.LENGTH_SHORT).show();
             return;
         }
+        Toast.makeText(ViewSwap.this,
+                "Re-direct to phone call", Toast.LENGTH_SHORT).show();
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:01-" + phoneNum));
         startActivity(callIntent);
@@ -294,7 +306,8 @@ public class ViewSwap extends AppCompatActivity {
                     "Owner does not provide an email.", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        Toast.makeText(ViewSwap.this,
+                "Re-direct to email", Toast.LENGTH_SHORT).show();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SWAP");
@@ -305,5 +318,49 @@ public class ViewSwap extends AppCompatActivity {
 
         startActivity(Intent.createChooser(emailIntent, "Send your email in:"));
         finish();
+    }
+
+    private void displayOwnerView(String cur_user, String post_owner, String post_id) {
+        if (!isOwner(cur_user, post_owner)) return;
+        edit_btn.setVisibility(View.VISIBLE);
+        resolve_btn.setVisibility(View.VISIBLE);
+        delete_btn.setVisibility(View.VISIBLE);
+
+    }
+
+    private void mark_resolved(String post_id) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        
+    }
+
+    private void delete_post(final String post_id, final String uid) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts").document(post_id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ViewSwap.this,
+                                "Post Deleted!", Toast.LENGTH_SHORT).show();
+                        delete_post_in_user_profile(post_id, uid);
+                        goProfileIntent(uid);
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewSwap.this,
+                                "Error deleting post " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void delete_post_in_user_profile(String post_id, String uid) {
+    }
+
+    private boolean isOwner(String cur_user, String post_owner) {
+        return cur_user.equals(post_owner);
     }
 }
