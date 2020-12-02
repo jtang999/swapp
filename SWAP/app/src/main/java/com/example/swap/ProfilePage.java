@@ -6,6 +6,7 @@ import android.graphics.drawable.DrawableWrapper;
 import android.os.Bundle;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -54,15 +55,15 @@ public class ProfilePage extends AppCompatActivity {
         String user_id  = intent.getStringExtra("UID");
         if (user_id != null && !user_id.equals("")){
             retrieveUserInfo(user_id);
-            retrieveUserPosts(user_id);
-            intiailizeToggles(user_id);
+            retrieveUserPosts(user_id, 0);
+            intializeToggles(user_id);
         }else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 retrieveUserInfo(currentUser.getEmail());
-                retrieveUserPosts(currentUser.getEmail());
-                intiailizeToggles(currentUser.getEmail());
+                retrieveUserPosts(currentUser.getEmail(), 0);
+                intializeToggles(currentUser.getEmail());
             }
         }
 
@@ -138,7 +139,7 @@ public class ProfilePage extends AppCompatActivity {
      * Initializes the toggles on the profile page for switching between current posts and user history
      *
      */
-    private void intiailizeToggles(final String uid){
+    private void intializeToggles(final String uid){
         Button currentPosts = findViewById(R.id.activePosts);
         Button history = findViewById(R.id.history);
 
@@ -146,7 +147,7 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setToggle(0);
-                retrieveUserPosts(uid);
+                retrieveUserPosts(uid, 0);
             }
         });
 
@@ -154,7 +155,7 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setToggle(1);
-                retrieveUserPosts(uid);
+                retrieveUserPosts(uid, 1);
             }
         });
 
@@ -207,7 +208,7 @@ public class ProfilePage extends AppCompatActivity {
      *
      * @return      JSONObject with user's posts
      */
-    private JSONObject retrieveUserPosts(final String uid){
+    private JSONObject retrieveUserPosts(final String uid, final int toggle){
         //remove old posts and add set the page to show loading bar
         final ProgressBar pBar = findViewById(R.id.progressBar);
         final LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
@@ -224,16 +225,23 @@ public class ProfilePage extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                JSONObject currentPost = new JSONObject(document.getData());
-                                //only add it if we are able to get a post _ID
-                                try {
-                                    currentPost.put("post_ID", document.getId());
-                                    if (!document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
-                                        addPost(currentPost);
+                                    JSONObject currentPost = new JSONObject(document.getData());
+                                    //only add it if we are able to get a post _ID
+                                    try {
+                                        currentPost.put("post_ID", document.getId());
+                                        String status = currentPost.getString("status");
+                                        String check;
+                                        if (toggle == 0){
+                                            check = "false";
+                                        }else{
+                                            check = "true";
+                                        }
+                                        if (status.equals(check) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
+                                            addPost(currentPost);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
                             }
                         } else {
                             System.out.println("Error getting documents" + task.getException());
