@@ -114,19 +114,10 @@ public class CreateSwap extends AppCompatActivity {
     }
 
     private void goNearybySwapsIntent() {
-        Intent profile_intent = new Intent(this, NearbySwaps.class);
-        startActivity(profile_intent);
+        Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
         finish();
-
-        Button cancelButton = findViewById(R.id.mark_resolved);
-        cancelButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-            }
-        });
     }
 
     private void initializeToggles(){
