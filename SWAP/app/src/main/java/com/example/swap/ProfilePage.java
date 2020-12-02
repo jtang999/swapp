@@ -44,7 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfilePage extends AppCompatActivity {
-
+    private static int numPastPosts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,16 +164,26 @@ public class ProfilePage extends AppCompatActivity {
     private void setToggle(int toggle){
         Button currentPosts = findViewById(R.id.activePosts);
         Button history = findViewById(R.id.history);
+        TextView stat = findViewById(R.id.userStat);
         if (toggle == 0){
             currentPosts.setBackground(getResources().getDrawable(R.drawable.toggledmode));
             currentPosts.setTextColor(getResources().getColor(R.color.white));
             history.setBackground(getResources().getDrawable(R.drawable.modetoggle));
             history.setTextColor(getResources().getColor(R.color.colorBodyLight));
+            stat.setVisibility(View.GONE);
         }else{
             currentPosts.setBackground(getResources().getDrawable(R.drawable.modetoggle));
             currentPosts.setTextColor(getResources().getColor(R.color.colorBodyLight));
             history.setBackground(getResources().getDrawable(R.drawable.toggledmode));
             history.setTextColor(getResources().getColor(R.color.white));
+            stat.setVisibility(View.VISIBLE);
+            if (this.numPastPosts < 10){
+                stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
+            }else if(this.numPastPosts < 30){
+                stat.setText("This user is a Swap regular. They have completed " + ProfilePage.numPastPosts + " swaps!");
+            }else{
+                stat.setText("This user is super Swap user. They have completed " + ProfilePage.numPastPosts + " swaps!");
+            }
         }
     }
 
@@ -231,6 +241,7 @@ public class ProfilePage extends AppCompatActivity {
                                         currentPost.put("post_ID", document.getId());
                                         String status = currentPost.getString("status");
                                         String check;
+                                        int i = 0;
                                         if (toggle == 0){
                                             check = "false";
                                         }else{
@@ -238,6 +249,10 @@ public class ProfilePage extends AppCompatActivity {
                                         }
                                         if (status.equals(check) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
                                             addPost(currentPost);
+                                            i++;
+                                        }
+                                        if(toggle == 0){
+                                            ProfilePage.numPastPosts = i;
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
