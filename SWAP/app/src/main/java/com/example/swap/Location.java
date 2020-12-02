@@ -106,4 +106,42 @@ public class Location {
         // Add the request to the RequestQueue.
         queue.add(jsonRequest);
     }
+
+    //Alt method made originally for CreateSwap, but then moved to createswap to avoid concurrency issues.
+//public void latLonToAddress(final Context context, double LAT, double LON){
+//    // Instantiate the RequestQueue.
+//    RequestQueue queue = Volley.newRequestQueue(context);
+//    String url = String.format(Location.geoCode, LAT, LON, Location.API_KEY);
+//    System.out.println(url);
+//    // Request a string response from the provided URL.
+//    JsonObjectRequest jsonRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
+//            new com.android.volley.Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    // Display the first 500 characters of the response string.
+//                    //textView.setText("Response is: "+ response.substring(0,500));
+//                    try {
+//                        System.out.println(response);
+//                        JSONArray results = (JSONArray) response.get("results");
+//                        //WE SHOULD PROBABLY USE THE ZIP CODE OR SOMETHING LESS SPECIFIC HERE
+//                        //WE DON'T WANT TO SHARE USER'S ACTUAL CURRENT LOCATION WITH OTHERS
+//                        JSONObject formatted_address = (JSONObject) results.get(0);
+//                        address = formatted_address.getString("formatted_address");
+//                        System.out.println(address);
+//                        //HOW SHOULD WE ASSIGN THE ADDRESS FOR THE POST
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }, new com.android.volley.Response.ErrorListener() {
+//        @Override
+//        public void onErrorResponse(VolleyError error) {
+//            //WHAT SHOULD WE DO IF IT FAILS??
+//        }
+//    });
+//
+//    // Add the request to the RequestQueue.
+//    queue.add(jsonRequest);
+//}
 }
