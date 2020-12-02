@@ -46,85 +46,79 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/searchbar"
         android:gravity="center"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
 
-    <TextView
-        android:id="@+id/toggleOutline"
-        android:layout_width="380dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/searchbar"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
-    <Button
+    <ImageButton
         android:id="@+id/freeServicesToggle"
-        android:layout_width="148dp"
-        android:layout_height="30dp"
-        android:background="@drawable/modetoggle"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/give_icon_dark"
         android:text="@string/free_services_toggle"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
-        app:layout_constraintStart_toStartOf="@+id/toggleOutline"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/swapToggle"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <Button
+    <ImageButton
         android:id="@+id/swapToggle"
-        android:layout_width="84dp"
-        android:layout_height="30dp"
-        android:background="@drawable/modetoggle"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/swap_icon_light"
         android:text="@string/swap_toggle"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
-        app:layout_constraintStart_toEndOf="@+id/freeServicesToggle"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <Button
+    <ImageButton
         android:id="@+id/needsFreeToggle"
-        android:layout_width="148dp"
-        android:layout_height="30dp"
-        android:background="@drawable/modetoggle"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
+
         android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/recieve_icon_dark"
         android:text="@string/needs_free_service_toggle"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#535353"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toggleOutline"
-        app:layout_constraintEnd_toEndOf="@+id/toggleOutline"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/swapToggle"
-        app:layout_constraintTop_toTopOf="@+id/toggleOutline" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <ScrollView
         android:id="@+id/Posts"
         android:layout_width="367dp"
         android:layout_height="505dp"
-        android:layout_marginTop="11dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toggleOutline"
-        app:layout_constraintVertical_bias="0.151">
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle">
 
         <LinearLayout
             android:id="@+id/PostLinearLayout"
@@ -148,8 +142,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toggleOutline" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/userName"
