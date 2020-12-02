@@ -49,6 +49,9 @@ public class CreateSwap extends AppCompatActivity {
                 goNearybySwapsIntent();
             }
         });
+        Intent intent = getIntent();
+        final String user_id  = intent.getStringExtra("UID");
+
 
         Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
@@ -77,6 +80,8 @@ public class CreateSwap extends AppCompatActivity {
                 post.put("location", location.getText().toString());
                 post.put("expiration", expiration.getText().toString());
                 post.put("contact", contact.getText().toString());
+                post.put("user_id", user_id);
+                post.put("status", "open");
 
                 // Add a new document with a generated ID
                 db.collection("posts")
@@ -85,6 +90,10 @@ public class CreateSwap extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                Intent i = new Intent(CreateSwap.this, ViewSwap.class);
+                                i.putExtra("POST_ID", documentReference.getId());
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -100,6 +109,7 @@ public class CreateSwap extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
 
     }
 
@@ -107,6 +117,17 @@ public class CreateSwap extends AppCompatActivity {
         Intent profile_intent = new Intent(this, NearbySwaps.class);
         startActivity(profile_intent);
         finish();
+=======
+        Button cancelButton = findViewById(R.id.mark_resolved);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+>>>>>>> f6593cff235cea8ddc72adf39bef282a6517b3f2
     }
 
     private void initializeToggles(){

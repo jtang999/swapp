@@ -272,7 +272,7 @@ public class ViewSwap extends AppCompatActivity {
 
     private void goProfileIntent(String uid_msg) {
         Intent profile_intent = new Intent(this, ProfilePage.class);
-        profile_intent.putExtra(XTR_MESSAGE, uid_msg);
+        profile_intent.putExtra("UID", uid_msg);
         startActivity(profile_intent);
         finish();
 
