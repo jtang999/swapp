@@ -219,7 +219,9 @@ public class NearbySwaps extends AppCompatActivity {
                                 //only add it if we are able to get a post _ID
                                 try {
                                     currentPost.put("post_ID", document.getId());
-                                    if (!document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost)) {
+                                    String status = currentPost.getString("status");
+                                    //System.out.println("AHHHHHHHH" + status);
+                                    if (status.equals("false") && !document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost)) {
                                         posts.add(currentPost);
                                         i++;
                                     }
