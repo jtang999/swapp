@@ -58,18 +58,36 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/activePosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/toggledmode"
+        android:paddingHorizontal="10dp"
+        android:padding="10dp"
+        android:text="@string/user_posts"
+        android:textAllCaps="False"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <Button
+        android:id="@+id/history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:background="@drawable/post"
+        android:layout_marginEnd="50dp"
+        android:padding="10dp"
+        android:background="@drawable/modetoggle"
         android:paddingHorizontal="10dp"
-        android:text="@string/user_posts"
-        android:textColor="#000000"
+        android:text="@string/history"
+        android:textAllCaps="False"
+        android:textColor="@color/colorBodyLight"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <ScrollView
@@ -84,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/activePosts">
 
         <LinearLayout
             android:id="@+id/PostLinearLayout"
@@ -136,6 +154,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/activePosts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

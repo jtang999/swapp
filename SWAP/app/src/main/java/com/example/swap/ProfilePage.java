@@ -1,6 +1,8 @@
 package com.example.swap;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.DrawableWrapper;
 import android.os.Bundle;
 
 import java.util.HashMap;
@@ -53,12 +55,14 @@ public class ProfilePage extends AppCompatActivity {
         if (user_id != null && !user_id.equals("")){
             retrieveUserInfo(user_id);
             retrieveUserPosts(user_id);
+            intiailizeToggles(user_id);
         }else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 retrieveUserInfo(currentUser.getEmail());
                 retrieveUserPosts(currentUser.getEmail());
+                intiailizeToggles(currentUser.getEmail());
             }
         }
 
@@ -128,6 +132,48 @@ public class ProfilePage extends AppCompatActivity {
         //make posts visible once loaded
         posts.setVisibility(View.VISIBLE);
         pBar.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Initializes the toggles on the profile page for switching between current posts and user history
+     *
+     */
+    private void intiailizeToggles(final String uid){
+        Button currentPosts = findViewById(R.id.activePosts);
+        Button history = findViewById(R.id.history);
+
+        currentPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setToggle(0);
+                retrieveUserPosts(uid);
+            }
+        });
+
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setToggle(1);
+                retrieveUserPosts(uid);
+            }
+        });
+
+    }
+
+    private void setToggle(int toggle){
+        Button currentPosts = findViewById(R.id.activePosts);
+        Button history = findViewById(R.id.history);
+        if (toggle == 0){
+            currentPosts.setBackground(getResources().getDrawable(R.drawable.toggledmode));
+            currentPosts.setTextColor(getResources().getColor(R.color.white));
+            history.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+            history.setTextColor(getResources().getColor(R.color.colorBodyLight));
+        }else{
+            currentPosts.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+            currentPosts.setTextColor(getResources().getColor(R.color.colorBodyLight));
+            history.setBackground(getResources().getDrawable(R.drawable.toggledmode));
+            history.setTextColor(getResources().getColor(R.color.white));
+        }
     }
 
     /**
