@@ -90,10 +90,7 @@ public class CreateSwap extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                Intent i = new Intent(CreateSwap.this, ViewSwap.class);
-                                i.putExtra("POST_ID", documentReference.getId());
-                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(i);
+                                goViewSwap(documentReference.getId());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -114,19 +111,17 @@ public class CreateSwap extends AppCompatActivity {
     }
 
     private void goNearybySwapsIntent() {
-        Intent profile_intent = new Intent(this, NearbySwaps.class);
-        startActivity(profile_intent);
+        Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
         finish();
+    }
 
-        Button cancelButton = findViewById(R.id.mark_resolved);
-        cancelButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-            }
-        });
+    private void goViewSwap(String post_id) {
+        Intent i = new Intent(CreateSwap.this, ViewSwap.class);
+        i.putExtra("POST_ID", post_id);
+        startActivity(i);
+        finish();
     }
 
     private void initializeToggles(){
