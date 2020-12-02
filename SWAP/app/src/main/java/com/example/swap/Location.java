@@ -1,7 +1,9 @@
 package com.example.swap;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,22 +20,60 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 public class Location {
-    public String LAT;
-    public String LON;
+    public static double LAT;
+    public static double LON;
     public String address;
     public static final String geoCode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=%s";
-    private static final String API_KEY = "";
+    //This is Josh's API Key. I already pushed it to my project02 repo lol,
+    // so it's fine to just use it here since it'll be public after this semester anyways
+    private static final String API_KEY = "AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w";
 
     public Location(String LAT, String LON, Context context){
 
     }
 
-    private void latLonToAddress(Context context){
+    public static double euclidianDistance(double LAT1, double LON1, double LAT2, double LON2){
+        return Math.sqrt(Math.pow( (LAT1 - LAT2), 2) + Math.pow( (LON1 - LON2), 2));
+    }
+
+    @SuppressLint("MissingPermission")
+    public void getCurrentLocation(final Activity activity, final LocationCallback locationCallback){
+
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationServices.getFusedLocationProviderClient(activity).requestLocationUpdates(locationRequest, new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult){
+                super.onLocationResult(locationResult);
+                //need a locationCallback (this)
+                //need an activity MainActivity
+                LocationServices.getFusedLocationProviderClient(activity).removeLocationUpdates(locationCallback);
+                if(locationResult != null && locationResult.getLocations().size() > 0){
+                    int latestLocationIndex = locationResult.getLocations().size() - 1;
+                    //JUST GOING TO STORE THE UPDATED LATITUDE AND LONGITUDE AS LOCATION ATTRIBUTE OF LOCATION CLASS
+                    Location.LAT = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                    Location.LON = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+
+                }
+
+//                latLonToAddress();
+            }
+        }, Looper.getMainLooper());
+    }
+
+    private void latLonToAddress(Context context, double LAT, double LON, final TextView textView){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = String.format(Location.geoCode, this.LAT, this.LON, Location.API_KEY);
+        String url = String.format(Location.geoCode, LAT, LON, Location.API_KEY);
         System.out.println(url);
         // Request a string response from the provided URL.
         JsonObjectRequest jsonRequest = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null,
@@ -48,6 +88,7 @@ public class Location {
                             //WE SHOULD PROBABLY USE THE ZIP CODE OR SOMETHING LESS SPECIFIC HERE
                             //WE DON'T WANT TO SHARE USER'S ACTUAL CURRENT LOCATION WITH OTHERS
                             JSONObject formatted_address = (JSONObject) results.get(0);
+                            textView.setText(formatted_address.getString("formatted_address"));
 
                             //HOW SHOULD WE ASSIGN THE ADDRESS FOR THE POST
                         } catch (JSONException e) {

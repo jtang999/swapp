@@ -1,12 +1,18 @@
 package com.example.swap;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +24,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -31,15 +42,27 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class NearbySwaps extends AppCompatActivity {
     private static int toggle = 0;
+    public static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    public static double LAT = 37.871;
+    public static double LON = 122.273;
     public static final String[] wanted = new String[]{"Auto repair - help me change the oil in my car",
             "Transportation to drive me to work in the mornings","--", "Help me fix my leaking sink"};
     public static final String[] needed = new String[]{"Any skill on my profile", "Leftover food from my restaurant job",
@@ -60,7 +83,14 @@ public class NearbySwaps extends AppCompatActivity {
         if (currentUser != null) {
             retrieveUserInfo(currentUser.getEmail());
         }
+
+        //get location and wifi permissions when page loads if necessary
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(NearbySwaps.this, new String[]{ACCESS_FINE_LOCATION, INTERNET, ACCESS_NETWORK_STATE}, REQUEST_CODE_LOCATION_PERMISSION);
+        }
         retrievePosts(1);
+        getCurrentLocation(); //this calls retrieve Posts again when it finishes, but it takes a second
+
 
 
         Button postButton = findViewById(R.id.createPost);
@@ -85,6 +115,37 @@ public class NearbySwaps extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    /**
+     * Gets the phone's current location. Sets the class attributes accordingly
+     *
+     */
+    @SuppressLint("MissingPermission")
+    public void getCurrentLocation(){
+
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationServices.getFusedLocationProviderClient(NearbySwaps.this).requestLocationUpdates(locationRequest, new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult){
+                super.onLocationResult(locationResult);
+                //need a locationCallback (this)
+                //need an activity MainActivity
+                LocationServices.getFusedLocationProviderClient(NearbySwaps.this).removeLocationUpdates(this);
+                if(locationResult != null && locationResult.getLocations().size() > 0){
+                    int latestLocationIndex = locationResult.getLocations().size() - 1;
+                    //JUST GOING TO STORE THE UPDATED LATITUDE AND LONGITUDE AS ATTRIBUTE OF NEARBYSWAPS CLASS
+                    NearbySwaps.LAT = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                    NearbySwaps.LON = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                }
+                //this is only called on page initiation so it's fine to hardcode toggle as 1
+                retrievePosts(1);
+            }
+        }, Looper.getMainLooper());
     }
 
     /**
@@ -150,17 +211,58 @@ public class NearbySwaps extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            LinkedList<JSONObject> posts = new LinkedList<JSONObject>(); //new JSONObject[task.getResult().size()];
+                            int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 JSONObject currentPost = new JSONObject(document.getData());
+
                                 //only add it if we are able to get a post _ID
                                 try {
                                     currentPost.put("post_ID", document.getId());
                                     if (!document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost)) {
-                                        addPost(currentPost);
+                                        posts.add(currentPost);
+                                        i++;
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                            }
+                            //sort the posts by their lon and lat distance
+                            //and creating the comparator here
+                            Collections.sort(posts, new Comparator<JSONObject>() {
+                                public int compare(JSONObject o1, JSONObject o2) {
+                                    // compare two instance of `Score` and return `int` as result.
+                                    //return o2.getScores().get(0).compareTo(o1.getScores().get(0));
+                                    double[] o1_pos = new double[]{0.0,0.0};
+                                    double[] o2_pos = new double[]{0.0,0.0};
+
+                                    try {
+                                        o1_pos[0] = o1.getDouble("LAT");
+                                        o1_pos[1] = o1.getDouble("LON");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    try {
+                                        o2_pos[0] = o2.getDouble("LAT");
+                                        o2_pos[1] = o2.getDouble("LON");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    double distOne = Location.euclidianDistance(NearbySwaps.LAT, NearbySwaps.LON, o1_pos[0], o1_pos[1]);
+                                    double distTwo = Location.euclidianDistance(NearbySwaps.LAT, NearbySwaps.LON, o2_pos[0], o2_pos[1]);
+
+                                    if (distOne >= distTwo) {
+                                        return 1;
+                                    }else{
+                                        return -1;
+                                    }
+                                }
+                            });
+                            for (JSONObject post : posts){
+                                addPost(post);
                             }
                         } else {
                             System.out.println("Error getting documents" + task.getException());
