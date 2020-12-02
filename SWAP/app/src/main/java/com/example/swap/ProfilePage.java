@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 public class ProfilePage extends AppCompatActivity {
     private static int numPastPosts;
+    private static String user_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +62,9 @@ public class ProfilePage extends AppCompatActivity {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                retrieveUserInfo(currentUser.getEmail());
-                retrieveUserPosts(currentUser.getEmail(), 0);
+                user_id = currentUser.getEmail();
+                retrieveUserInfo(user_id);
+                retrieveUserPosts(user_id, 0);
                 intializeToggles(currentUser.getEmail());
             }
         }
@@ -177,13 +179,13 @@ public class ProfilePage extends AppCompatActivity {
             history.setBackground(getResources().getDrawable(R.drawable.toggledmode));
             history.setTextColor(getResources().getColor(R.color.white));
             stat.setVisibility(View.VISIBLE);
-            if (this.numPastPosts < 10){
-                stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
-            }else if(this.numPastPosts < 30){
-                stat.setText("This user is a Swap regular. They have completed " + ProfilePage.numPastPosts + " swaps!");
-            }else{
-                stat.setText("This user is super Swap user. They have completed " + ProfilePage.numPastPosts + " swaps!");
-            }
+//            if (this.numPastPosts < 10){
+//                stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }else if(this.numPastPosts < 30){
+//                stat.setText("This user is a Swap regular. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }else{
+//                stat.setText("This user is super Swap user. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }
         }
     }
 
@@ -241,23 +243,40 @@ public class ProfilePage extends AppCompatActivity {
                                         currentPost.put("post_ID", document.getId());
                                         String status = currentPost.getString("status");
                                         String check;
-                                        int i = 0;
+                                        String checkBackup;
                                         if (toggle == 0){
                                             check = "false";
+                                            checkBackup = "open";
                                         }else{
                                             check = "true";
+                                            checkBackup = "closed";
                                         }
-                                        if (status.equals(check) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
+
+                                        if ((status.equals(check) || status.equals(checkBackup)) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
                                             addPost(currentPost);
-                                            i++;
                                         }
-                                        if(toggle == 0){
-                                            ProfilePage.numPastPosts = i;
-                                        }
+
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                             }
+
+                            TextView stat = findViewById(R.id.userStat);
+                            LinearLayout postLinearLayout = findViewById(R.id.PostLinearLayout);
+                            if (toggle == 1){
+                                stat.setVisibility(View.VISIBLE);
+                                int i = postLinearLayout.getChildCount();
+                                if ( i < 5){
+                                    stat.setText("This user is new to Swap. They have completed " + i + " swaps!");
+                                }else if(i < 10){
+                                    stat.setText("This user is a Swap regular. They have completed " + i + " swaps!");
+                                }else{
+                                    stat.setText("This user is super Swap user. They have completed " + i + " swaps!");
+                                }
+                            }
+
+                            //getChildCount();
                         } else {
                             System.out.println("Error getting documents" + task.getException());
                         }
