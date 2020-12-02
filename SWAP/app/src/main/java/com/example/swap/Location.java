@@ -88,7 +88,7 @@ public class Location {
                             //WE SHOULD PROBABLY USE THE ZIP CODE OR SOMETHING LESS SPECIFIC HERE
                             //WE DON'T WANT TO SHARE USER'S ACTUAL CURRENT LOCATION WITH OTHERS
                             JSONObject formatted_address = (JSONObject) results.get(0);
-                            textView.setText(formatted_address.getString("formatted_address").split(" ")[2]);
+                            textView.setText(formatted_address.getString("formatted_address"));
 
                             //HOW SHOULD WE ASSIGN THE ADDRESS FOR THE POST
                         } catch (JSONException e) {
