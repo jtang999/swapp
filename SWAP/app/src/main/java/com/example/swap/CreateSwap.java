@@ -3,6 +3,7 @@ package com.example.swap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,9 @@ public class CreateSwap extends AppCompatActivity {
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
 
+        Intent intent = getIntent();
+        final String user_id  = intent.getStringExtra("UID");
+
         Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -68,6 +72,8 @@ public class CreateSwap extends AppCompatActivity {
                 post.put("location", location.getText().toString());
                 post.put("expiration", expiration.getText().toString());
                 post.put("contact", contact.getText().toString());
+                post.put("user_id", user_id);
+                post.put("status", "open");
 
                 // Add a new document with a generated ID
                 db.collection("posts")
@@ -76,6 +82,10 @@ public class CreateSwap extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                Intent i = new Intent(CreateSwap.this, ViewSwap.class);
+                                i.putExtra("POST_ID", documentReference.getId());
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(i);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -88,6 +98,16 @@ public class CreateSwap extends AppCompatActivity {
 //                Intent i = new Intent(CreateSwap.this, ViewSwap.class);
 //                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(i);
+            }
+        });
+
+        Button cancelButton = findViewById(R.id.mark_resolved);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent i = new Intent(CreateSwap.this, NearbySwaps.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
             }
         });
     }

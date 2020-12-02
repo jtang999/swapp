@@ -68,6 +68,7 @@ public class NearbySwaps extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent i = new Intent(NearbySwaps.this, CreateSwap.class);
+                i.putExtra( "UID", currentUser.getEmail());
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
