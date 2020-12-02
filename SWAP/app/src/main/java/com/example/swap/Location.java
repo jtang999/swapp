@@ -70,7 +70,7 @@ public class Location {
         }, Looper.getMainLooper());
     }
 
-    private void latLonToAddress(Context context, double LAT, double LON){
+    private void latLonToAddress(Context context, double LAT, double LON, final TextView textView){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = String.format(Location.geoCode, LAT, LON, Location.API_KEY);
@@ -88,6 +88,7 @@ public class Location {
                             //WE SHOULD PROBABLY USE THE ZIP CODE OR SOMETHING LESS SPECIFIC HERE
                             //WE DON'T WANT TO SHARE USER'S ACTUAL CURRENT LOCATION WITH OTHERS
                             JSONObject formatted_address = (JSONObject) results.get(0);
+                            textView.setText(formatted_address.getString("formatted_address").split(" ")[2]);
 
                             //HOW SHOULD WE ASSIGN THE ADDRESS FOR THE POST
                         } catch (JSONException e) {
