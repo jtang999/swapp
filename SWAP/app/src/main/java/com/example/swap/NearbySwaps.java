@@ -77,6 +77,7 @@ public class NearbySwaps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_swaps);
+        findViewById(R.id.postProgressBar).setVisibility(View.VISIBLE);
         initializeToggles();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
