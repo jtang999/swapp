@@ -77,6 +77,7 @@ public class NearbySwaps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_swaps);
+        findViewById(R.id.postProgressBar).setVisibility(View.VISIBLE);
         initializeToggles();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -242,10 +243,10 @@ public class NearbySwaps extends AppCompatActivity {
                                 //only add it if we are able to get a post _ID
                                 try {
                                     currentPost.put("post_ID", document.getId());
-                                    if (!document.getId().equals("")
-                                            && isPostType(NearbySwaps.toggle, currentPost)
-                                            && includePost(currentPost))
-                                    {
+                                    String status = currentPost.getString("status");
+                                    //System.out.println("AHHHHHHHH" + status);
+                                    if ( (status.equals("false") || status.equals("open")) && !document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost) && includePost(currentPost)) {
+
                                         posts.add(currentPost);
                                         i++;
                                     }
@@ -390,7 +391,7 @@ public class NearbySwaps extends AppCompatActivity {
      * @return      nothing
      */
     private void initializeToggles(){
-        Button freeServices = findViewById(R.id.freeServicesToggle); //Option 0
+        ImageButton freeServices = findViewById(R.id.freeServicesToggle); //Option 0
         freeServices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -398,7 +399,7 @@ public class NearbySwaps extends AppCompatActivity {
                 retrievePosts(0);
             }
         });
-        Button swap = findViewById(R.id.swapToggle); //Option 1
+        ImageButton swap = findViewById(R.id.swapToggle); //Option 1
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -406,7 +407,7 @@ public class NearbySwaps extends AppCompatActivity {
                 retrievePosts(1);
             }
         });
-        Button needsFree = findViewById(R.id.needsFreeToggle); //Option 2
+        ImageButton needsFree = findViewById(R.id.needsFreeToggle); //Option 2
         needsFree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -423,21 +424,21 @@ public class NearbySwaps extends AppCompatActivity {
      */
     private void setToggle(int newToggle){
         NearbySwaps.toggle = newToggle;
-        Button freeServices = findViewById(R.id.freeServicesToggle); //Option 0
-        Button swap = findViewById(R.id.swapToggle); //Option 1
-        Button needsFree = findViewById(R.id.needsFreeToggle); //Option 2
+        ImageButton freeServices = findViewById(R.id.freeServicesToggle); //Option 0
+        ImageButton swap = findViewById(R.id.swapToggle); //Option 1
+        ImageButton needsFree = findViewById(R.id.needsFreeToggle); //Option 2
         if(NearbySwaps.toggle == 0){
-            setToggleSelected(freeServices);
-            setToggleDeselected(swap);
-            setToggleDeselected(needsFree);
+            setToggleSelected(freeServices, 0);
+            setToggleDeselected(swap, 1);
+            setToggleDeselected(needsFree, 2);
         }else if (NearbySwaps.toggle == 1){
-            setToggleDeselected(freeServices);
-            setToggleSelected(swap);
-            setToggleDeselected(needsFree);
+            setToggleDeselected(freeServices, 0);
+            setToggleSelected(swap, 1);
+            setToggleDeselected(needsFree, 2);
         }else{
-            setToggleDeselected(freeServices);
-            setToggleDeselected(swap);
-            setToggleSelected(needsFree);
+            setToggleDeselected(freeServices, 0);
+            setToggleDeselected(swap, 1);
+            setToggleSelected(needsFree, 2);
         }
     }
 
@@ -446,9 +447,15 @@ public class NearbySwaps extends AppCompatActivity {
      *
      * @return      nothing
      */
-    private void setToggleSelected(Button button){
-        button.setBackground(getResources().getDrawable(R.drawable.toggledmode));
-        button.setTextColor( Color.parseColor("#F4F7F9") );
+    private void setToggleSelected(ImageButton button, int toggle){
+        if (toggle == 0) {
+            button.setImageResource(R.mipmap.recieve_icon_light);
+        }else if(toggle == 1){
+            button.setImageResource(R.mipmap.swap_icon_light);
+        }else{
+            button.setImageResource(R.mipmap.give_icon_light);
+        }
+//        button.setTextColor( Color.parseColor("#F4F7F9") );
     }
 
     /**
@@ -456,9 +463,16 @@ public class NearbySwaps extends AppCompatActivity {
      *
      * @return      nothing
      */
-    private void setToggleDeselected(Button button){
-        button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
-        button.setTextColor( Color.parseColor("#535353") );
+    private void setToggleDeselected(ImageButton button, int toggle){
+        if (toggle == 0) {
+            button.setImageResource(R.mipmap.recieve_icon_dark);
+        }else if(toggle == 1){
+            button.setImageResource(R.mipmap.swap_icon_dark);
+        }else{
+            button.setImageResource(R.mipmap.give_icon_dark);
+        }
+//        button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+//        button.setTextColor( Color.parseColor("#535353") );
     }
 
     /**
