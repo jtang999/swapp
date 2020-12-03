@@ -1,9 +1,12 @@
 package com.example.swap;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.DrawableWrapper;
 import android.os.Bundle;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +44,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfilePage extends AppCompatActivity {
-
+    private static int numPastPosts;
+    private static String user_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +56,16 @@ public class ProfilePage extends AppCompatActivity {
         String user_id  = intent.getStringExtra("UID");
         if (user_id != null && !user_id.equals("")){
             retrieveUserInfo(user_id);
-            retrieveUserPosts(user_id);
+            retrieveUserPosts(user_id, 0);
+            intializeToggles(user_id);
         }else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
-                retrieveUserInfo(currentUser.getEmail());
-                retrieveUserPosts(currentUser.getEmail());
+                user_id = currentUser.getEmail();
+                retrieveUserInfo(user_id);
+                retrieveUserPosts(user_id, 0);
+                intializeToggles(currentUser.getEmail());
             }
         }
 
@@ -131,6 +138,58 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     /**
+     * Initializes the toggles on the profile page for switching between current posts and user history
+     *
+     */
+    private void intializeToggles(final String uid){
+        Button currentPosts = findViewById(R.id.activePosts);
+        Button history = findViewById(R.id.history);
+
+        currentPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setToggle(0);
+                retrieveUserPosts(uid, 0);
+            }
+        });
+
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setToggle(1);
+                retrieveUserPosts(uid, 1);
+            }
+        });
+
+    }
+
+    private void setToggle(int toggle){
+        Button currentPosts = findViewById(R.id.activePosts);
+        Button history = findViewById(R.id.history);
+        TextView stat = findViewById(R.id.userStat);
+        if (toggle == 0){
+            currentPosts.setBackground(getResources().getDrawable(R.drawable.toggledmode));
+            currentPosts.setTextColor(getResources().getColor(R.color.white));
+            history.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+            history.setTextColor(getResources().getColor(R.color.colorBodyLight));
+            stat.setVisibility(View.GONE);
+        }else{
+            currentPosts.setBackground(getResources().getDrawable(R.drawable.modetoggle));
+            currentPosts.setTextColor(getResources().getColor(R.color.colorBodyLight));
+            history.setBackground(getResources().getDrawable(R.drawable.toggledmode));
+            history.setTextColor(getResources().getColor(R.color.white));
+            stat.setVisibility(View.VISIBLE);
+//            if (this.numPastPosts < 10){
+//                stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }else if(this.numPastPosts < 30){
+//                stat.setText("This user is a Swap regular. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }else{
+//                stat.setText("This user is super Swap user. They have completed " + ProfilePage.numPastPosts + " swaps!");
+//            }
+        }
+    }
+
+    /**
      * Takes in post information in JSON format. Creates a PostView and adds it to the activity
      *
      * @param  jsonObject a JSONObject with the post information
@@ -161,7 +220,7 @@ public class ProfilePage extends AppCompatActivity {
      *
      * @return      JSONObject with user's posts
      */
-    private JSONObject retrieveUserPosts(final String uid){
+    private JSONObject retrieveUserPosts(final String uid, final int toggle){
         //remove old posts and add set the page to show loading bar
         final ProgressBar pBar = findViewById(R.id.progressBar);
         final LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
@@ -178,17 +237,46 @@ public class ProfilePage extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                JSONObject currentPost = new JSONObject(document.getData());
-                                //only add it if we are able to get a post _ID
-                                try {
-                                    currentPost.put("post_ID", document.getId());
-                                    if (!document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
-                                        addPost(currentPost);
+                                    JSONObject currentPost = new JSONObject(document.getData());
+                                    //only add it if we are able to get a post _ID
+                                    try {
+                                        currentPost.put("post_ID", document.getId());
+                                        String status = currentPost.getString("status");
+                                        String check;
+                                        String checkBackup;
+                                        if (toggle == 0){
+                                            check = "false";
+                                            checkBackup = "open";
+                                        }else{
+                                            check = "true";
+                                            checkBackup = "closed";
+                                        }
+
+                                        if ((status.equals(check) || status.equals(checkBackup)) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
+                                            addPost(currentPost);
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                            }
+
+                            TextView stat = findViewById(R.id.userStat);
+                            LinearLayout postLinearLayout = findViewById(R.id.PostLinearLayout);
+                            if (toggle == 1){
+                                stat.setVisibility(View.VISIBLE);
+                                int i = postLinearLayout.getChildCount();
+                                if ( i < 5){
+                                    stat.setText("This user is new to Swap. They have completed " + i + " swaps!");
+                                }else if(i < 10){
+                                    stat.setText("This user is a Swap regular. They have completed " + i + " swaps!");
+                                }else{
+                                    stat.setText("This user is super Swap user. They have completed " + i + " swaps!");
                                 }
                             }
+
+                            //getChildCount();
                         } else {
                             System.out.println("Error getting documents" + task.getException());
                         }
