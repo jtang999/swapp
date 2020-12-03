@@ -332,7 +332,7 @@
             android:layout_gravity="start"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/colorBorder"
-            android:enabled="false"
+            android:enabled="true"
             android:paddingLeft="24dp"
             android:paddingTop="16dp"
             android:paddingRight="24dp"

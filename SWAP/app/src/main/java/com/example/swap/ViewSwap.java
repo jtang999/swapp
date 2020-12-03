@@ -1,5 +1,6 @@
 package com.example.swap;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -262,8 +264,7 @@ public class ViewSwap extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String uid_msg = user_id;
-                //Toast.makeText(ViewSwap.this, "user_id: "+user_id + "\ncur_user: "+cur_user, Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(ViewSjwap.this, "user_id: "+user_id + "\ncur_user: "+cur_user, Toast.LENGTH_SHORT).show();
                 goProfileIntent(uid_msg);
             }
         });
@@ -320,12 +321,18 @@ public class ViewSwap extends AppCompatActivity {
         finish();
     }
 
-    private void displayOwnerView(String cur_user, String post_owner, String post_id) {
+    private void displayOwnerView(final String cur_user, String post_owner, final String post_id) {
         if (!isOwner(cur_user, post_owner)) return;
         edit_btn.setVisibility(View.VISIBLE);
         resolve_btn.setVisibility(View.VISIBLE);
         delete_btn.setVisibility(View.VISIBLE);
 
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete_post(post_id, cur_user);
+            }
+        });
     }
 
     private void mark_resolved(String post_id) {
@@ -333,7 +340,12 @@ public class ViewSwap extends AppCompatActivity {
         
     }
 
-    private void delete_post(final String post_id, final String uid) {
+    private void delete_post(String post_id, String uid) {
+        AlertDialog diaBox = ask_delete_option(post_id, uid);
+        diaBox.show();
+    }
+
+    private void delete_post_helper(final String post_id, final String uid) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts").document(post_id)
                 .delete()
@@ -342,7 +354,7 @@ public class ViewSwap extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ViewSwap.this,
                                 "Post Deleted!", Toast.LENGTH_SHORT).show();
-                        delete_post_in_user_profile(post_id, uid);
+                        //delete_post_in_user_profile(post_id, uid);
                         goProfileIntent(uid);
                     }
 
@@ -354,10 +366,38 @@ public class ViewSwap extends AppCompatActivity {
                                 "Error deleting post " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
-    private void delete_post_in_user_profile(String post_id, String uid) {
+    /*private void delete_post_in_user_profile(String post_id, String uid) {
+    }*/
+
+    private AlertDialog ask_delete_option(final String post_id, final String uid)
+    {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                // set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to delete this post?")
+                .setIcon(R.drawable.delete_icon)
+
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //your deleting code
+                        delete_post_helper(post_id, uid);
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+
+        return myQuittingDialogBox;
     }
 
     private boolean isOwner(String cur_user, String post_owner) {
