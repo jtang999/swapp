@@ -59,6 +59,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class NearbySwaps extends AppCompatActivity {
+    private String query = ""; // the query string
     private static int toggle = 0;
     public static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     public static double LAT = 37.871;
@@ -88,7 +89,7 @@ public class NearbySwaps extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(NearbySwaps.this, new String[]{ACCESS_FINE_LOCATION, INTERNET, ACCESS_NETWORK_STATE}, REQUEST_CODE_LOCATION_PERMISSION);
         }
-        retrievePosts(1);
+//        retrievePosts(1);
         getCurrentLocation(); //this calls retrieve Posts again when it finishes, but it takes a second
 
 
@@ -113,6 +114,29 @@ public class NearbySwaps extends AppCompatActivity {
                 i.putExtra( "UID", currentUser.getEmail());
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+            }
+        });
+
+        SearchView search = findViewById(R.id.searchView);
+        search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                query = "";
+                retrievePosts(toggle);
+                return false;
+            }
+        });
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                query = s;
+                retrievePosts(toggle);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
     }
@@ -193,7 +217,6 @@ public class NearbySwaps extends AppCompatActivity {
         //remove old posts and add set the page to show loading bar
         final ProgressBar pBar = findViewById(R.id.postProgressBar);
         final LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
-        SearchView search = findViewById(R.id.searchView);
         NearbySwaps.toggle = toggle;
 
         postsLayout.removeAllViews();
@@ -219,7 +242,10 @@ public class NearbySwaps extends AppCompatActivity {
                                 //only add it if we are able to get a post _ID
                                 try {
                                     currentPost.put("post_ID", document.getId());
-                                    if (!document.getId().equals("") && document.getId() != null && isPostType(NearbySwaps.toggle, currentPost)) {
+                                    if (!document.getId().equals("")
+                                            && isPostType(NearbySwaps.toggle, currentPost)
+                                            && includePost(currentPost))
+                                    {
                                         posts.add(currentPost);
                                         i++;
                                     }
@@ -317,6 +343,44 @@ public class NearbySwaps extends AppCompatActivity {
             //needs free service --> should be an empty offer field
             return !need.equals("") && offer.equals("");
         }
+    }
+
+    private boolean includePost(JSONObject currentPost) {
+        if (query.equals("")) return true; // when query is empty, every post is good
+        // (?i) is a case-insensitive flag
+        String regex = String.format("(?i)(.*)%s(.*)", query);
+        String need, offer, contact;
+
+        try {
+            need = currentPost.getString("need");
+        } catch (JSONException e) {
+            need = "";
+        }
+        try {
+            offer = currentPost.getString("offer");
+        } catch (JSONException e) {
+            offer = "";
+        }
+
+        try {
+            contact = currentPost.getString("contact");
+        } catch (JSONException e) {
+            contact = "";
+        }
+
+        try {
+            String location = currentPost.getString("location");
+            String details = currentPost.getString("details");
+            String email = currentPost.getString("user_id");
+            String[] targets = new String[] {location, details, need, offer, email, contact};
+            for (String t : targets) {
+                if (t.matches(regex))
+                    return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
