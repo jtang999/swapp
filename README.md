@@ -11,7 +11,7 @@ youtube.com/aLinkToYourVideo
 
 # Front End Documentation
 
-## Java Classes And Corresponsing XML Files with brief description
+## Java Classes And Corresponding XML Files with brief description
 
 Java classes are located at src/main/java/com.example.swap,
 XML Files are located at src/main/res/layout
@@ -31,4 +31,26 @@ XML Files are located at src/main/res/layout
 - CreateSwap.java <--> activity_create_swap.xml
   * This view is the form that users fill out to create a swap post.
   * The form itself is contained in a ScrollView for now. Users will have to scroll to fill out the form. The buttons are not contained in the scrollview.
-  * Create post / cancel buttons are in a LinearLayout at the bottom. 
+  * Create post / cancel buttons are in a LinearLayout at the bottom.
+
+# Back End Documentation
+
+## User fields (?)
+- **email:** String - self explanatory
+- **avatar**: String - profile image URL (pulled from Google Account)
+- **user_name**: String - also pulled from Google Account
+- **post_ids**: Array of strings of user ids - BUT we may not be using this. Can query posts using user_id.
+
+## Post fields
+- **LAT**: Number - latitude of the user's location at the time of creating a post
+- **LON**: Number - longitude of the user's location at the time of creating a post
+- **location**: Text field - use Geolocation API to convert LAT/LON into a city and state. Fill out upon creating a post.
+- **contact**: Text field - phone number
+- **details**: Text field - general text, user can fill out any extra information about this post.
+- **email**: Text field - self explanatory
+- **expiration**: Text field - user types in when they need the swap by. ("Needed by" field in the Create Swap view)
+- **need**: Text field - what the user needs
+- **offer**: Text field - what the user can offer
+- **user_id**: Text field - self explanatory
+- **status**: Boolean - True if resolved, False if it is still open.
+- **creation_time**: Text field - preformatted (ask Andrew)

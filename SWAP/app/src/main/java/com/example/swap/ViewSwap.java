@@ -127,7 +127,7 @@ public class ViewSwap extends AppCompatActivity {
     private void process_display_RawInfo(HashMap<String, Object> data, String post_id) {
         final String uid = (String)data.get("user_id");
         process_display_UserInfo(uid, post_id);
-        post_date.setText((String)data.get("post_date"));
+        post_date.setText((String)data.get("creation_time"));
 
         if (data.get("need") == null) {
             needs.setText("");
