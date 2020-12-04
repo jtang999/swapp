@@ -10,6 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w"/>
+
         <activity android:name=".BlankPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +22,8 @@
         <activity android:name=".ViewSwap"
             android:exported="true" />
         <activity android:name=".CreateSwap"
+            android:exported="true"/>
+        <activity android:name=".MapsActivity"
             android:exported="true"/>
         <activity
             android:name=".ProfilePage"
