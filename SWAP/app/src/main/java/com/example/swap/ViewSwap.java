@@ -157,26 +157,29 @@ public class ViewSwap extends AppCompatActivity {
         contact.setText(contact_info);*/
         final String phone = (String)data.get("phone");
         final String email = (String)data.get("email");
+        if (!(boolean) data.get("status")) {
+            phone_call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    makePhoneCall(phone);
 
-
-        phone_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makePhoneCall(phone);
-
-            }
-        });
-
-        send_email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (email == null || email.isEmpty() || !email.contains("@")) {
-                    sendEmail(uid);
-                } else {
-                    sendEmail(email);
                 }
-            }
-        });
+            });
+
+            send_email.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (email == null || email.isEmpty() || !email.contains("@")) {
+                        sendEmail(uid);
+                    } else {
+                        sendEmail(email);
+                    }
+                }
+            });
+        } else {
+            phone_call.setVisibility(View.INVISIBLE);
+            send_email.setVisibility(View.INVISIBLE);
+        }
 
 
     }
