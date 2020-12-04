@@ -9,9 +9,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -44,7 +45,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .title("Marker in Sydney"));
+        //Add marker near sydney
+        LatLng sydney2 = new LatLng(-33, 150);
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney2)
+                .title("Marker near Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Set a listener for marker click.
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        System.out.println(marker.getTitle());
+        return false;
     }
 }
 
