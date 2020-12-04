@@ -316,7 +316,7 @@
             android:layout_marginRight="12dp"
             android:background="@drawable/rounded_button"
             android:backgroundTint="@color/colorPrimary"
-            android:enabled="false"
+            android:enabled="true"
             android:paddingLeft="24dp"
             android:paddingTop="16dp"
             android:paddingRight="24dp"

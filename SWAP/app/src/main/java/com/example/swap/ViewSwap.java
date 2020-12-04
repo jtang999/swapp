@@ -327,17 +327,67 @@ public class ViewSwap extends AppCompatActivity {
         resolve_btn.setVisibility(View.VISIBLE);
         delete_btn.setVisibility(View.VISIBLE);
 
+        //delete function
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 delete_post(post_id, cur_user);
             }
         });
+
+        //resolve function: check status
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts").document(post_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        final boolean status = (boolean) document.getData().get("status");
+                        if (status) {
+                            resolve_btn.setText("RESOLVED");
+                            edit_btn.setVisibility(View.INVISIBLE);
+                        }
+                        resolve_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mark_resolved(post_id, status);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(ViewSwap.this,
+                                "Post no longer available!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ViewSwap.this,
+                            "Fail retrieving status data!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
-    private void mark_resolved(String post_id) {
+    private void mark_resolved(String post_id, boolean status) {
+        if (status == false) {
+            AlertDialog diaBox = ask_resolved_option(post_id);
+            diaBox.show();
+        } else {
+            Toast.makeText(ViewSwap.this,
+                    "Cannot change a resolved post!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void mark_resolved_helper(String post_id) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        
+        db.collection("posts").document(post_id).update("status", true);
+        Toast.makeText(ViewSwap.this,
+                "Post Resolved!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(ViewSwap.this, ViewSwap.class);
+        i.putExtra("POST_ID", post_id);
+        startActivity(i);
+        finish();
+        //resolve_btn.setText("RESOLVED");
+        //edit_btn.setVisibility(View.INVISIBLE);
     }
 
     private void delete_post(String post_id, String uid) {
@@ -376,7 +426,7 @@ public class ViewSwap extends AppCompatActivity {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
                 // set message, title, and icon
                 .setTitle("Delete")
-                .setMessage("Do you want to delete this post?")
+                .setMessage("Do you want to delete this post?\nThis is a permanent action.")
                 .setIcon(R.drawable.delete_icon)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -393,6 +443,33 @@ public class ViewSwap extends AppCompatActivity {
 
                         dialog.dismiss();
 
+                    }
+                })
+                .create();
+
+        return myQuittingDialogBox;
+    }
+
+    private AlertDialog ask_resolved_option(final String post_id)
+    {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                // set message, title, and icon
+                .setTitle("Resolve")
+                .setMessage("Do you want to mark this post as resolved? \nThis is a permanent action.")
+                .setIcon(R.drawable.resolve_icon)
+
+                .setPositiveButton("Resolve", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //your deleting code
+                        mark_resolved_helper(post_id);
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 })
                 .create();
