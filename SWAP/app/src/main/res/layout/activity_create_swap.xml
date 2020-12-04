@@ -294,7 +294,7 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="Interested parties can contact me by..."
-                android:inputType="textMultiLine"
+                android:inputType="phone"
                 android:lines="2"
                 tools:layout_conversion_absoluteHeight="830dp"
                 tools:layout_conversion_absoluteWidth="0dp"
