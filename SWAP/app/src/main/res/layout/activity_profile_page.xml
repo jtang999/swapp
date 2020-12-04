@@ -65,12 +65,12 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="11dp"
         android:background="@drawable/toggledmode"
-        android:paddingHorizontal="10dp"
         android:padding="10dp"
+        android:paddingHorizontal="10dp"
         android:text="@string/user_posts"
-        android:textAllCaps="False"
+        android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
@@ -80,13 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="50dp"
-        android:padding="10dp"
         android:background="@drawable/modetoggle"
+        android:padding="10dp"
         android:paddingHorizontal="10dp"
         android:text="@string/history"
-        android:textAllCaps="False"
+        android:textAllCaps="true"
         android:textColor="@color/colorBodyLight"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
