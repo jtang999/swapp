@@ -114,7 +114,7 @@
         android:id="@+id/Posts"
         android:layout_width="367dp"
         android:layout_height="505dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,19 +171,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/default_profile_alt_dark" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="491dp"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swapToggle"
-        tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle">
 
-<!--    <com.example.swap.PostCardView-->
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="491dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swapToggle"
+            tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/mapToggle"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="18dp"
+        android:background="#9215FF"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!--    <com.example.swap.PostCardView-->
 <!--        android:id="@+id/mapPost"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="110dp"-->

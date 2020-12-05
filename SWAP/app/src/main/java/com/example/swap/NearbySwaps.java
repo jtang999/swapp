@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import android.os.Looper;
 import android.text.Layout;
@@ -27,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -75,6 +78,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallback {
+    private static int mapToggle = 0;
     private static GoogleMap map;
     private String query = ""; // the query string
     private static int toggle = 0;
@@ -148,6 +152,14 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
             }
         });
 
+        final Button mapToggle = findViewById(R.id.mapToggle);
+        mapToggle.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                toggleMap();
+            }
+        });
+
         ImageButton goToProfileButton = findViewById(R.id.profileButton);
         //CHANGE THIS AS NEEDED. SHOULD LEAD TO THE USER'S OWN PROFILE PAGE
         goToProfileButton.setOnClickListener(new View.OnClickListener(){
@@ -186,6 +198,25 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void toggleMap(){
+        //0 means map is toggled OFF
+        //1 means map is toggled ON
+        ScrollView posts = findViewById(R.id.Posts);
+        PostCardView mapPost = findViewById(R.id.mapPost);
+        LinearLayout mapView = findViewById(R.id.mapView);
+
+        if (NearbySwaps.mapToggle == 0){
+            NearbySwaps.mapToggle = 1;
+            posts.setVisibility(View.GONE);
+            mapView.setVisibility(View.VISIBLE);
+        }else{
+            NearbySwaps.mapToggle = 0;
+            posts.setVisibility(View.VISIBLE);
+            mapPost.setVisibility(View.GONE);
+            mapView.setVisibility(View.GONE);
+        }
     }
 
     private void createMapPostCard(){
