@@ -177,8 +177,8 @@ public class ViewSwap extends AppCompatActivity {
                 }
             });
         } else {
-            phone_call.setVisibility(View.INVISIBLE);
-            send_email.setVisibility(View.INVISIBLE);
+            phone_call.setVisibility(View.GONE);
+            send_email.setVisibility(View.GONE);
         }
 
 
@@ -244,9 +244,9 @@ public class ViewSwap extends AppCompatActivity {
 
 
         //TODO: remove edit, resolve, delete functions for other users.
-        edit_btn.setVisibility(View.INVISIBLE);
-        resolve_btn.setVisibility(View.INVISIBLE);
-        delete_btn.setVisibility(View.INVISIBLE);
+        edit_btn.setVisibility(View.GONE);
+        resolve_btn.setVisibility(View.GONE);
+        delete_btn.setVisibility(View.GONE);
 
     }
 
@@ -299,7 +299,7 @@ public class ViewSwap extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:01-" + phoneNum));
         startActivity(callIntent);
-        finish();
+        //finish();
     }
 
 
@@ -321,7 +321,7 @@ public class ViewSwap extends AppCompatActivity {
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "SWAP service");
 
         startActivity(Intent.createChooser(emailIntent, "Send your email in:"));
-        finish();
+        //finish();
     }
 
     private void displayOwnerView(final String cur_user, String post_owner, final String post_id) {
@@ -349,7 +349,7 @@ public class ViewSwap extends AppCompatActivity {
                         final boolean status = (boolean) document.getData().get("status");
                         if (status) {
                             resolve_btn.setText("RESOLVED");
-                            edit_btn.setVisibility(View.INVISIBLE);
+                            edit_btn.setVisibility(View.GONE);
                         }
                         resolve_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -385,12 +385,20 @@ public class ViewSwap extends AppCompatActivity {
         db.collection("posts").document(post_id).update("status", true);
         Toast.makeText(ViewSwap.this,
                 "Post Resolved!", Toast.LENGTH_SHORT).show();
+        goCurSwapIntent(post_id);
+        /*Intent i = new Intent(ViewSwap.this, ViewSwap.class);
+        i.putExtra("POST_ID", post_id);
+        startActivity(i);
+        finish();*/
+        //resolve_btn.setText("RESOLVED");
+        //edit_btn.setVisibility(View.INVISIBLE);
+    }
+
+    private void goCurSwapIntent(String post_id) {
         Intent i = new Intent(ViewSwap.this, ViewSwap.class);
         i.putExtra("POST_ID", post_id);
         startActivity(i);
         finish();
-        //resolve_btn.setText("RESOLVED");
-        //edit_btn.setVisibility(View.INVISIBLE);
     }
 
     private void delete_post(String post_id, String uid) {
