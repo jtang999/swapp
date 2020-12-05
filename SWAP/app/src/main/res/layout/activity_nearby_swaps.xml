@@ -23,6 +23,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="102dp"
+        android:layout_height="14dp"
+        android:text="@string/free_services_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@+id/freeServicesToggle"
+        app:layout_constraintStart_toStartOf="@+id/freeServicesToggle"
+        app:layout_constraintTop_toBottomOf="@+id/freeServicesToggle" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="59dp"
+        android:layout_height="14dp"
+        android:text="@string/swap_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="200dp"
+        app:layout_constraintEnd_toEndOf="@+id/swapToggle"
+        app:layout_constraintStart_toStartOf="@+id/swapToggle"
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="101dp"
+        android:layout_height="14dp"
+        android:text="@string/needs_free_service_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@+id/needsFreeToggle"
+        app:layout_constraintStart_toStartOf="@+id/needsFreeToggle"
+        app:layout_constraintTop_toBottomOf="@+id/needsFreeToggle" />
+
     <Button
         android:id="@+id/createPost"
         android:layout_width="50dp"
@@ -54,8 +93,8 @@
 
     <ImageButton
         android:id="@+id/freeServicesToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/toggle_button"
@@ -73,8 +112,8 @@
 
     <ImageButton
         android:id="@+id/swapToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
@@ -92,8 +131,8 @@
 
     <ImageButton
         android:id="@+id/needsFreeToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/toggle_button"
@@ -114,8 +153,8 @@
         android:id="@+id/Posts"
         android:layout_width="367dp"
         android:layout_height="505dp"
+        android:layout_marginTop="15dp"
         android:visibility="visible"
-        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
