@@ -49,6 +49,7 @@ public class CreateSwap extends AppCompatActivity {
     private static int toggle = 0;
     private static final String API_KEY = "AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w";
     private StorageReference offerStorageRef;
+    private StorageReference needStorageRef;
     private Uri filePath;
     public String address = "";
     Map<String, Object> post = new HashMap<>();
@@ -62,6 +63,7 @@ public class CreateSwap extends AppCompatActivity {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         offerStorageRef = FirebaseStorage.getInstance().getReference("offer_images/" + UUID.randomUUID().toString());
+        needStorageRef = FirebaseStorage.getInstance().getReference("need_images/" + UUID.randomUUID().toString());
         Button add_picture_btn = findViewById(R.id.addPicture);
         add_picture_btn.setOnClickListener(new View.OnClickListener() {
             @Override
