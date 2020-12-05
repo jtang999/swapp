@@ -433,8 +433,6 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
                 name = "Needs Free Item";
             }
 
-            String postID = jsonObject.getString("post_ID");
-
             Random rand = new Random();
             double noise = rand.nextDouble() / 10000;
 
@@ -469,7 +467,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
         }
 
 
-        if(toggle == 0){
+        if(toggle == 2){
             //free service offered --> we should have the need field empty
             return need.equals("") && !offer.equals("");
         }else if(toggle == 1){

@@ -145,6 +145,7 @@ public class PostCardView extends CardView {
         TextView offered = findViewById(R.id.offered);
         if (this.offered != null && !this.offered.equals("")){
             String wantString = "<b>" + "Offered:" + "</b> " + this.offered;
+            offered.setVisibility(VISIBLE);
             offered.setText(Html.fromHtml(wantString));
         }else{
             offered.setVisibility(GONE);
@@ -153,6 +154,7 @@ public class PostCardView extends CardView {
         TextView need = findViewById(R.id.needed);
         if (this.needed != null && !this.needed.equals("")){
             String needString = "<b>" + "Needed:" + "</b> " + this.needed;
+            need.setVisibility(VISIBLE);
             need.setText(Html.fromHtml(needString));
         }else{
             need.setVisibility(GONE);
