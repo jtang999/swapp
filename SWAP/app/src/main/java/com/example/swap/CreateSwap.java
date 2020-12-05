@@ -51,6 +51,7 @@ public class CreateSwap extends AppCompatActivity {
     private StorageReference offerStorageRef;
     private StorageReference needStorageRef;
     private Uri filePath;
+    private Boolean imageSelected = false;
     public String address = "";
     Map<String, Object> post = new HashMap<>();
 
@@ -69,6 +70,7 @@ public class CreateSwap extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SelectImage();
+                imageSelected = true;
             }
         });
 
@@ -150,59 +152,82 @@ public class CreateSwap extends AppCompatActivity {
                                     }
                                     post.put("location", city + ", " + state);
 
-                                    System.out.println("filepath:");
-                                    System.out.println(filePath);
-                                    offerStorageRef.putFile(filePath)
-                                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    System.out.println("Image Stored");
-                                                }
-                                            })
-                                            .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                    offerStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            Uri downloadUrl = uri;
-                                                            System.out.println(downloadUrl);
-                                                            post.put("offer_url", downloadUrl.toString());
-                                                            //Do what you want with the url
-                                                            System.out.println(post);
-                                                        }
-                                                    })
-                                                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Uri> task) {
-                                                            db.collection("posts")
-                                                                    .add(post)
-                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                                        @Override
-                                                                        public void onSuccess(DocumentReference documentReference) {
-                                                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                            goViewSwap(documentReference.getId());
-                                                                            System.out.println("success");
-                                                                        }
-                                                                    })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Log.w(TAG, "Error adding document", e);
-                                                                        }
-                                                                    });
-                                                        }
-                                                    });
-                                                    System.out.println("put");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception exception) {
-                                                    // Handle unsuccessful uploads
-                                                    // ...
-                                                }
-                                            });
+                                    //--------------------------------
+                                    if (imageSelected) {
+                                        //--------------------------------
+                                        System.out.println("filepath:");
+                                        System.out.println(filePath);
+                                        offerStorageRef.putFile(filePath)
+                                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        System.out.println("Image Stored");
+                                                    }
+                                                })
+                                                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                                        offerStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                Uri downloadUrl = uri;
+                                                                System.out.println(downloadUrl);
+                                                                post.put("offer_url", downloadUrl.toString());
+                                                                //Do what you want with the url
+                                                                System.out.println(post);
+                                                            }
+                                                        })
+                                                                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Uri> task) {
+                                                                        db.collection("posts")
+                                                                                .add(post)
+                                                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                                    @Override
+                                                                                    public void onSuccess(DocumentReference documentReference) {
+                                                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                                        goViewSwap(documentReference.getId());
+                                                                                        System.out.println("success");
+                                                                                    }
+                                                                                })
+                                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                                    @Override
+                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                        Log.w(TAG, "Error adding document", e);
+                                                                                    }
+                                                                                });
+                                                                    }
+                                                                });
+                                                        System.out.println("put");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception exception) {
+                                                        // Handle unsuccessful uploads
+                                                        // ...
+                                                    }
+                                                });
+                                    }
+                                    else{
+                                        post.put("offer_url", "");
+                                        db.collection("posts")
+                                                .add(post)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                        goViewSwap(documentReference.getId());
+                                                        System.out.println("success");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error adding document", e);
+                                                    }
+                                                });
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
