@@ -49,7 +49,7 @@ public class CreateSwap extends AppCompatActivity {
         final EditText need = (EditText)findViewById(R.id.user_need);
         final EditText offer = (EditText)findViewById(R.id.user_offer);
         final EditText details = (EditText)findViewById(R.id.user_details);
-        final EditText location= (EditText)findViewById(R.id.user_location);
+        // final EditText location= (EditText)findViewById(R.id.user_location);
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
 

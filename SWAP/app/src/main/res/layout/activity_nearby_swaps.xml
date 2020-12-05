@@ -115,6 +115,7 @@
         android:layout_width="367dp"
         android:layout_height="505dp"
         android:visibility="visible"
+        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -207,11 +208,5 @@
         app:layout_constraintTop_toBottomOf="@+id/searchView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!--    <com.example.swap.PostCardView-->
-<!--        android:id="@+id/mapPost"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="110dp"-->
-<!--        android:visibility="visible"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/postProgressBar"></com.example.swap.PostCardView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
