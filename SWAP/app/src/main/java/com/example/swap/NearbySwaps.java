@@ -1,7 +1,9 @@
 package com.example.swap;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,12 +11,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.os.Looper;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,6 +36,14 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -51,6 +66,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Collections;
+import java.util.Random;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -58,12 +74,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class NearbySwaps extends AppCompatActivity {
+public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallback {
+    private static GoogleMap map;
     private String query = ""; // the query string
     private static int toggle = 0;
     public static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     public static double LAT = 37.871;
-    public static double LON = 122.273;
+    public static double LON = -122.273;
     public static final String[] wanted = new String[]{"Auto repair - help me change the oil in my car",
             "Transportation to drive me to work in the mornings","--", "Help me fix my leaking sink"};
     public static final String[] needed = new String[]{"Any skill on my profile", "Leftover food from my restaurant job",
@@ -72,6 +89,33 @@ public class NearbySwaps extends AppCompatActivity {
     "https://hips.hearstapps.com/ghk.h-cdn.co/assets/16/08/gettyimages-149263578.jpg?crop=0.4444444444444445xw:1xh;center,top&resize=980:*",
     "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/2560x3839/dachshund.jpg?resize=980:*",
     "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/1500912970-shiba-inu.jpg?crop=1.0xw:1xh;center,top&resize=980:*"};
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+        NearbySwaps.map = googleMap;
+        LatLng berk = new LatLng(37.871666, -122.2730);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(berk));
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(37.871666, -122.2730))
+                .title("Berkeley"));
+
+        googleMap.animateCamera( CameraUpdateFactory.zoomTo( 16.0f ) );
+        createMapPostCard();
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(),16));
+                PostCardView mapPost = findViewById(R.id.mapPost);
+                mapPost.setVisibility(View.VISIBLE);
+                mapPost.enterInfo((JSONObject) marker.getTag(), NearbySwaps.this);
+                return true;
+            }
+        });
+
+        retrievePosts(1);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +136,6 @@ public class NearbySwaps extends AppCompatActivity {
         }
 //        retrievePosts(1);
         getCurrentLocation(); //this calls retrieve Posts again when it finishes, but it takes a second
-
-
 
         Button postButton = findViewById(R.id.createPost);
         postButton.setOnClickListener(new View.OnClickListener(){
@@ -140,6 +182,28 @@ public class NearbySwaps extends AppCompatActivity {
                 return false;
             }
         });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    private void createMapPostCard(){
+        PostCardView post = new PostCardView(this);
+        post.setId(R.id.mapPost);
+        ConstraintLayout layout = findViewById(R.id.coordinatorLayout);
+        layout.addView(post);
+
+
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) post.getLayoutParams();
+        layoutParams.leftToLeft = R.id.coordinatorLayout;
+        layoutParams.rightToRight = R.id.coordinatorLayout;
+        layoutParams.bottomToBottom = R.id.coordinatorLayout;
+        layoutParams.width = ActionBar.LayoutParams.MATCH_PARENT;
+        post.setLayoutParams(layoutParams);
+
+        post.setVisibility(View.INVISIBLE);
+
     }
 
     /**
@@ -218,6 +282,7 @@ public class NearbySwaps extends AppCompatActivity {
         //remove old posts and add set the page to show loading bar
         final ProgressBar pBar = findViewById(R.id.postProgressBar);
         final LinearLayout postsLayout = findViewById(R.id.PostLinearLayout);
+        removeMarkers();
         NearbySwaps.toggle = toggle;
 
         postsLayout.removeAllViews();
@@ -309,12 +374,51 @@ public class NearbySwaps extends AppCompatActivity {
      * @return      nothing
      */
     public void addPost(JSONObject jsonObject){
+        addMarker(jsonObject);
+
         LinearLayout posts = findViewById(R.id.PostLinearLayout);
         PostCardView newPost = new PostCardView(getApplicationContext(), jsonObject);
         System.out.println(jsonObject);
         if (newPost.setOnClickListener(NearbySwaps.this)) {
             posts.addView(newPost);
         }
+    }
+
+    public void addMarker(JSONObject jsonObject){
+        try {
+            double lat = jsonObject.getDouble("LAT");
+            double lon = jsonObject.getDouble("LON");
+            LatLng latLng = new LatLng(lat, lon);
+            //setting need and offer appropraitely based on if they exist
+            String need = jsonObject.getString("need");
+            String offer = jsonObject.getString("offer");
+            String name;
+
+            if((!need.equals("") && need != null ) && (!offer.equals("") && offer != null )){
+                name = "Swap";
+            }else if ( (need.equals("") || need == null ) && (!offer.equals("") && offer != null )){
+                name = "Free Offer";
+            }else {
+                name = "Needs Free Item";
+            }
+
+            String postID = jsonObject.getString("post_ID");
+
+            Random rand = new Random();
+            double noise = rand.nextDouble() / 10000;
+
+            Marker marker = NearbySwaps.map.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(name));
+
+            marker.setTag(jsonObject);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeMarkers(){
+        NearbySwaps.map.clear();
     }
 
     private boolean isPostType(int toggle, JSONObject jsonObject){

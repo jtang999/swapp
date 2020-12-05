@@ -114,7 +114,7 @@
         android:id="@+id/Posts"
         android:layout_width="367dp"
         android:layout_height="505dp"
-        android:layout_marginTop="0dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +127,7 @@
             android:orientation="vertical">
 
             <com.example.swap.PostCardView
+                android:id="@+id/rand"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"></com.example.swap.PostCardView>
 
@@ -170,5 +171,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/default_profile_alt_dark" />
 
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="491dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle"
+        tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
+
+<!--    <com.example.swap.PostCardView-->
+<!--        android:id="@+id/mapPost"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="110dp"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/postProgressBar"></com.example.swap.PostCardView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

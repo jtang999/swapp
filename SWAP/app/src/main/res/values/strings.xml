@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SWAP</string>
+    <string name="google_maps_key">"AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w"</string>
     <!--  Strings for titles  -->
     <string name="nearby_title">SWAPS NEAR YOU</string>
     <!--  Strings for profile information  -->

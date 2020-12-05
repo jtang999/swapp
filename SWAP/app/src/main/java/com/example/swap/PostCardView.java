@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -72,6 +73,28 @@ public class PostCardView extends CardView {
 
         parseData(jsonData);
         updateInfo();
+    }
+
+    public PostCardView(@NonNull Context context, JSONObject jsonData, GoogleMap map) {
+        super(context);
+        this.context = context;
+        LayoutInflater inflater = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.post_card_view, this);
+
+        parseData(jsonData);
+        updateInfo();
+    }
+
+
+    public void enterInfo(JSONObject jsonData, Context context){
+        parseData(jsonData);
+        updateInfo();
+        setOnClickListener(context);
+    }
+
+    public void printB(){
+        System.out.println("BBBBBBBBBBBBBBBBBBBB");
     }
 
     /**
@@ -158,7 +181,7 @@ public class PostCardView extends CardView {
             return true;
         } catch (JSONException e) {
             e.printStackTrace();
-            return false;
+            return true;
         }
 
     }
@@ -174,7 +197,7 @@ public class PostCardView extends CardView {
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
         CollectionReference cref = database.collection("users");
         DocumentReference dref = cref.document(uid);
-        System.out.println("SKKKKKKKKKKKKKKKKRRRRRRRRRRRRRR" + uid);
+//        System.out.println("SKKKKKKKKKKKKKKKKRRRRRRRRRRRRRR" + uid);
         dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
