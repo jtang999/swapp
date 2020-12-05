@@ -1,15 +1,21 @@
+//Special thanks to geeks for geeks for providing a tutorial and code for cloud storage
+//https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
 package com.example.swap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,15 +24,22 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
@@ -35,6 +48,8 @@ public class CreateSwap extends AppCompatActivity {
     private static final String TAG = "CreateSwap";
     private static int toggle = 0;
     private static final String API_KEY = "AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w";
+    private StorageReference mStorageRef;
+    private Uri filePath;
     public String address = "";
     Map<String, Object> post = new HashMap<>();
 
@@ -45,6 +60,15 @@ public class CreateSwap extends AppCompatActivity {
         initializeToggles();
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("OfferImages");
+        Button add_picture_btn = findViewById(R.id.addPicture);
+        add_picture_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectImage();
+            }
+        });
 
         final EditText need = (EditText)findViewById(R.id.user_need);
         final EditText offer = (EditText)findViewById(R.id.user_offer);
@@ -123,22 +147,122 @@ public class CreateSwap extends AppCompatActivity {
                                         }
                                     }
                                     post.put("location", city + ", " + state);
-                                    // Add a new document with a generated ID
-                                    db.collection("posts")
-                                            .add(post)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                                    System.out.println("filepath:");
+                                    System.out.println(filePath);
+                                    mStorageRef.putFile(filePath)
+                                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                 @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                    goViewSwap(documentReference.getId());
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    // Get a URL to the uploaded content
+//                                                    Uri downloadUrl = mStorageRef.getDownloadUrl().getResult();
+
+//                                                    mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                                                                                                               @Override
+//                                                                                                                               public void onSuccess(Uri uri) {
+//                                                                                                                                   Uri downloadUrl = uri;
+//                                                                                                                                   System.out.println(downloadUrl);
+//                                                                                                                                   post.put("url", downloadUrl.toString());
+//                                                                                                                                   //Do what you want with the url
+//                                                                                                                                   System.out.println(post);
+//                                                                                                                               }
+//                                                                                                                           });
+//                                                    System.out.println("put");
+
+//                                                    System.out.println(mStorageRef.getDownloadUrl());
+//                                                    mStorageRef.child("OfferImages").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                                        @Override
+//                                                        public void onSuccess(Uri uri) {
+//                                                            // Got the download URL for 'users/me/profile.png'
+//                                                            System.out.println(uri);
+//                                                        }
+//                                                    }).addOnFailureListener(new OnFailureListener() {
+//                                                        @Override
+//                                                        public void onFailure(@NonNull Exception exception) {
+//                                                            // Handle any errors
+//                                                        }
+//                                                    });
+                                                }
+                                            })
+                                            .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                                    mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            Uri downloadUrl = uri;
+                                                            System.out.println(downloadUrl);
+                                                            post.put("url", downloadUrl.toString());
+                                                            //Do what you want with the url
+                                                            System.out.println(post);
+                                                        }
+                                                    })
+                                                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Uri> task) {
+                                                            db.collection("posts")
+                                                                    .add(post)
+                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                        @Override
+                                                                        public void onSuccess(DocumentReference documentReference) {
+                                                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                                            goViewSwap(documentReference.getId());
+                                                                            System.out.println("success");
+                                                                        }
+                                                                    })
+                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                        @Override
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Log.w(TAG, "Error adding document", e);
+                                                                        }
+                                                                    });
+                                                        }
+                                                    });
+                                                    System.out.println("put");
+//                                                    db.collection("posts")
+//                                                            .add(post)
+//                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                                                @Override
+//                                                                public void onSuccess(DocumentReference documentReference) {
+//                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+////                                                    goViewSwap(documentReference.getId());
+//                                                                    System.out.println("success");
+//                                                                }
+//                                                            })
+//                                                            .addOnFailureListener(new OnFailureListener() {
+//                                                                @Override
+//                                                                public void onFailure(@NonNull Exception e) {
+//                                                                    Log.w(TAG, "Error adding document", e);
+//                                                                }
+//                                                            });
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error adding document", e);
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Handle unsuccessful uploads
+                                                    // ...
                                                 }
                                             });
+
+
+                                    // Add a new document with a generated ID
+//                                    db.collection("posts")
+//                                            .add(post)
+//                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                                @Override
+//                                                public void onSuccess(DocumentReference documentReference) {
+//                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+////                                                    goViewSwap(documentReference.getId());
+//                                                    System.out.println("success");
+//                                                }
+//                                            })
+//                                            .addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//                                                    Log.w(TAG, "Error adding document", e);
+//                                                }
+//                                            });
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -151,6 +275,25 @@ public class CreateSwap extends AppCompatActivity {
                     }
                 });
                 queue.add(jsonRequest);
+
+//                System.out.println("filepath:");
+//                System.out.println(filePath);
+//                mStorageRef.putFile(filePath)
+//                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                                // Get a URL to the uploaded content
+//                                Uri downloadUrl = mStorageRef.getDownloadUrl().getResult();
+//                                System.out.println(downloadUrl);
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception exception) {
+//                                // Handle unsuccessful uploads
+//                                // ...
+//                            }
+//                        });
             }
         });
     }
@@ -267,4 +410,55 @@ public class CreateSwap extends AppCompatActivity {
         button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
         button.setTextColor( Color.parseColor("#535353") );
     }
+
+    private void SelectImage()
+    {
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        "Select Image from here..."),
+                10);
+    }
+
+    // Override onActivityResult method
+    @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    Intent data)
+    {
+
+        super.onActivityResult(requestCode,
+                resultCode,
+                data);
+
+        // checking request code and result code
+        // if request code is PICK_IMAGE_REQUEST and
+        // resultCode is RESULT_OK
+        // then set image in the image view
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // Get the Uri of data
+            filePath = data.getData();
+            try {
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore
+                        .Images
+                        .Media
+                        .getBitmap(
+                                getContentResolver(),
+                                filePath);
+                ImageView i = findViewById(R.id.offerImage);
+                i.setImageBitmap(bitmap);
+            }
+
+            catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
