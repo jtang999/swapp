@@ -154,34 +154,7 @@ public class CreateSwap extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    // Get a URL to the uploaded content
-//                                                    Uri downloadUrl = mStorageRef.getDownloadUrl().getResult();
-
-//                                                    mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                                                                                                               @Override
-//                                                                                                                               public void onSuccess(Uri uri) {
-//                                                                                                                                   Uri downloadUrl = uri;
-//                                                                                                                                   System.out.println(downloadUrl);
-//                                                                                                                                   post.put("url", downloadUrl.toString());
-//                                                                                                                                   //Do what you want with the url
-//                                                                                                                                   System.out.println(post);
-//                                                                                                                               }
-//                                                                                                                           });
-//                                                    System.out.println("put");
-
-//                                                    System.out.println(mStorageRef.getDownloadUrl());
-//                                                    mStorageRef.child("OfferImages").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                                        @Override
-//                                                        public void onSuccess(Uri uri) {
-//                                                            // Got the download URL for 'users/me/profile.png'
-//                                                            System.out.println(uri);
-//                                                        }
-//                                                    }).addOnFailureListener(new OnFailureListener() {
-//                                                        @Override
-//                                                        public void onFailure(@NonNull Exception exception) {
-//                                                            // Handle any errors
-//                                                        }
-//                                                    });
+                                                    System.out.println("Image Stored");
                                                 }
                                             })
                                             .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -192,7 +165,7 @@ public class CreateSwap extends AppCompatActivity {
                                                         public void onSuccess(Uri uri) {
                                                             Uri downloadUrl = uri;
                                                             System.out.println(downloadUrl);
-                                                            post.put("url", downloadUrl.toString());
+                                                            post.put("offer_url", downloadUrl.toString());
                                                             //Do what you want with the url
                                                             System.out.println(post);
                                                         }
@@ -219,22 +192,6 @@ public class CreateSwap extends AppCompatActivity {
                                                         }
                                                     });
                                                     System.out.println("put");
-//                                                    db.collection("posts")
-//                                                            .add(post)
-//                                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                                                @Override
-//                                                                public void onSuccess(DocumentReference documentReference) {
-//                                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-////                                                    goViewSwap(documentReference.getId());
-//                                                                    System.out.println("success");
-//                                                                }
-//                                                            })
-//                                                            .addOnFailureListener(new OnFailureListener() {
-//                                                                @Override
-//                                                                public void onFailure(@NonNull Exception e) {
-//                                                                    Log.w(TAG, "Error adding document", e);
-//                                                                }
-//                                                            });
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -244,25 +201,6 @@ public class CreateSwap extends AppCompatActivity {
                                                     // ...
                                                 }
                                             });
-
-
-                                    // Add a new document with a generated ID
-//                                    db.collection("posts")
-//                                            .add(post)
-//                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                                @Override
-//                                                public void onSuccess(DocumentReference documentReference) {
-//                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-////                                                    goViewSwap(documentReference.getId());
-//                                                    System.out.println("success");
-//                                                }
-//                                            })
-//                                            .addOnFailureListener(new OnFailureListener() {
-//                                                @Override
-//                                                public void onFailure(@NonNull Exception e) {
-//                                                    Log.w(TAG, "Error adding document", e);
-//                                                }
-//                                            });
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -275,25 +213,6 @@ public class CreateSwap extends AppCompatActivity {
                     }
                 });
                 queue.add(jsonRequest);
-
-//                System.out.println("filepath:");
-//                System.out.println(filePath);
-//                mStorageRef.putFile(filePath)
-//                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                                // Get a URL to the uploaded content
-//                                Uri downloadUrl = mStorageRef.getDownloadUrl().getResult();
-//                                System.out.println(downloadUrl);
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception exception) {
-//                                // Handle unsuccessful uploads
-//                                // ...
-//                            }
-//                        });
             }
         });
     }
