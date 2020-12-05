@@ -283,7 +283,13 @@
                 android:id="@+id/addPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Picture" />
+                android:text="Add Offer Picture" />
+
+            <Button
+                android:id="@+id/addPicture2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Need Picture" />
 
             <ImageView
                 android:id="@+id/offerImage"
@@ -291,6 +297,12 @@
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints"
                 tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/needImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         </LinearLayout>
     </ScrollView>
