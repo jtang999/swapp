@@ -1,4 +1,4 @@
-//Special thanks to geeks for geeks for providing a tutorial and code for cloud storage
+//Special thanks to geeks for geeks for providing a tutorial and starter code for cloud storage
 //https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
 package com.example.swap;
 
@@ -48,8 +48,7 @@ public class CreateSwap extends AppCompatActivity {
     private static final String TAG = "CreateSwap";
     private static int toggle = 0;
     private static final String API_KEY = "AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w";
-    private StorageReference offerStorageRef;
-    private StorageReference needStorageRef;
+    private StorageReference imageStorageRef;
     private Uri filePath;
     private Boolean imageSelected = false;
     public String address = "";
@@ -63,8 +62,7 @@ public class CreateSwap extends AppCompatActivity {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        offerStorageRef = FirebaseStorage.getInstance().getReference("offer_images/" + UUID.randomUUID().toString());
-        needStorageRef = FirebaseStorage.getInstance().getReference("need_images/" + UUID.randomUUID().toString());
+        imageStorageRef = FirebaseStorage.getInstance().getReference("images/" + UUID.randomUUID().toString());
         Button add_picture_btn = findViewById(R.id.addPicture);
         add_picture_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +155,7 @@ public class CreateSwap extends AppCompatActivity {
                                         //--------------------------------
                                         System.out.println("filepath:");
                                         System.out.println(filePath);
-                                        offerStorageRef.putFile(filePath)
+                                        imageStorageRef.putFile(filePath)
                                                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -167,12 +165,12 @@ public class CreateSwap extends AppCompatActivity {
                                                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                        offerStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        imageStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                             @Override
                                                             public void onSuccess(Uri uri) {
                                                                 Uri downloadUrl = uri;
                                                                 System.out.println(downloadUrl);
-                                                                post.put("offer_url", downloadUrl.toString());
+                                                                post.put("image_url", downloadUrl.toString());
                                                                 //Do what you want with the url
                                                                 System.out.println(post);
                                                             }
@@ -210,7 +208,7 @@ public class CreateSwap extends AppCompatActivity {
                                                 });
                                     }
                                     else if ((!"".equals(post.get("offer")) || !"".equals(post.get("need")))){
-                                        post.put("offer_url", "");
+                                        post.put("image_url", "");
                                         db.collection("posts")
                                                 .add(post)
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

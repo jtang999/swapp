@@ -283,13 +283,7 @@
                 android:id="@+id/addPicture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Offer Picture" />
-
-            <Button
-                android:id="@+id/addPicture2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Need Picture" />
+                android:text="Add Post Picture" />
 
             <ImageView
                 android:id="@+id/offerImage"
