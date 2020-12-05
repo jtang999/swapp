@@ -153,7 +153,7 @@ public class CreateSwap extends AppCompatActivity {
                                     post.put("location", city + ", " + state);
 
                                     //--------------------------------
-                                    if (imageSelected) {
+                                    if (imageSelected & (!"".equals(post.get("offer")) || !"".equals(post.get("need")))) {
                                         //--------------------------------
                                         System.out.println("filepath:");
                                         System.out.println(filePath);
@@ -209,7 +209,7 @@ public class CreateSwap extends AppCompatActivity {
                                                     }
                                                 });
                                     }
-                                    else{
+                                    else if ((!"".equals(post.get("offer")) || !"".equals(post.get("need")))){
                                         post.put("offer_url", "");
                                         db.collection("posts")
                                                 .add(post)
@@ -227,6 +227,10 @@ public class CreateSwap extends AppCompatActivity {
                                                         Log.w(TAG, "Error adding document", e);
                                                     }
                                                 });
+                                    }
+                                    else{
+                                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error: You must provide an offer or need.",Toast.LENGTH_LONG);
+                                        input_toast.show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
