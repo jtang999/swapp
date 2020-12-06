@@ -80,17 +80,17 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="367dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/searchbar"
         android:gravity="center"
-        android:layoutDirection="rtl"
-        android:paddingBottom="10dp"
-        android:translationZ="-90dp"
+        android:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"/>
 
     <ImageButton
         android:id="@+id/freeServicesToggle"
@@ -185,7 +185,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Posts" />
 
     <TextView
         android:id="@+id/userName"
