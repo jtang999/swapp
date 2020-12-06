@@ -181,22 +181,7 @@ public class CreateSwap extends AppCompatActivity {
                                                                 .addOnCompleteListener(new OnCompleteListener<Uri>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Uri> task) {
-                                                                        db.collection("posts")
-                                                                                .add(post)
-                                                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                                                    @Override
-                                                                                    public void onSuccess(DocumentReference documentReference) {
-                                                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                                                        goViewSwap(documentReference.getId());
-                                                                                        System.out.println("success");
-                                                                                    }
-                                                                                })
-                                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                                    @Override
-                                                                                    public void onFailure(@NonNull Exception e) {
-                                                                                        Log.w(TAG, "Error adding document", e);
-                                                                                    }
-                                                                                });
+                                                                        addPostToDatabase(db);
                                                                     }
                                                                 });
                                                         System.out.println("put");
@@ -212,22 +197,7 @@ public class CreateSwap extends AppCompatActivity {
                                     }
                                     else if ((!"".equals(post.get("offer")) || !"".equals(post.get("need")))){
                                         post.put("image_url", "");
-                                        db.collection("posts")
-                                                .add(post)
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentReference documentReference) {
-                                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                        goViewSwap(documentReference.getId());
-                                                        System.out.println("success");
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error adding document", e);
-                                                    }
-                                                });
+                                        addPostToDatabase(db);
                                     }
                                     else{
                                         Toast input_toast=Toast.makeText(getApplicationContext(),"Error: You must provide an offer or need.",Toast.LENGTH_LONG);
@@ -247,6 +217,25 @@ public class CreateSwap extends AppCompatActivity {
                 queue.add(jsonRequest);
             }
         });
+    }
+
+    private void addPostToDatabase(FirebaseFirestore db){
+        db.collection("posts")
+                .add(post)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        goViewSwap(documentReference.getId());
+                        System.out.println("success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
 
     private void goNearybySwapsIntent() {
