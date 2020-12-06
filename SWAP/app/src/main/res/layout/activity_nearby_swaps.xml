@@ -127,6 +127,7 @@
         android:textColor="#535353"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
@@ -237,17 +238,17 @@
             tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/mapToggle"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="18dp"
-        android:background="#9215FF"
-        app:layout_constraintBottom_toTopOf="@+id/map"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/toggle_button"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/map_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.swap;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,12 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -93,6 +99,7 @@ public class PostCardView extends CardView {
         setOnClickListener(context);
     }
 
+
     public void printB(){
         System.out.println("BBBBBBBBBBBBBBBBBBBB");
     }
@@ -168,9 +175,11 @@ public class PostCardView extends CardView {
 
     public boolean setOnClickListener(final Context packageContext) {
         Button button = findViewById(R.id.button);
-
+        ConstraintLayout layout = findViewById(R.id.cardLayout);
+        ImageView profileImage = findViewById(R.id.profileImage);
         try {
             final String postID = this.jsonData.getString("post_ID");
+            final String uid_msg = this.jsonData.getString("user_id");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -180,6 +189,26 @@ public class PostCardView extends CardView {
                     packageContext.startActivity(i);
                 }
             });
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ViewSwap.class);
+                    i.putExtra("POST_ID", postID);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+
+            profileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ProfilePage.class);
+                    i.putExtra("UID", uid_msg);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+
             return true;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -194,8 +223,9 @@ public class PostCardView extends CardView {
      *
      * @return      nothing
      */
-    private void retrieveUserInfo(String uid) {
-        //TODO: get user avatar and display
+    private void retrieveUserInfo(final String uid) {
+
+        //retrieve data from firebase
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
         CollectionReference cref = database.collection("users");
         DocumentReference dref = cref.document(uid);
