@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -168,10 +169,20 @@ public class PostCardView extends CardView {
 
     public boolean setOnClickListener(final Context packageContext) {
         Button button = findViewById(R.id.button);
+        ConstraintLayout layout = findViewById(R.id.cardLayout);
 
         try {
             final String postID = this.jsonData.getString("post_ID");
             button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ViewSwap.class);
+                    i.putExtra("POST_ID", postID);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+            layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(packageContext, ViewSwap.class);

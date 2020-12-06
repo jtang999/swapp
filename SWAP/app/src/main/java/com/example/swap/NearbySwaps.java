@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -152,7 +153,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
             }
         });
 
-        final Button mapToggle = findViewById(R.id.mapToggle);
+        final ImageButton mapToggle = findViewById(R.id.mapToggle);
         mapToggle.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -206,16 +207,19 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
         ScrollView posts = findViewById(R.id.Posts);
         PostCardView mapPost = findViewById(R.id.mapPost);
         LinearLayout mapView = findViewById(R.id.mapView);
+        ImageButton mapToggle = findViewById(R.id.mapToggle);
 
         if (NearbySwaps.mapToggle == 0){
             NearbySwaps.mapToggle = 1;
             posts.setVisibility(View.GONE);
             mapView.setVisibility(View.VISIBLE);
+            mapToggle.setImageResource(R.mipmap.map_icon_dark);
         }else{
             NearbySwaps.mapToggle = 0;
             posts.setVisibility(View.VISIBLE);
             mapPost.setVisibility(View.GONE);
             mapView.setVisibility(View.GONE);
+            mapToggle.setImageResource(R.mipmap.map_icon);
         }
     }
 

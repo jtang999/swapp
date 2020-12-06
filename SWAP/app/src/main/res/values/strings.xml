@@ -4,8 +4,8 @@
     <!--  Strings for titles  -->
     <string name="nearby_title">SWAPS NEAR YOU</string>
     <!--  Strings for profile information  -->
-    <string name="user_posts">User Posts</string>
-    <string name="history">User History</string>
+    <string name="user_posts">Posts</string>
+    <string name="history">History</string>
     <string name="user_name">@username</string>
     <!--  Strings for creating / editing posts  -->
     <string name="add">+</string>

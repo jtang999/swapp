@@ -80,14 +80,15 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="380dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="367dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/searchbar"
         android:gravity="center"
+        android:layoutDirection="rtl"
         android:paddingBottom="10dp"
+        android:translationZ="-90dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
 
@@ -114,7 +115,7 @@
         android:id="@+id/swapToggle"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
@@ -126,6 +127,7 @@
         android:textColor="#535353"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
@@ -235,17 +237,17 @@
             tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/mapToggle"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="18dp"
-        android:background="#9215FF"
-        app:layout_constraintBottom_toTopOf="@+id/map"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/toggle_button"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/map_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
