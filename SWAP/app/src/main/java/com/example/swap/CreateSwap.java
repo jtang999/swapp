@@ -75,7 +75,6 @@ public class CreateSwap extends AppCompatActivity {
         final EditText need = (EditText)findViewById(R.id.user_need);
         final EditText offer = (EditText)findViewById(R.id.user_offer);
         final EditText details = (EditText)findViewById(R.id.user_details);
-        // final EditText location= (EditText)findViewById(R.id.user_location);
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
 
@@ -117,7 +116,7 @@ public class CreateSwap extends AppCompatActivity {
                 post.put("expiration", expiration.getText().toString());
                 post.put("contact", contact.getText().toString());
                 post.put("user_id", user_id);
-                //false means open, true means closed
+                //false means post open, true means closed
                 post.put("status", false);
                 String[] date = Calendar.getInstance().getTime().toString().split(" ");
                 post.put("creation_time", date[0] + " " + date[1] + " " + date[2] + ", " + date[5]);
@@ -157,9 +156,7 @@ public class CreateSwap extends AppCompatActivity {
                                     }
                                     post.put("location", city + ", " + state);
 
-                                    //--------------------------------
                                     if (imageSelected & (!"".equals(post.get("offer")) || !"".equals(post.get("need")))) {
-                                        //--------------------------------
                                         System.out.println("filepath:");
                                         System.out.println(filePath);
                                         imageStorageRef.putFile(filePath)
