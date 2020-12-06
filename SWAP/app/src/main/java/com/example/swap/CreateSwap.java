@@ -70,7 +70,7 @@ public class CreateSwap extends AppCompatActivity {
                 goNearybySwapsIntent();
             }
         });
-        
+
         Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
