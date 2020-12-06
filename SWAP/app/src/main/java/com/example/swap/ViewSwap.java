@@ -157,7 +157,7 @@ public class ViewSwap extends AppCompatActivity {
         contact.setText(contact_info);*/
         final String phone = (String)data.get("phone");
         final String email = (String)data.get("email");
-        if (!(boolean) data.get("status")) {
+        if (!data.get("status").equals("closed") && !data.get("status").equals("false")) {
             phone_call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

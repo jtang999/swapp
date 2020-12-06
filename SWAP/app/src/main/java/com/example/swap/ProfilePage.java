@@ -245,9 +245,11 @@ public class ProfilePage extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                     JSONObject currentPost = new JSONObject(document.getData());
                                     //only add it if we are able to get a post _ID
+
                                     try {
                                         currentPost.put("post_ID", document.getId());
                                         String status = currentPost.getString("status");
@@ -261,8 +263,13 @@ public class ProfilePage extends AppCompatActivity {
                                             checkBackup = "closed";
                                         }
 
-                                        if ((status.equals(check) || status.equals(checkBackup)) && !document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
-                                            addPost(currentPost);
+                                        if (!document.getId().equals("") && document.getId() != null && isUser(uid, currentPost)) {
+                                            if (status.equals("true") || status.equals("closed")){
+                                                i++;
+                                            }
+                                            if ((status.equals(check) || status.equals(checkBackup))) {
+                                                addPost(currentPost);
+                                            }
                                         }
 
 
@@ -272,20 +279,13 @@ public class ProfilePage extends AppCompatActivity {
                             }
 
                             TextView stat = findViewById(R.id.userStat);
-                            LinearLayout postLinearLayout = findViewById(R.id.PostLinearLayout);
-                            if (toggle == 1){
-                                stat.setVisibility(View.VISIBLE);
-                                int i = postLinearLayout.getChildCount();
-                                if ( i < 5){
-                                    stat.setText("This user is new to Swap. They have completed " + i + " swaps!");
-                                }else if(i < 10){
-                                    stat.setText("This user is a Swap regular. They have completed " + i + " swaps!");
-                                }else{
-                                    stat.setText("This user is super Swap user. They have completed " + i + " swaps!");
-                                }
+                            if ( i < 3){
+                                stat.setText("This user is new to Swap. They have completed " + i + " swaps!");
+                            }else if(i < 5){
+                                stat.setText("This user is a Swap regular. They have completed " + i + " swaps!");
+                            }else{
+                                stat.setText("This user is super Swap user. They have completed " + i + " swaps!");
                             }
-
-                            //getChildCount();
                         } else {
                             System.out.println("Error getting documents" + task.getException());
                         }
