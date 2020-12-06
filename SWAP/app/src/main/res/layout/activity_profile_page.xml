@@ -127,11 +127,12 @@
 
             <com.example.swap.PostCardView
                 android:layout_width="match_parent"
-                android:layout_height="110dp" />
+                android:layout_height="110dp" >
 
-            <com.example.swap.PostCardView
-                android:layout_width="match_parent"
-                android:layout_height="110dp" />
+                <com.example.swap.PostCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp" />
+            </com.example.swap.PostCardView>
 
             <com.example.swap.PostCardView
                 android:layout_width="match_parent"

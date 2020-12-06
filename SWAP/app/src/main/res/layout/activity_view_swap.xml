@@ -22,7 +22,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="@mipmap/edit_icon"
-        android:visibility="gone"
+        android:onClick="editPost"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"></Button>
 
