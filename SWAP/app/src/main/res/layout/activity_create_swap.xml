@@ -301,12 +301,6 @@
                 tools:ignore="MissingConstraints"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <ImageView
-                android:id="@+id/needImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
         </LinearLayout>
     </ScrollView>
 
