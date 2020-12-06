@@ -51,7 +51,6 @@ public class CreateSwap extends AppCompatActivity {
     private StorageReference imageStorageRef;
     private Uri filePath;
     private Boolean imageSelected = false;
-    public String address = "";
     Map<String, Object> post = new HashMap<>();
 
     @Override
