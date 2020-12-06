@@ -94,10 +94,11 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 // FILL OUT WITH FUNCTION TO LOG USER OUT THEN DIRECT THEM TO THE LOGIN PAGE/BlankPage
-                Intent i = new Intent(ProfilePage.this, NearbySwaps.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+//                Intent i = new Intent(ProfilePage.this, NearbySwaps.class);
+//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(i);
+                 finish(); // does the same thing as above but more succinctly. - Jericho
                  // close this activity because we just logged out
             }
         });

@@ -282,7 +282,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
             return;
         }
         ImageView profileImage = findViewById(R.id.profileButton);
-        Picasso.with(this).load(url).fit().placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
+        Picasso.with(this).load(url).transform(new CircleTransform()).fit().placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
     }
 
 
@@ -413,7 +413,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
 
         LinearLayout posts = findViewById(R.id.PostLinearLayout);
         PostCardView newPost = new PostCardView(getApplicationContext(), jsonObject);
-        System.out.println(jsonObject);
+//        System.out.println(jsonObject);
         if (newPost.setOnClickListener(NearbySwaps.this)) {
             posts.addView(newPost);
         }

@@ -41,6 +41,7 @@ public class PostCardView extends CardView {
     String offered;
     String needed;
     String userID;
+    String image_url;
     JSONObject jsonData;
     Context context;
     public PostCardView(@NonNull Context context) {
@@ -129,6 +130,13 @@ public class PostCardView extends CardView {
         }
 
         try {
+            this.image_url = jsonData.getString("image_url");
+        }catch (JSONException e) {
+            this.image_url = "";
+            e.printStackTrace();
+        }
+
+        try {
             this.userID = jsonData.getString("user_id");
         }catch (JSONException e) {
             this.userID = "ERROR: NO USER_ID";
@@ -171,6 +179,16 @@ public class PostCardView extends CardView {
             retrieveUserInfo(this.userID);
             //nothing here yet because there are no images to download
         }
+
+        ImageView profileImage = findViewById(R.id.profileImage);
+        if (this.image_url != null && !this.image_url.equals("")){
+            try {
+                Picasso.with(this.context).load(this.image_url).placeholder(R.mipmap.no_photo).error(R.mipmap.no_photo).transform(new CircleTransform()).into(profileImage);
+            }catch (Exception e){
+                Picasso.with(this.context).load("").placeholder(R.mipmap.no_photo).error(R.mipmap.no_photo).transform(new CircleTransform()).into(profileImage);
+            }
+        }
+
     }
 
     public boolean setOnClickListener(final Context packageContext) {
@@ -199,15 +217,15 @@ public class PostCardView extends CardView {
                 }
             });
 
-            profileImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(packageContext, ProfilePage.class);
-                    i.putExtra("UID", uid_msg);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    packageContext.startActivity(i);
-                }
-            });
+//            profileImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent i = new Intent(packageContext, ProfilePage.class);
+//                    i.putExtra("UID", uid_msg);
+//                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    packageContext.startActivity(i);
+//                }
+//            });
 
             return true;
         } catch (JSONException e) {
@@ -238,7 +256,7 @@ public class PostCardView extends CardView {
                     if (document.exists()) {
                         HashMap<String, Object> user_data;
                         user_data = (HashMap<String, Object>) document.getData();
-                        displayUserInfo(user_data);
+                        //displayUserInfo(user_data);
                     }else{
                         System.out.println("ERROR: DOCUMENT DOES NOT EXIST");
                     }
@@ -249,17 +267,20 @@ public class PostCardView extends CardView {
         });
     }
 
-    private void displayUserInfo(final HashMap<String, Object> user_data) {
-        String userName = (String) user_data.get("user_name");
-        ImageView profileImage = findViewById(R.id.profileImage);
-
-        if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
-            String url = (String) user_data.get("avatar");
-            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).transform(new CircleTransform()).into(profileImage);
-        }else{
-            System.out.println(user_data);
-        }
-
-    }
+//    private void displayUserInfo(final HashMap<String, Object> user_data) {
+//        ImageView profileImage = findViewById(R.id.profileImage);
+//        try{
+////            System.out.println("EXCEPTION GO BRRRRRRR");
+//            String url = (String) user_data.get("image_url");
+//            //some test image urls
+////            url = "https://homepages.cae.wisc.edu/~ece533/images/airplane.png";
+////            url = "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/1500912970-shiba-inu.jpg?crop=1.0xw:1xh;center,top&resize=980:*";
+//            url = "https://firebasestorage.googleapis.com/v0/b/cs260-swap.appspot.com/o/OfferImages?alt=media&token=cd05e22e-8a84-41bb-b2fe-e357534864c1";
+//            Picasso.with(this.context).load(url).placeholder(R.mipmap.no_photo).error(R.mipmap.no_photo).transform(new CircleTransform()).into(profileImage);
+//        }catch (Exception e) {
+////            Picasso.with(this.context).load("").placeholder(R.mipmap.no_photo).error(R.mipmap.no_photo).transform(new CircleTransform()).into(profileImage);
+//        }
+//
+//    }
 
 }

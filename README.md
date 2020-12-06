@@ -54,3 +54,4 @@ XML Files are located at src/main/res/layout
 - **user_id**: Text field - self explanatory
 - **status**: Boolean - True if resolved, False if it is still open.
 - **creation_time**: Text field - preformatted (ask Andrew)
+- **image_url**: URL field - optionally filled with an image URL directed to a user-uploaded image

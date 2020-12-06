@@ -1,15 +1,21 @@
+//Special thanks to geeks for geeks for providing a tutorial and starter code for cloud storage
+//https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
 package com.example.swap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,24 +24,33 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class CreateSwap extends AppCompatActivity {
     private static final String TAG = "CreateSwap";
     private static int toggle = 0;
     private static final String API_KEY = "AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w";
-    public String address = "";
+    private StorageReference imageStorageRef;
+    private Uri filePath;
+    private Boolean imageSelected = false;
     Map<String, Object> post = new HashMap<>();
 
     @Override
@@ -46,10 +61,19 @@ public class CreateSwap extends AppCompatActivity {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        imageStorageRef = FirebaseStorage.getInstance().getReference("images/" + UUID.randomUUID().toString());
+        Button add_picture_btn = findViewById(R.id.addPicture);
+        add_picture_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectImage();
+                imageSelected = true;
+            }
+        });
+
         final EditText need = (EditText)findViewById(R.id.user_need);
         final EditText offer = (EditText)findViewById(R.id.user_offer);
         final EditText details = (EditText)findViewById(R.id.user_details);
-        // final EditText location= (EditText)findViewById(R.id.user_location);
         final EditText expiration= (EditText)findViewById(R.id.user_needed_by);
         final EditText contact= (EditText)findViewById(R.id.user_contact);
 
@@ -71,10 +95,11 @@ public class CreateSwap extends AppCompatActivity {
             }
         });
 
-        Button resolvePostButton = findViewById(R.id.profileButton);
+        final Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                resolvePostButton.setEnabled(false);
                 if (getToggle() == 1 || getToggle() == 2) {
                     post.put("need", need.getText().toString());
                 } else {
@@ -91,7 +116,7 @@ public class CreateSwap extends AppCompatActivity {
                 post.put("expiration", expiration.getText().toString());
                 post.put("contact", contact.getText().toString());
                 post.put("user_id", user_id);
-                //false means open, true means closed
+                //false means post open, true means closed
                 post.put("status", false);
                 String[] date = Calendar.getInstance().getTime().toString().split(" ");
                 post.put("creation_time", date[0] + " " + date[1] + " " + date[2] + ", " + date[5]);
@@ -130,22 +155,57 @@ public class CreateSwap extends AppCompatActivity {
                                         }
                                     }
                                     post.put("location", city + ", " + state);
-                                    // Add a new document with a generated ID
-                                    db.collection("posts")
-                                            .add(post)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                    goViewSwap(documentReference.getId());
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error adding document", e);
-                                                }
-                                            });
+
+                                    if (imageSelected & (!"".equals(post.get("offer")) || !"".equals(post.get("need")))) {
+                                        System.out.println("filepath:");
+                                        System.out.println(filePath);
+                                        imageStorageRef.putFile(filePath)
+                                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        System.out.println("Image Stored");
+                                                    }
+                                                })
+                                                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                                        imageStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                Uri downloadUrl = uri;
+                                                                System.out.println(downloadUrl);
+                                                                post.put("image_url", downloadUrl.toString());
+                                                                //Do what you want with the url
+                                                                System.out.println(post);
+                                                            }
+                                                        })
+                                                                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Uri> task) {
+                                                                        addPostToDatabase(db);
+                                                                    }
+                                                                });
+                                                        System.out.println("put");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception exception) {
+                                                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error adding image to database.",Toast.LENGTH_LONG);
+                                                        input_toast.show();
+                                                        resolvePostButton.setEnabled(true);
+                                                    }
+                                                });
+                                    }
+                                    else if ((!"".equals(post.get("offer")) || !"".equals(post.get("need")))){
+                                        post.put("image_url", "");
+                                        addPostToDatabase(db);
+                                    }
+                                    else{
+                                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error: You must provide an offer or need.",Toast.LENGTH_LONG);
+                                        input_toast.show();
+                                        resolvePostButton.setEnabled(true);
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -155,11 +215,34 @@ public class CreateSwap extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast toast=Toast.makeText(getApplicationContext(),"Location Error",Toast.LENGTH_LONG);
                         toast.show();
+                        resolvePostButton.setEnabled(true);
                     }
                 });
                 queue.add(jsonRequest);
             }
         });
+    }
+
+    private void addPostToDatabase(FirebaseFirestore db){
+        db.collection("posts")
+                .add(post)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        goViewSwap(documentReference.getId());
+                        System.out.println("success");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error adding post to database.",Toast.LENGTH_LONG);
+                        input_toast.show();
+                        findViewById(R.id.profileButton).setEnabled(true);
+                    }
+                });
     }
 
     private void goNearybySwapsIntent() {
@@ -274,4 +357,55 @@ public class CreateSwap extends AppCompatActivity {
         button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
         button.setTextColor( Color.parseColor("#535353") );
     }
+
+    private void SelectImage()
+    {
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        "Select Image from here..."),
+                10);
+    }
+
+    // Override onActivityResult method
+    @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    Intent data)
+    {
+
+        super.onActivityResult(requestCode,
+                resultCode,
+                data);
+
+        // checking request code and result code
+        // if request code is PICK_IMAGE_REQUEST and
+        // resultCode is RESULT_OK
+        // then set image in the image view
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // Get the Uri of data
+            filePath = data.getData();
+            try {
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore
+                        .Images
+                        .Media
+                        .getBitmap(
+                                getContentResolver(),
+                                filePath);
+                ImageView i = findViewById(R.id.offerImage);
+                i.setImageBitmap(bitmap);
+            }
+
+            catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
