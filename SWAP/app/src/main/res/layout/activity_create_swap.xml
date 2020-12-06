@@ -6,6 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/close_button2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@mipmap/ic_close_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/TitleBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/TitleBar"></Button>
+
     <TextView
         android:id="@+id/TitleBar"
         android:layout_width="412dp"

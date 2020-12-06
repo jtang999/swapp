@@ -63,7 +63,14 @@ public class CreateSwap extends AppCompatActivity {
         Intent intent = getIntent();
         final String user_id  = intent.getStringExtra("UID");
 
-
+        Button exit_btn = findViewById(R.id.close_button2);
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goNearybySwapsIntent();
+            }
+        });
+        
         Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
