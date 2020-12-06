@@ -48,8 +48,6 @@ public class ViewSwap extends AppCompatActivity {
     ImageButton send_email;
     Button close_btn;
 
-
-
     Button edit_btn;
     Button resolve_btn;
     Button delete_btn;
@@ -74,6 +72,18 @@ public class ViewSwap extends AppCompatActivity {
         });
 
 
+    }
+
+    /**
+     * Saves post information and starts EditSwap activity
+     */
+    public void editPost(View view) {
+        Intent intent = new Intent(this, EditSwap.class);
+        intent.putExtra("edit_need", this.needs.getText());
+        intent.putExtra("edit_offer", this.offers.getText());
+        intent.putExtra("edit_details", this.details.getText());
+        intent.putExtra("edit_need_time", this.need_time.getText());
+        startActivity(intent);
     }
 
     private void getPostDataFromDB(final String post_id) {

@@ -282,7 +282,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
             return;
         }
         ImageView profileImage = findViewById(R.id.profileButton);
-        Picasso.with(this).load(url).fit().placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
+        Picasso.with(this).load(url).transform(new CircleTransform()).fit().placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
     }
 
 
