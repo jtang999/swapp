@@ -95,10 +95,11 @@ public class CreateSwap extends AppCompatActivity {
             }
         });
 
-        Button resolvePostButton = findViewById(R.id.profileButton);
+        final Button resolvePostButton = findViewById(R.id.profileButton);
         resolvePostButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                resolvePostButton.setEnabled(false);
                 if (getToggle() == 1 || getToggle() == 2) {
                     post.put("need", need.getText().toString());
                 } else {
@@ -190,8 +191,9 @@ public class CreateSwap extends AppCompatActivity {
                                                 .addOnFailureListener(new OnFailureListener() {
                                                     @Override
                                                     public void onFailure(@NonNull Exception exception) {
-                                                        // Handle unsuccessful uploads
-                                                        // ...
+                                                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error adding image to database.",Toast.LENGTH_LONG);
+                                                        input_toast.show();
+                                                        resolvePostButton.setEnabled(true);
                                                     }
                                                 });
                                     }
@@ -202,6 +204,7 @@ public class CreateSwap extends AppCompatActivity {
                                     else{
                                         Toast input_toast=Toast.makeText(getApplicationContext(),"Error: You must provide an offer or need.",Toast.LENGTH_LONG);
                                         input_toast.show();
+                                        resolvePostButton.setEnabled(true);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -212,6 +215,7 @@ public class CreateSwap extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast toast=Toast.makeText(getApplicationContext(),"Location Error",Toast.LENGTH_LONG);
                         toast.show();
+                        resolvePostButton.setEnabled(true);
                     }
                 });
                 queue.add(jsonRequest);
@@ -234,6 +238,9 @@ public class CreateSwap extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
+                        Toast input_toast=Toast.makeText(getApplicationContext(),"Error adding post to database.",Toast.LENGTH_LONG);
+                        input_toast.show();
+                        findViewById(R.id.profileButton).setEnabled(true);
                     }
                 });
     }
