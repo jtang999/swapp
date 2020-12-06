@@ -224,7 +224,7 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
     }
 
     private void createMapPostCard(){
-        PostCardView post = new PostCardView(this);
+        PostCardView post = new PostCardView(NearbySwaps.this);
         post.setId(R.id.mapPost);
         ConstraintLayout layout = findViewById(R.id.coordinatorLayout);
         layout.addView(post);
