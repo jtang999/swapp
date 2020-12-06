@@ -225,7 +225,7 @@ public class PostCardView extends CardView {
 
         if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
             String url = (String) user_data.get("avatar");
-            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
+            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).transform(new CircleTransform()).into(profileImage);
         }else{
             System.out.println(user_data);
         }
