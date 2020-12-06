@@ -23,6 +23,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="102dp"
+        android:layout_height="14dp"
+        android:text="@string/free_services_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@+id/freeServicesToggle"
+        app:layout_constraintStart_toStartOf="@+id/freeServicesToggle"
+        app:layout_constraintTop_toBottomOf="@+id/freeServicesToggle" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="59dp"
+        android:layout_height="14dp"
+        android:text="@string/swap_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="200dp"
+        app:layout_constraintEnd_toEndOf="@+id/swapToggle"
+        app:layout_constraintStart_toStartOf="@+id/swapToggle"
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="101dp"
+        android:layout_height="14dp"
+        android:text="@string/needs_free_service_toggle"
+        android:textAlignment="center"
+        android:textColor="@color/colorBodyLight"
+        android:textSize="10dp"
+        android:translationZ="90dp"
+        app:layout_constraintEnd_toEndOf="@+id/needsFreeToggle"
+        app:layout_constraintStart_toStartOf="@+id/needsFreeToggle"
+        app:layout_constraintTop_toBottomOf="@+id/needsFreeToggle" />
+
     <Button
         android:id="@+id/createPost"
         android:layout_width="50dp"
@@ -41,21 +80,24 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="380dp"
-        android:layout_height="43dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/searchbar"
         android:gravity="center"
-        android:paddingBottom="10dp"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
+        app:queryBackground="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleBar" />
+        app:layout_constraintTop_toBottomOf="@+id/TitleBar"/>
 
     <ImageButton
         android:id="@+id/freeServicesToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/toggle_button"
@@ -73,8 +115,8 @@
 
     <ImageButton
         android:id="@+id/swapToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/toggle_button"
         android:fontFamily="sans-serif-medium"
@@ -87,13 +129,14 @@
         android:textColor="#535353"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <ImageButton
         android:id="@+id/needsFreeToggle"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/toggle_button"
@@ -114,7 +157,8 @@
         android:id="@+id/Posts"
         android:layout_width="367dp"
         android:layout_height="505dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="15dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +171,7 @@
             android:orientation="vertical">
 
             <com.example.swap.PostCardView
+                android:id="@+id/rand"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"></com.example.swap.PostCardView>
 
@@ -142,7 +187,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Posts" />
 
     <TextView
         android:id="@+id/userName"
@@ -166,9 +212,46 @@
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/default_profile_alt_dark" />
+
+    <LinearLayout
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="491dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swapToggle">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="491dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swapToggle"
+            tools:context="com.example.swap.NearbySwaps.MapsMarkerActivity" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/mapToggle"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/toggle_button"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/map_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

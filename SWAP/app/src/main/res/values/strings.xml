@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">SWAP</string>
+    <string name="google_maps_key">"AIzaSyCxlreP0Pp8_9LJKztpSxpwne5WMkV2o1w"</string>
     <!--  Strings for titles  -->
     <string name="nearby_title">SWAPS NEAR YOU</string>
     <!--  Strings for profile information  -->
-    <string name="user_posts">User Posts</string>
-    <string name="history">User History</string>
+    <string name="user_posts">Posts</string>
+    <string name="history">History</string>
     <string name="user_name">@username</string>
     <!--  Strings for creating / editing posts  -->
     <string name="add">+</string>
@@ -135,4 +136,5 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_profile_page">ProfilePage</string>
+    <string name="title_activity_edit_swap">EditSwap</string>
 </resources>

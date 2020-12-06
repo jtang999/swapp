@@ -2,6 +2,7 @@ package com.example.swap;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,11 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -74,6 +81,29 @@ public class PostCardView extends CardView {
         updateInfo();
     }
 
+    public PostCardView(@NonNull Context context, JSONObject jsonData, GoogleMap map) {
+        super(context);
+        this.context = context;
+        LayoutInflater inflater = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.post_card_view, this);
+
+        parseData(jsonData);
+        updateInfo();
+    }
+
+
+    public void enterInfo(JSONObject jsonData, Context context){
+        parseData(jsonData);
+        updateInfo();
+        setOnClickListener(context);
+    }
+
+
+    public void printB(){
+        System.out.println("BBBBBBBBBBBBBBBBBBBB");
+    }
+
     /**
      * Parses the data given to a post object and
      * adds the name, swap, image-URL, and jsonObject
@@ -122,6 +152,7 @@ public class PostCardView extends CardView {
         TextView offered = findViewById(R.id.offered);
         if (this.offered != null && !this.offered.equals("")){
             String wantString = "<b>" + "Offered:" + "</b> " + this.offered;
+            offered.setVisibility(VISIBLE);
             offered.setText(Html.fromHtml(wantString));
         }else{
             offered.setVisibility(GONE);
@@ -130,6 +161,7 @@ public class PostCardView extends CardView {
         TextView need = findViewById(R.id.needed);
         if (this.needed != null && !this.needed.equals("")){
             String needString = "<b>" + "Needed:" + "</b> " + this.needed;
+            need.setVisibility(VISIBLE);
             need.setText(Html.fromHtml(needString));
         }else{
             need.setVisibility(GONE);
@@ -143,9 +175,11 @@ public class PostCardView extends CardView {
 
     public boolean setOnClickListener(final Context packageContext) {
         Button button = findViewById(R.id.button);
-
+        ConstraintLayout layout = findViewById(R.id.cardLayout);
+        ImageView profileImage = findViewById(R.id.profileImage);
         try {
             final String postID = this.jsonData.getString("post_ID");
+            final String uid_msg = this.jsonData.getString("user_id");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,10 +189,30 @@ public class PostCardView extends CardView {
                     packageContext.startActivity(i);
                 }
             });
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ViewSwap.class);
+                    i.putExtra("POST_ID", postID);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+
+            profileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(packageContext, ProfilePage.class);
+                    i.putExtra("UID", uid_msg);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    packageContext.startActivity(i);
+                }
+            });
+
             return true;
         } catch (JSONException e) {
             e.printStackTrace();
-            return false;
+            return true;
         }
 
     }
@@ -169,12 +223,13 @@ public class PostCardView extends CardView {
      *
      * @return      nothing
      */
-    private void retrieveUserInfo(String uid) {
-        //TODO: get user avatar and display
+    private void retrieveUserInfo(final String uid) {
+
+        //retrieve data from firebase
         final FirebaseFirestore database = FirebaseFirestore.getInstance();
         CollectionReference cref = database.collection("users");
         DocumentReference dref = cref.document(uid);
-        System.out.println("SKKKKKKKKKKKKKKKKRRRRRRRRRRRRRR" + uid);
+//        System.out.println("SKKKKKKKKKKKKKKKKRRRRRRRRRRRRRR" + uid);
         dref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -200,7 +255,7 @@ public class PostCardView extends CardView {
 
         if (user_data.get("avatar")!=null && !user_data.get("avatar").equals("")) {
             String url = (String) user_data.get("avatar");
-            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).into(profileImage);
+            Picasso.with(this.context).load(url).placeholder(R.mipmap.default_profile_alt).error(R.mipmap.default_profile_alt).transform(new CircleTransform()).into(profileImage);
         }else{
             System.out.println(user_data);
         }
