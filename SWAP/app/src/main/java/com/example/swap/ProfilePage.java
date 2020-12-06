@@ -139,7 +139,7 @@ public class ProfilePage extends AppCompatActivity {
 
     /**
      * Initializes the toggles on the profile page for switching between current posts and user history
-     *
+     * Also sets the user stats to be visible
      */
     private void intializeToggles(final String uid){
         Button currentPosts = findViewById(R.id.activePosts);
@@ -161,6 +161,15 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
+        TextView stat = findViewById(R.id.userStat);
+
+        if (this.numPastPosts < 10){
+            stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
+        }else if(this.numPastPosts < 30){
+            stat.setText("This user is a Swap regular. They have completed " + ProfilePage.numPastPosts + " swaps!");
+        }else{
+            stat.setText("This user is super Swap user. They have completed " + ProfilePage.numPastPosts + " swaps!");
+        }
     }
 
     private void setToggle(int toggle){
@@ -172,13 +181,13 @@ public class ProfilePage extends AppCompatActivity {
             currentPosts.setTextColor(getResources().getColor(R.color.white));
             history.setBackground(getResources().getDrawable(R.drawable.modetoggle));
             history.setTextColor(getResources().getColor(R.color.colorBodyLight));
-            stat.setVisibility(View.GONE);
+            // stat.setVisibility(View.GONE);
         }else{
             currentPosts.setBackground(getResources().getDrawable(R.drawable.modetoggle));
             currentPosts.setTextColor(getResources().getColor(R.color.colorBodyLight));
             history.setBackground(getResources().getDrawable(R.drawable.toggledmode));
             history.setTextColor(getResources().getColor(R.color.white));
-            stat.setVisibility(View.VISIBLE);
+            // stat.setVisibility(View.VISIBLE);
 //            if (this.numPastPosts < 10){
 //                stat.setText("This user is new to Swap. They have completed " + ProfilePage.numPastPosts + " swaps!");
 //            }else if(this.numPastPosts < 30){
