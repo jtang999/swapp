@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -231,6 +232,8 @@ public class CreateSwap extends AppCompatActivity {
         final TextView user_offer_text = findViewById(R.id.text_useroffer);
         final EditText user_need_input = findViewById(R.id.user_need);
         final TextView user_need_text = findViewById(R.id.text_userneed);
+        final ImageView upload_image = findViewById(R.id.offerImage);
+        final Button upload_imgbtn = findViewById(R.id.addPicture);
 
         TabLayout tabs = findViewById(R.id.tabLayout2);
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -245,15 +248,21 @@ public class CreateSwap extends AppCompatActivity {
                     //make sure what you're offering is visible
                     user_offer_input.setVisibility(View.VISIBLE);
                     user_offer_text.setVisibility(View.VISIBLE);
+                    upload_image.setVisibility(View.VISIBLE);
+                    upload_imgbtn.setVisibility(View.VISIBLE);
                 } else if (tabPosition == 1) {
                     user_need_input.setVisibility(View.VISIBLE);
                     user_need_text.setVisibility(View.VISIBLE);
                     user_offer_input.setVisibility(View.VISIBLE);
                     user_offer_text.setVisibility(View.VISIBLE);
+                    upload_image.setVisibility(View.VISIBLE);
+                    upload_imgbtn.setVisibility(View.VISIBLE);
                 } else if (tabPosition == 2) {
                     user_offer_input.setText("");
                     user_offer_input.setVisibility(View.GONE);
                     user_offer_text.setVisibility(View.GONE);
+                    upload_image.setVisibility(View.GONE);
+                    upload_imgbtn.setVisibility(View.GONE);
                     //turn on what you need
                     user_need_input.setVisibility(View.VISIBLE);
                     user_need_text.setVisibility(View.VISIBLE);
@@ -279,15 +288,21 @@ public class CreateSwap extends AppCompatActivity {
                     //make sure what you're offering is visible
                     user_offer_input.setVisibility(View.VISIBLE);
                     user_offer_text.setVisibility(View.VISIBLE);
+                    upload_image.setVisibility(View.VISIBLE);
+                    upload_imgbtn.setVisibility(View.VISIBLE);
                 } else if (tabPosition == 1) {
                     user_need_input.setVisibility(View.VISIBLE);
                     user_need_text.setVisibility(View.VISIBLE);
                     user_offer_input.setVisibility(View.VISIBLE);
                     user_offer_text.setVisibility(View.VISIBLE);
+                    upload_image.setVisibility(View.VISIBLE);
+                    upload_imgbtn.setVisibility(View.VISIBLE);
                 } else if (tabPosition == 2) {
                     user_offer_input.setText("");
                     user_offer_input.setVisibility(View.GONE);
                     user_offer_text.setVisibility(View.GONE);
+                    upload_image.setVisibility(View.GONE);
+                    upload_imgbtn.setVisibility(View.GONE);
                     //turn on what you need
                     user_need_input.setVisibility(View.VISIBLE);
                     user_need_text.setVisibility(View.VISIBLE);

@@ -69,25 +69,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--    <Button-->
-<!--        android:id="@+id/resolve_post"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="start"-->
-<!--        android:layout_marginBottom="24dp"-->
-<!--        android:background="@drawable/rounded_button"-->
-<!--        android:backgroundTint="@color/colorPrimary"-->
-<!--        android:enabled="false"-->
-<!--        android:paddingLeft="24dp"-->
-<!--        android:paddingTop="16dp"-->
-<!--        android:paddingRight="24dp"-->
-<!--        android:paddingBottom="16dp"-->
-<!--        android:text="@string/create_post"-->
-<!--        android:textColor="@color/colorButtonText"-->
-<!--        android:textSize="18sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.245"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <!--        android:id="@+id/resolve_post"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="start"-->
+    <!--        android:layout_marginBottom="24dp"-->
+    <!--        android:background="@drawable/rounded_button"-->
+    <!--        android:backgroundTint="@color/colorPrimary"-->
+    <!--        android:enabled="false"-->
+    <!--        android:paddingLeft="24dp"-->
+    <!--        android:paddingTop="16dp"-->
+    <!--        android:paddingRight="24dp"-->
+    <!--        android:paddingBottom="16dp"-->
+    <!--        android:text="@string/create_post"-->
+    <!--        android:textColor="@color/colorButtonText"-->
+    <!--        android:textSize="18sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.245"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
     <TextView
@@ -203,6 +203,31 @@
                 tools:layout_conversion_absoluteWidth="0dp"
                 tools:layout_editor_absoluteX="133dp"
                 tools:layout_editor_absoluteY="444dp" />
+
+            <ImageView
+                android:id="@+id/offerImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/image_upload"
+                android:maxHeight="300dp"
+                android:scaleType="centerInside"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/addPicture"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
+                android:shadowRadius="0"
+                android:text="Add Offer Picture"
+                android:textColor="@color/colorBodyLight"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_userneed"
@@ -329,19 +354,6 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/disclaimer"
                 android:textAlignment="center" />
-
-            <Button
-                android:id="@+id/addPicture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add Post Picture" />
-
-            <ImageView
-                android:id="@+id/offerImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="MissingConstraints"
-                tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
     </ScrollView>
