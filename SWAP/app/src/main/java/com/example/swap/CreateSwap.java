@@ -126,6 +126,9 @@ public class CreateSwap extends AppCompatActivity {
                 Double latitude = nearby.LAT;
                 Double longitude = nearby.LON;
 
+                post.put("LAT", latitude);
+                post.put("LON", longitude);
+
                 RequestQueue queue = Volley.newRequestQueue(CreateSwap.this);
                 String url = String.format(Location.geoCode, latitude, longitude, CreateSwap.API_KEY);
 
