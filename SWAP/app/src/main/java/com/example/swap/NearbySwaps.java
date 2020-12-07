@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -121,13 +123,33 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
         retrievePosts(1);
     }
 
+    /**
+     * Gets posts for the first tab.
+     */
+    public void getFreeServices(View view) {
+        retrievePosts(0);
+    }
+
+    /**
+     * Gets posts for the second tab (swaps)
+     */
+    public void getSwapPosts(View view) {
+        retrievePosts(1);
+    }
+
+    /**
+     * Gets posts for the third tab (free offers)
+     */
+    public void getFreeOffers(View view) {
+        retrievePosts(2);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_swaps);
         findViewById(R.id.postProgressBar).setVisibility(View.VISIBLE);
-        initializeToggles();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -199,6 +221,26 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Set default tab and onclick listeners.
+        TabLayout tabs = findViewById(R.id.tabLayout2);
+        tabs.getTabAt(1).select();
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                retrievePosts(2 - tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                retrievePosts(1);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                retrievePosts(2 - tab.getPosition());
+            }
+        });
     }
 
     private void toggleMap(){
@@ -213,13 +255,15 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
             NearbySwaps.mapToggle = 1;
             posts.setVisibility(View.GONE);
             mapView.setVisibility(View.VISIBLE);
-            mapToggle.setImageResource(R.mipmap.map_icon_dark);
+            mapToggle.setImageResource(R.mipmap.map_dark);
+            mapToggle.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimaryDark)));
         }else{
             NearbySwaps.mapToggle = 0;
             posts.setVisibility(View.VISIBLE);
             mapPost.setVisibility(View.GONE);
             mapView.setVisibility(View.GONE);
-            mapToggle.setImageResource(R.mipmap.map_icon);
+            mapToggle.setImageResource(R.mipmap.map);
+            mapToggle.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
         }
     }
 
@@ -522,97 +566,6 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
     }
 
     /**
-     * Initializes mode toggles with their OnClickListeners when the activity is created.
-     * Modifications should be made here to add calls to backend when switch is toggled
-     *
-     * @return      nothing
-     */
-    private void initializeToggles(){
-        ImageButton freeServices = findViewById(R.id.freeServicesToggle); //Option 0
-        freeServices.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(0);
-                retrievePosts(0);
-            }
-        });
-        ImageButton swap = findViewById(R.id.swapToggle); //Option 1
-        swap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(1);
-                retrievePosts(1);
-            }
-        });
-        ImageButton needsFree = findViewById(R.id.needsFreeToggle); //Option 2
-        needsFree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(2);
-                retrievePosts(2);
-            }
-        });
-
-        setToggle(1);
-    }
-
-    /**
-     * Set's the toggles colors based on which toggle was pressed
-     */
-    private void setToggle(int newToggle){
-        NearbySwaps.toggle = newToggle;
-        ImageButton freeServices = findViewById(R.id.freeServicesToggle); //Option 0
-        ImageButton swap = findViewById(R.id.swapToggle); //Option 1
-        ImageButton needsFree = findViewById(R.id.needsFreeToggle); //Option 2
-        if(NearbySwaps.toggle == 0){
-            setToggleSelected(freeServices, 0);
-            setToggleDeselected(swap, 1);
-            setToggleDeselected(needsFree, 2);
-        }else if (NearbySwaps.toggle == 1){
-            setToggleDeselected(freeServices, 0);
-            setToggleSelected(swap, 1);
-            setToggleDeselected(needsFree, 2);
-        }else{
-            setToggleDeselected(freeServices, 0);
-            setToggleDeselected(swap, 1);
-            setToggleSelected(needsFree, 2);
-        }
-    }
-
-    /**
-     * Setting Toggle Style Helper Function
-     *
-     * @return      nothing
-     */
-    private void setToggleSelected(ImageButton button, int toggle){
-        if (toggle == 0) {
-            button.setImageResource(R.mipmap.recieve_icon_light);
-        }else if(toggle == 1){
-            button.setImageResource(R.mipmap.swap_icon_light);
-        }else{
-            button.setImageResource(R.mipmap.give_icon_light);
-        }
-//        button.setTextColor( Color.parseColor("#F4F7F9") );
-    }
-
-    /**
-     * Setting Toggle Style Helper Function
-     *
-     * @return      nothing
-     */
-    private void setToggleDeselected(ImageButton button, int toggle){
-        if (toggle == 0) {
-            button.setImageResource(R.mipmap.recieve_icon_dark);
-        }else if(toggle == 1){
-            button.setImageResource(R.mipmap.swap_icon_dark);
-        }else{
-            button.setImageResource(R.mipmap.give_icon_dark);
-        }
-//        button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
-//        button.setTextColor( Color.parseColor("#535353") );
-    }
-
-    /**
      * Set's the current users profile picture and
      * @param uid the userID for the post
      *
@@ -633,8 +586,6 @@ public class NearbySwaps extends AppCompatActivity implements  OnMapReadyCallbac
                         user_data = (HashMap<String, Object>) document.getData();
 
                         String userName = (String) user_data.get("user_name");
-                        TextView userNameView = findViewById(R.id.userName);
-                        userNameView.setText(userName);
                         setProfilePicture((String) user_data.get("avatar"));
 //                        display_user_info(user_data);
                     } else {

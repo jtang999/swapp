@@ -8,4 +8,6 @@
     <color name="colorBorder">#C4C4C4</color>
     <color name="exitBackground">#139EB3</color>
     <color name="white">#FFFFFF</color>
+    <color name="colorPrimaryLight">#D1F7FF</color>
+    <color name="toggleSelected">#086877</color>
 </resources>

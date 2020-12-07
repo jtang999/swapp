@@ -77,8 +77,9 @@ public class ViewSwap extends AppCompatActivity {
     /**
      * Saves post information and starts EditSwap activity
      */
-    public void editPost(View view) {
-        Intent intent = new Intent(this, EditSwap.class);
+    public void editPost(String post_id) {
+        Intent intent = new Intent(ViewSwap.this, EditSwap.class);
+        intent.putExtra("POST_ID", post_id);
         intent.putExtra("edit_need", this.needs.getText());
         intent.putExtra("edit_offer", this.offers.getText());
         intent.putExtra("edit_details", this.details.getText());
@@ -165,7 +166,7 @@ public class ViewSwap extends AppCompatActivity {
             contact_info += "Email: " + (String)data.get("email");
         }
         contact.setText(contact_info);*/
-        final String phone = (String)data.get("phone");
+        final String phone = (String)data.get("contact");
         final String email = (String)data.get("email");
         if (!data.get("status").equals("closed") && !data.get("status").equals("false")) {
             phone_call.setOnClickListener(new View.OnClickListener() {
@@ -270,7 +271,7 @@ public class ViewSwap extends AppCompatActivity {
             avatar_btn.setImageResource(R.drawable.avatar);
         } else {
             String url = (String) user_data.get("avatar");
-            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).into(avatar_btn);
+            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).transform(new CircleTransform()).into(avatar_btn);
         }
         displayOwnerView(cur_user, user_id, post_id);
         avatar_btn.setOnClickListener(new View.OnClickListener() {
@@ -365,6 +366,12 @@ public class ViewSwap extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 mark_resolved(post_id, status);
+                            }
+                        });
+                        edit_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editPost(post_id);
                             }
                         });
                     } else {
