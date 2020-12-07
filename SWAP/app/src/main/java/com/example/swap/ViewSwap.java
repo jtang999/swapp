@@ -271,7 +271,7 @@ public class ViewSwap extends AppCompatActivity {
             avatar_btn.setImageResource(R.drawable.avatar);
         } else {
             String url = (String) user_data.get("avatar");
-            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).into(avatar_btn);
+            Picasso.with(this).load(url).placeholder(R.drawable.avatar).resize(200, 200).transform(new CircleTransform()).into(avatar_btn);
         }
         displayOwnerView(cur_user, user_id, post_id);
         avatar_btn.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -309,7 +310,7 @@ public class ProfilePage extends AppCompatActivity {
             return;
         }
         ImageView profileImage = findViewById(R.id.profilePicture);
-        Picasso.with(this).load(url).placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).into(profileImage);
+        Picasso.with(this).load(url).placeholder(R.mipmap.default_profile_alt_dark).error(R.mipmap.default_profile_alt_dark).transform(new CircleTransform()).into(profileImage);
     }
 
     /**

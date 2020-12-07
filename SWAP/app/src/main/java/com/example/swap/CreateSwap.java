@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,7 +43,7 @@ public class CreateSwap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_swap);
-        initializeToggles();
+        // initializeToggles();
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -160,6 +161,76 @@ public class CreateSwap extends AppCompatActivity {
                 queue.add(jsonRequest);
             }
         });
+
+        // INITIALIZE TABS
+        final EditText user_offer_input = findViewById(R.id.user_offer);
+        final TextView user_offer_text = findViewById(R.id.text_useroffer);
+        final EditText user_need_input = findViewById(R.id.user_need);
+        final TextView user_need_text = findViewById(R.id.text_userneed);
+
+        TabLayout tabs = findViewById(R.id.tabLayout2);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabPosition = tab.getPosition();
+                if (tabPosition == 0) {
+                    //turn off what I need
+                    user_need_input.setText("");
+                    user_need_input.setVisibility(View.GONE);
+                    user_need_text.setVisibility(View.GONE);
+                    //make sure what you're offering is visible
+                    user_offer_input.setVisibility(View.VISIBLE);
+                    user_offer_text.setVisibility(View.VISIBLE);
+                } else if (tabPosition == 1) {
+                    user_need_input.setVisibility(View.VISIBLE);
+                    user_need_text.setVisibility(View.VISIBLE);
+                    user_offer_input.setVisibility(View.VISIBLE);
+                    user_offer_text.setVisibility(View.VISIBLE);
+                } else if (tabPosition == 2) {
+                    user_offer_input.setText("");
+                    user_offer_input.setVisibility(View.GONE);
+                    user_offer_text.setVisibility(View.GONE);
+                    //turn on what you need
+                    user_need_input.setVisibility(View.VISIBLE);
+                    user_need_text.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                user_need_input.setVisibility(View.VISIBLE);
+                user_need_text.setVisibility(View.VISIBLE);
+                user_offer_input.setVisibility(View.VISIBLE);
+                user_offer_text.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                int tabPosition = tab.getPosition();
+                if (tabPosition == 0) {
+                    //turn off what I need
+                    user_need_input.setText("");
+                    user_need_input.setVisibility(View.GONE);
+                    user_need_text.setVisibility(View.GONE);
+                    //make sure what you're offering is visible
+                    user_offer_input.setVisibility(View.VISIBLE);
+                    user_offer_text.setVisibility(View.VISIBLE);
+                } else if (tabPosition == 1) {
+                    user_need_input.setVisibility(View.VISIBLE);
+                    user_need_text.setVisibility(View.VISIBLE);
+                    user_offer_input.setVisibility(View.VISIBLE);
+                    user_offer_text.setVisibility(View.VISIBLE);
+                } else if (tabPosition == 2) {
+                    user_offer_input.setText("");
+                    user_offer_input.setVisibility(View.GONE);
+                    user_offer_text.setVisibility(View.GONE);
+                    //turn on what you need
+                    user_need_input.setVisibility(View.VISIBLE);
+                    user_need_text.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        tabs.getTabAt(1).select();
     }
 
     private void goNearybySwapsIntent() {
@@ -176,102 +247,8 @@ public class CreateSwap extends AppCompatActivity {
         finish();
     }
 
-    private void initializeToggles(){
-        //These will be set visible or invisible depending on what the users presses
-        //Also the input fields will be reset so that posts aren't created with extra data
-        final EditText user_offer_input = findViewById(R.id.user_offer);
-        final TextView user_offer_text = findViewById(R.id.text_useroffer);
-        final EditText user_need_input = findViewById(R.id.user_need);
-        final TextView user_need_text = findViewById(R.id.text_userneed);
-
-        Button freeServices = findViewById(R.id.freeServicesToggle2); //Option 0
-        freeServices.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(0);
-                //turn off what I need
-                user_need_input.setText("");
-                user_need_input.setVisibility(View.GONE);
-                user_need_text.setVisibility(View.GONE);
-                //make sure what you're offering is visible
-                user_offer_input.setVisibility(View.VISIBLE);
-                user_offer_text.setVisibility(View.VISIBLE);
-            }
-        });
-        Button swap = findViewById(R.id.swapToggle2); //Option 1
-        swap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(1);
-                //make both visible
-                user_need_input.setVisibility(View.VISIBLE);
-                user_need_text.setVisibility(View.VISIBLE);
-                user_offer_input.setVisibility(View.VISIBLE);
-                user_offer_text.setVisibility(View.VISIBLE);
-            }
-        });
-        Button needsFree = findViewById(R.id.needsFreeToggle2); //Option 2
-        needsFree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setToggle(2);
-                //turn off what you can offer
-                user_offer_input.setText("");
-                user_offer_input.setVisibility(View.GONE);
-                user_offer_text.setVisibility(View.GONE);
-                //turn on what you need
-                user_need_input.setVisibility(View.VISIBLE);
-                user_need_text.setVisibility(View.VISIBLE);
-            }
-        });
-
-        setToggle(1);
-    }
-
-    /**
-     * Set's the toggles colors based on which toggle was pressed
-     */
-    private void setToggle(int newToggle){
-        CreateSwap.toggle = newToggle;
-        Button freeServices = findViewById(R.id.freeServicesToggle2); //Option 0
-        Button swap = findViewById(R.id.swapToggle2); //Option 1
-        Button needsFree = findViewById(R.id.needsFreeToggle2); //Option 2
-        if(CreateSwap.toggle == 0){
-            setToggleSelected(freeServices);
-            setToggleDeselected(swap);
-            setToggleDeselected(needsFree);
-        }else if (CreateSwap.toggle == 1){
-            setToggleDeselected(freeServices);
-            setToggleSelected(swap);
-            setToggleDeselected(needsFree);
-        }else{
-            setToggleDeselected(freeServices);
-            setToggleDeselected(swap);
-            setToggleSelected(needsFree);
-        }
-    }
-
-    public static int getToggle() {
-        return toggle;
-    }
-
-    /**
-     * Setting Toggle Style Helper Function
-     *
-     * @return      nothing
-     */
-    private void setToggleSelected(Button button){
-        button.setBackground(getResources().getDrawable(R.drawable.toggledmode));
-        button.setTextColor( Color.parseColor("#F4F7F9") );
-    }
-
-    /**
-     * Setting Toggle Style Helper Function
-     *
-     * @return      nothing
-     */
-    private void setToggleDeselected(Button button){
-        button.setBackground(getResources().getDrawable(R.drawable.modetoggle));
-        button.setTextColor( Color.parseColor("#535353") );
+    public int getToggle() {
+        TabLayout tabs = findViewById(R.id.tabLayout2);
+        return tabs.getSelectedTabPosition();
     }
 }
